@@ -1,0 +1,1765 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digital Kirana Mart — स्टोर ओनर एडमिन डैशबोर्ड (Owner Portal)</title>
+  <link rel="icon" type="image/png" href="logo.png">
+
+  <!-- Resource Hints -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="https://images.unsplash.com">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Google Fonts: 'Outfit' (हेडिंग्स, आंकड़े) + 'Plus Jakarta Sans' (बॉडी) -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind कॉन्फ़िगरेशन -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#ecfdf5',
+              100: '#d1fae5',
+              500: '#10b981',
+              600: '#059669',
+              700: '#047857',
+              800: '#065f46',
+              900: '#064e3b',
+            },
+            amber: {
+              400: '#fbbf24',
+              500: '#f59e0b',
+              600: '#d97706',
+            }
+          },
+          fontFamily: {
+            outfit: ['Outfit', 'Noto Sans Devanagari', 'sans-serif'],
+            sans: ['Plus Jakarta Sans', 'Noto Sans Devanagari', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', 'Noto Sans Devanagari', sans-serif;
+      background-color: #0B0F19;
+      color: #F1F5F9;
+      min-height: 100vh;
+    }
+    .font-outfit {
+      font-family: 'Outfit', 'Noto Sans Devanagari', sans-serif;
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none !important;
+      scrollbar-width: none !important;
+    }
+    /* PIN एरर शेक एनिमेशन */
+    @keyframes shakePin {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-8px); }
+      40%, 80% { transform: translateX(8px); }
+    }
+    .pin-shake {
+      animation: shakePin 0.4s ease-in-out;
+    }
+
+    /* डिलीवरी चालान प्रिंटिंग स्टाइल (@media print) */
+    @media print {
+      body * {
+        visibility: hidden !important;
+      }
+      #deliveryChallanPrintArea, #deliveryChallanPrintArea * {
+        visibility: visible !important;
+      }
+      #deliveryChallanPrintArea {
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 100% !important;
+        display: block !important;
+        background: white !important;
+        color: black !important;
+        padding: 20px !important;
+      }
+      .no-print {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-amber-500 selection:text-slate-950">
+
+  <!-- ==============================================================
+       1. 🔒 स्टोर ओनर सुरक्षा पिन प्रमाणीकरण मोडल (PIN Protection Modal)
+       डिफ़ॉल्ट पिन: 1234
+       ============================================================== -->
+  <div id="pinAuthModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-md">
+    <div id="pinBoxCard" class="w-full max-w-sm bg-slate-900 border border-slate-700/80 rounded-3xl p-6 sm:p-8 shadow-2xl text-center relative overflow-hidden">
+      
+      <!-- शीर्ष ग्लो डेकोरेशन -->
+      <div class="absolute -top-10 -right-10 w-28 h-28 bg-amber-500/10 rounded-full blur-2xl pointer-events-none"></div>
+      <div class="absolute -bottom-10 -left-10 w-28 h-28 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none"></div>
+
+      <!-- लोगो व लॉक आइकन -->
+      <div class="w-16 h-16 rounded-2xl bg-slate-800 border-2 border-amber-400/40 p-2 mx-auto mb-4 flex items-center justify-center shadow-lg">
+        <img src="logo.png" alt="Digital Kirana Mart" class="w-full h-full object-contain" onerror="this.onerror=null; this.src='https://placehold.co/100x100/f8fafc/0f172a?text=DKM';">
+      </div>
+
+      <h2 class="text-xl font-black text-white font-outfit">स्टोर ओनर लॉगिन</h2>
+      <p class="text-xs text-slate-400 mt-1">एडमिन डैशबोर्ड खोलने के लिए 4-अंकों का पिन दर्ज करें</p>
+
+      <!-- पिन इनपुट बॉक्स -->
+      <div class="my-6">
+        <input 
+          type="password" 
+          id="adminPinInput" 
+          maxlength="4" 
+          inputmode="numeric" 
+          placeholder="• • • •" 
+          autocomplete="off"
+          class="w-48 text-center text-3xl tracking-[0.5em] font-black text-amber-400 bg-slate-950 border-2 border-slate-700 rounded-2xl py-3 px-4 focus:outline-none focus:border-amber-400 focus:ring-4 focus:ring-amber-400/20 font-outfit transition"
+        >
+        <p id="pinErrorMsg" class="text-xs font-bold text-rose-400 mt-2.5 hidden">⚠️ गलत पिन! कृपया सही पिन दर्ज करें।</p>
+      </div>
+
+      <!-- एक्शन बटन्स -->
+      <div class="space-y-2.5">
+        <button 
+          onclick="verifyAdminPin()" 
+          type="button" 
+          class="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-black text-sm py-3.5 rounded-2xl shadow-lg transition active:scale-95 flex items-center justify-center gap-2 font-outfit cursor-pointer"
+        >
+          <i data-lucide="key-round" class="w-4 h-4"></i>
+          <span>डैशबोर्ड अनलॉक करें (Unlock)</span>
+        </button>
+
+        <a 
+          href="index.html" 
+          class="inline-block text-xs font-bold text-slate-400 hover:text-white transition py-1"
+        >
+          ← ग्राहक स्टोर पर लौटें (Return to Store)
+        </a>
+      </div>
+
+      <!-- डिफ़ॉल्ट पिन सहायता नोट -->
+      <div class="mt-6 pt-3 border-t border-slate-800 text-[11px] text-slate-400">
+        💡 डिफ़ॉल्ट डेमो पिन: <strong class="text-amber-400 font-mono">1234</strong>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==============================================================
+       2. मुख्य एडमिन डैशबोर्ड कंटेनर (Main Admin Dashboard)
+       ============================================================== -->
+  <div id="adminDashboard" class="hidden min-h-screen flex flex-col bg-[#0B0F19]">
+    
+    <!-- (A) शीर्ष एडमिन हेडर नेविगेशन -->
+    <header class="sticky top-0 z-40 bg-[#090D16]/95 backdrop-blur-md border-b border-slate-800 px-4 sm:px-6 py-3.5 shadow-xl">
+      <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+        
+        <!-- ब्रांड पहचान -->
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-white p-1 border-2 border-amber-400/50 shadow-glow-amber overflow-hidden flex items-center justify-center shrink-0">
+            <img src="logo.png" alt="DKM Store Logo" class="w-full h-full object-contain" onerror="this.onerror=null; this.src='https://placehold.co/100x100/f8fafc/0f172a?text=DKM';">
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-lg font-black text-white tracking-tight font-outfit">Digital <span class="text-amber-400">Kirana</span> Mart</span>
+              <span class="bg-amber-500/20 text-amber-400 border border-amber-500/40 text-[10px] font-black px-2 py-0.5 rounded-md font-outfit uppercase tracking-wider">
+                ADMIN PORTAL
+              </span>
+            </div>
+            <p class="text-[11px] text-slate-400 font-medium">स्टोर ओनर प्रबंधन व 15 मिनट डिलीवरी कंट्रोल रूम</p>
+          </div>
+        </div>
+
+        <!-- लाइव क्लॉक व नेविगेशन कंट्रोल्स -->
+        <div class="flex items-center gap-2.5 sm:gap-3 shrink-0">
+          
+          <!-- लाइव डिजिटल घड़ी -->
+          <div class="hidden md:flex items-center gap-2 bg-slate-900 border border-slate-700/80 px-3.5 py-1.5 rounded-xl text-xs font-bold text-slate-300 font-outfit shadow-inner">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span id="liveClockText">26 Oct 2026, 06:00:00 PM</span>
+          </div>
+
+          <!-- ग्राहक स्टोर पर जाने का बटन -->
+          <a 
+            href="index.html" 
+            target="_blank"
+            class="bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white border border-slate-700 text-xs font-black px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 font-outfit cursor-pointer shadow-xs"
+          >
+            <i data-lucide="external-link" class="w-3.5 h-3.5 text-emerald-400"></i>
+            <span>🏪 ग्राहक स्टोर देखें</span>
+          </a>
+
+          <!-- लॉगआउट बटन -->
+          <button 
+            onclick="adminLogout()" 
+            type="button" 
+            class="bg-rose-500/15 hover:bg-rose-500/25 border border-rose-500/40 text-rose-300 text-xs font-black px-3 py-2 rounded-xl transition flex items-center gap-1.5 font-outfit cursor-pointer"
+            title="एडमिन सत्र समाप्त करें"
+          >
+            <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
+            <span class="hidden sm:inline">लॉगआउट</span>
+          </button>
+
+        </div>
+
+      </div>
+    </header>
+
+
+    <!-- (B) मुख्य बॉडी कंटेनर -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 space-y-6">
+
+      <!-- ==============================================================
+           3. स्टोर एग्जीक्यूटिव मेट्रिक्स कार्ड्स (4 KPI Overview Cards)
+           ============================================================== -->
+      <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        
+        <!-- कार्ड 1: आज का कुल राजस्व -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-5 shadow-lg relative overflow-hidden flex items-center gap-4">
+          <div class="w-13 h-13 rounded-2xl bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center justify-center shrink-0">
+            <i data-lucide="indian-rupee" class="w-7 h-7"></i>
+          </div>
+          <div>
+            <div class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">आज का कुल राजस्व</div>
+            <div id="statTotalRevenue" class="text-2xl font-black text-white font-outfit mt-0.5">₹0</div>
+            <div class="text-[10px] text-emerald-400 font-bold mt-0.5">⚡ लाइव चेकआउट से गणना</div>
+          </div>
+        </div>
+
+        <!-- कार्ड 2: कुल प्राप्त ऑर्डर्स -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-5 shadow-lg relative overflow-hidden flex items-center gap-4">
+          <div class="w-13 h-13 rounded-2xl bg-amber-500/15 text-amber-400 border border-amber-500/30 flex items-center justify-center shrink-0">
+            <i data-lucide="shopping-bag" class="w-7 h-7"></i>
+          </div>
+          <div>
+            <div class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">कुल प्राप्त ऑर्डर्स</div>
+            <div id="statTotalOrders" class="text-2xl font-black text-white font-outfit mt-0.5">0</div>
+            <div class="text-[10px] text-slate-400 font-medium mt-0.5">आज के सभी ऑर्डर्स</div>
+          </div>
+        </div>
+
+        <!-- कार्ड 3: रास्ते में डिलीवरी (Pending / Out for Delivery) -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-5 shadow-lg relative overflow-hidden flex items-center gap-4">
+          <div class="w-13 h-13 rounded-2xl bg-blue-500/15 text-blue-400 border border-blue-500/30 flex items-center justify-center shrink-0">
+            <i data-lucide="bike" class="w-7 h-7"></i>
+          </div>
+          <div>
+            <div class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">रास्ते में डिलीवरी</div>
+            <div id="statPendingOrders" class="text-2xl font-black text-blue-400 font-outfit mt-0.5">0</div>
+            <div class="text-[10px] text-blue-300 font-bold mt-0.5 animate-pulse">🛵 15 मिनट सुपरफास्ट एक्सप्रेस</div>
+          </div>
+        </div>
+
+        <!-- कार्ड 4: डिलीवर हो चुके ऑर्डर्स -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-5 shadow-lg relative overflow-hidden flex items-center gap-4">
+          <div class="w-13 h-13 rounded-2xl bg-purple-500/15 text-purple-400 border border-purple-500/30 flex items-center justify-center shrink-0">
+            <i data-lucide="check-check" class="w-7 h-7"></i>
+          </div>
+          <div>
+            <div class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">सफलतापूर्वक डिलीवर</div>
+            <div id="statCompletedOrders" class="text-2xl font-black text-purple-300 font-outfit mt-0.5">0</div>
+            <div class="text-[10px] text-purple-400 font-bold mt-0.5">✅ संतुष्ट ग्राहक</div>
+          </div>
+        </div>
+
+      </section>
+
+
+      <!-- ==============================================================
+           4. मुख्य नेविगेशन टैब्स (Orders Board vs Inventory Stock)
+           ============================================================== -->
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3 gap-2 overflow-x-auto no-scrollbar">
+        <div class="flex items-center gap-2">
+          
+          <button 
+            id="tabBtnOrders" 
+            onclick="switchAdminTab('orders')" 
+            class="px-4 py-2.5 rounded-2xl font-black text-xs sm:text-sm flex items-center gap-2 transition cursor-pointer font-outfit bg-brand-600 text-white shadow-lg"
+          >
+            <i data-lucide="clipboard-list" class="w-4 h-4"></i>
+            <span>लाइव ऑर्डर्स बोर्ड (Live Orders)</span>
+            <span id="tabBadgeOrdersCount" class="bg-white/20 text-white text-[11px] px-2 py-0.5 rounded-full ml-1 font-outfit">0</span>
+          </button>
+
+          <button 
+            id="tabBtnInventory" 
+            onclick="switchAdminTab('inventory')" 
+            class="px-4 py-2.5 rounded-2xl font-bold text-xs sm:text-sm flex items-center gap-2 transition cursor-pointer font-outfit bg-slate-900 text-slate-400 hover:text-white border border-slate-800"
+          >
+            <i data-lucide="boxes" class="w-4 h-4"></i>
+            <span>स्टॉक व इन्वेंट्री नियंत्रण (Inventory)</span>
+          </button>
+
+        </div>
+
+        <div class="flex items-center gap-2 shrink-0">
+          <button 
+            onclick="seedSampleOrders()" 
+            type="button" 
+            class="bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/40 text-amber-300 text-xs font-black px-3 py-2 rounded-xl transition flex items-center gap-1.5 font-outfit cursor-pointer"
+            title="परीक्षण हेतु डेमो ऑर्डर्स लोड करें"
+          >
+            <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
+            <span>➕ सैंपल ऑर्डर जोड़ें</span>
+          </button>
+        </div>
+      </div>
+
+
+      <!-- ==============================================================
+           5. टैब 1: लाइव ऑर्डर्स बोर्ड (Live Orders Management Board)
+           ============================================================== -->
+      <section id="tabContentOrders" class="space-y-4">
+        
+        <!-- सर्च बार व स्टेटस फिल्टर बटन्स -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-4 flex flex-col md:flex-row items-center justify-between gap-3 shadow-sm">
+          
+          <!-- सर्च इनपुट -->
+          <div class="w-full md:w-80 relative">
+            <i data-lucide="search" class="w-4 h-4 text-slate-500 absolute left-3.5 top-3"></i>
+            <input 
+              type="text" 
+              id="orderSearchInput" 
+              oninput="renderOrdersBoard()" 
+              placeholder="ऑर्डर ID, नाम या मोबाइल से खोजें..." 
+              class="w-full bg-slate-950 border border-slate-700/80 rounded-2xl pl-10 pr-4 py-2 text-xs font-medium text-slate-200 placeholder-slate-500 focus:outline-none focus:border-amber-400"
+            >
+          </div>
+
+          <!-- फ़िल्टर पिल्स -->
+          <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar w-full md:w-auto" id="orderFilterPills">
+            <button onclick="setOrderFilter('all', this)" class="order-filter-pill active bg-amber-500 text-slate-950 font-black text-xs px-3 py-1.5 rounded-xl transition cursor-pointer font-outfit shrink-0">
+              सभी ऑर्डर्स
+            </button>
+            <button onclick="setOrderFilter('new', this)" class="order-filter-pill bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs px-3 py-1.5 rounded-xl transition cursor-pointer font-outfit shrink-0">
+              ⚡ नए ऑर्डर्स
+            </button>
+            <button onclick="setOrderFilter('out', this)" class="order-filter-pill bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs px-3 py-1.5 rounded-xl transition cursor-pointer font-outfit shrink-0">
+              🛵 रास्ते में
+            </button>
+            <button onclick="setOrderFilter('delivered', this)" class="order-filter-pill bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs px-3 py-1.5 rounded-xl transition cursor-pointer font-outfit shrink-0">
+              ✅ डिलीवर हुए
+            </button>
+            <button onclick="setOrderFilter('cancelled', this)" class="order-filter-pill bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs px-3 py-1.5 rounded-xl transition cursor-pointer font-outfit shrink-0">
+              ❌ रद्द
+            </button>
+          </div>
+
+        </div>
+
+        <!-- ऑर्डर्स लिस्ट कंटेनर -->
+        <div id="ordersListContainer" class="space-y-4">
+          <!-- डायनामिक ऑर्डर्स यहाँ रेंडर होंगे -->
+        </div>
+
+        <!-- खाली ऑर्डर्स दृश्य -->
+        <div id="noOrdersView" class="hidden bg-slate-900 border border-slate-800 rounded-3xl p-12 text-center">
+          <div class="w-16 h-16 rounded-2xl bg-slate-800 text-slate-500 mx-auto flex items-center justify-center mb-3">
+            <i data-lucide="inbox" class="w-8 h-8"></i>
+          </div>
+          <h4 class="text-base font-bold text-slate-300 font-outfit">कोई ऑर्डर नहीं मिला</h4>
+          <p class="text-xs text-slate-500 mt-1">इस फ़िल्टर या खोज के अंतर्गत कोई भी किराना ऑर्डर मौजूद नहीं है।</p>
+          <button onclick="seedSampleOrders()" class="mt-4 bg-amber-500 text-slate-950 font-black text-xs px-4 py-2 rounded-xl font-outfit cursor-pointer">
+            ➕ डेमो ऑर्डर्स लोड करें
+          </button>
+        </div>
+
+      </section>
+
+
+      <!-- ==============================================================
+           6. टैब 2: इन्वेंट्री व स्टॉक नियंत्रण (Inventory & Stock Control)
+           ============================================================== -->
+      <section id="tabContentInventory" class="hidden space-y-4">
+        
+        <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-4 flex flex-col md:flex-row items-center justify-between gap-3 shadow-sm">
+          <div>
+            <h3 class="font-black text-white text-base font-outfit flex items-center gap-2">
+              <i data-lucide="package-search" class="w-4 h-4 text-emerald-400"></i>
+              <span>किराना उत्पाद स्टॉक स्थिति व मूल्य नियंत्रण</span>
+            </h3>
+            <p class="text-xs text-slate-400 mt-0.5">उत्पाद का मूल्य व फ़ोटो बदलें, नया उत्पाद जोड़ें, या स्टॉक ऑन/ऑफ करें</p>
+          </div>
+
+          <div class="flex flex-wrap sm:flex-nowrap items-center gap-2 w-full md:w-auto">
+            <div class="relative flex-1 sm:w-64">
+              <i data-lucide="search" class="w-4 h-4 text-slate-500 absolute left-3 top-2.5"></i>
+              <input 
+                type="text" 
+                id="inventorySearchInput" 
+                oninput="renderInventoryCatalog()" 
+                placeholder="उत्पाद या श्रेणी खोजें..." 
+                class="w-full bg-slate-950 border border-slate-700/80 rounded-2xl pl-9 pr-3 py-2 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-amber-400"
+              >
+            </div>
+
+            <!-- + नया उत्पाद जोड़ें बटन -->
+            <button 
+              onclick="openAddProductModal()" 
+              type="button" 
+              class="bg-gradient-to-r from-emerald-600 to-brand-600 hover:from-emerald-500 hover:to-brand-500 text-white font-extrabold text-xs px-3.5 py-2 rounded-2xl flex items-center justify-center gap-1.5 shadow-md hover:shadow-glow transition active:scale-95 cursor-pointer font-outfit shrink-0"
+              title="स्टोर में नया उत्पाद जोड़ें"
+            >
+              <i data-lucide="plus-circle" class="w-4 h-4 text-amber-300"></i>
+              <span>+ नया उत्पाद जोड़ें</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- इन्वेंट्री ग्रिड -->
+        <div id="inventoryGridContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <!-- डायनामिक इन्वेंट्री कार्ड्स यहाँ रेंडर होंगे -->
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- एडमिन फ़ूटर -->
+    <footer class="border-t border-slate-800/80 py-4 px-6 text-center text-xs text-slate-500 font-outfit">
+      © 2026 Digital Kirana Mart. अधिकृत स्टोर ओनर कंट्रोल पैनल | 15 मिनट एक्सप्रेस डिलीवरी इंदौर
+    </footer>
+
+  </div>
+
+
+  <!-- ==============================================================
+       7. 🖨️ डिलीवरी चालान प्रिंटिंग टेम्पलेट (Delivery Challan for Delivery Boy)
+       ============================================================== -->
+  <div id="deliveryChallanPrintArea" class="hidden">
+    <div style="max-width: 480px; margin: 0 auto; font-family: monospace; line-height: 1.4; color: black; background: white;">
+      
+      <div style="text-align: center; border-bottom: 2px dashed #000; padding-bottom: 8px; margin-bottom: 10px;">
+        <h2 style="font-size: 18px; font-weight: bold; margin: 0;">DIGITAL KIRANA MART</h2>
+        <p style="font-size: 11px; margin: 2px 0;">दुकान नं. 24, मेन राजवाड़ा मार्केट, एम.जी. रोड, इंदौर (म.प्र.)</p>
+        <h3 style="font-size: 13px; font-weight: bold; margin: 4px 0; border: 1px solid #000; display: inline-block; padding: 2px 8px;">
+          🛵 डिलीवरी चालान (DELIVERY CHALLAN)
+        </h3>
+      </div>
+
+      <div style="font-size: 11px; margin-bottom: 10px;">
+        <div><strong>ऑर्डर ID:</strong> <span id="challanOrderId">#DKM-000000</span></div>
+        <div><strong>दिनांक व समय:</strong> <span id="challanDate">26 Oct 2026</span></div>
+        <div><strong>डिलीवरी स्लॉट:</strong> <span id="challanSlot">⚡ तुरंत 15 मिनट डिलीवरी</span></div>
+      </div>
+
+      <div style="border: 1px solid #000; padding: 6px; font-size: 11px; margin-bottom: 10px; background: #fafafa;">
+        <div style="font-weight: bold; text-decoration: underline;">ग्राहक का विवरण (Customer):</div>
+        <div><strong>नाम:</strong> <span id="challanCustName">राजेश शर्मा</span></div>
+        <div><strong>फोन:</strong> <span id="challanCustPhone">+91 9826012345</span></div>
+        <div><strong>पूरा पता:</strong> <span id="challanCustAddr">मकान नं. 14, आनंद नगर, मेन रोड, इंदौर</span></div>
+        <div><strong>लैंडमार्क:</strong> <span id="challanCustLandmark">शिव मंदिर के पास</span></div>
+        <div><strong>पिनकोड:</strong> <span id="challanCustPin">452001</span></div>
+      </div>
+
+      <table style="width: 100%; font-size: 11px; border-collapse: collapse; margin-bottom: 10px;">
+        <thead>
+          <tr style="border-bottom: 1px dashed #000;">
+            <th style="text-align: left; padding: 4px 0;">सामान का विवरण</th>
+            <th style="text-align: center; padding: 4px 0;">मात्रा</th>
+            <th style="text-align: right; padding: 4px 0;">रकम</th>
+          </tr>
+        </thead>
+        <tbody id="challanItemsTableBody">
+          <!-- आइटम्स -->
+        </tbody>
+      </table>
+
+      <div style="border-top: 1px dashed #000; padding-top: 6px; font-size: 12px;">
+        <div style="display: flex; justify-content: space-between;">
+          <span>सामान मूल्य (Subtotal):</span>
+          <span id="challanSubtotal">₹0.00</span>
+        </div>
+        <div style="display: flex; justify-content: space-between;">
+          <span>डिलीवरी शुल्क:</span>
+          <span id="challanDelivery">मुफ्त (FREE)</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 14px; margin-top: 4px; border-top: 1px solid #000; padding-top: 4px;">
+          <span>कुल देय राशि:</span>
+          <span id="challanGrandTotal">₹0.00</span>
+        </div>
+      </div>
+
+      <div style="margin-top: 12px; padding: 8px; border: 2px solid #000; font-size: 12px; text-align: center; font-weight: bold;">
+        <span id="challanPaymentNotice">💵 CASH ON DELIVERY: ग्राहक से ₹0.00 नकद प्राप्त करें</span>
+      </div>
+
+      <div style="margin-top: 20px; font-size: 10px; display: flex; justify-content: space-between; padding-top: 15px; border-top: 1px dashed #000;">
+        <div>
+          <div>डिलीवरी बॉय हस्ताक्षर: _____________</div>
+        </div>
+        <div>
+          <div>ग्राहक हस्ताक्षर: _____________</div>
+        </div>
+      </div>
+
+      <div style="text-align: center; font-size: 9px; margin-top: 15px;">
+        *** डिजिटल किराना मार्ट - 100% शुद्ध देशी उत्पाद गारंटी ***
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ==============================================================
+       Modal 1: नया किराना उत्पाद जोड़ें (Add New Product Modal)
+       ============================================================== -->
+  <div id="addProductModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm hidden">
+    <div class="bg-slate-900 border border-slate-700/80 rounded-3xl w-full max-w-lg p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+      
+      <!-- हेडर -->
+      <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+            <i data-lucide="plus-circle" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-black text-white font-outfit">नया किराना उत्पाद जोड़ें</h3>
+            <p class="text-[11px] text-slate-400 font-sans">स्टोर में नया सामान जोड़ें; ग्राहक वेबसाइट पर तुरंत दिखेगा</p>
+          </div>
+        </div>
+        <button onclick="closeAddProductModal()" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition cursor-pointer">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- फॉर्म -->
+      <form id="addNewProductForm" onsubmit="handleAddNewProductSubmit(event)" class="mt-4 space-y-4">
+        
+        <!-- उत्पाद का नाम (Hindi/English) -->
+        <div>
+          <label class="block text-xs font-bold text-slate-300 font-outfit mb-1">
+            उत्पाद का नाम (Product Title / Name) <span class="text-rose-400">*</span>
+          </label>
+          <input 
+            type="text" 
+            id="newProdTitle" 
+            placeholder="उदा. फॉर्च्यून कच्ची घानी सरसों का तेल (Fortune Mustard Oil)" 
+            required 
+            class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-400"
+          >
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <!-- श्रेणी (Category) -->
+          <div>
+            <label class="block text-xs font-bold text-slate-300 font-outfit mb-1">
+              श्रेणी (Category) <span class="text-rose-400">*</span>
+            </label>
+            <select 
+              id="newProdCategory" 
+              required 
+              class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-400"
+            >
+              <option value="grains">आटा, चावल व दालें (Grains)</option>
+              <option value="oils">तेल व शुद्ध देशी घी (Oils)</option>
+              <option value="spices">मसाले व खड़े मसाले (Spices)</option>
+              <option value="drinks">कोल्ड ड्रिंक्स व जूस (Drinks)</option>
+              <option value="snacks">नमकीन व स्नैक्स (Snacks)</option>
+              <option value="breakfast">नाश्ता व मैगी (Breakfast)</option>
+              <option value="dryfruits">प्रीमियम ड्राई फ्रूट्स (Dry Fruits)</option>
+            </select>
+          </div>
+
+          <!-- वजन / साइज़ (Weight Variant) -->
+          <div>
+            <label class="block text-xs font-bold text-slate-300 font-outfit mb-1">
+              वजन / साइज़ (Weight) <span class="text-rose-400">*</span>
+            </label>
+            <input 
+              type="text" 
+              id="newProdWeight" 
+              placeholder="उदा. 1 kg, 5 kg, 1 Litre, 500g" 
+              required 
+              class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-400"
+            >
+          </div>
+        </div>
+
+        <!-- मूल्य & MRP -->
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-300 font-outfit mb-1">
+              विक्रय मूल्य (Selling Price ₹) <span class="text-rose-400">*</span>
+            </label>
+            <div class="relative">
+              <span class="absolute left-3 top-2 text-slate-400 font-bold text-xs">₹</span>
+              <input 
+                type="number" 
+                id="newProdPrice" 
+                placeholder="145" 
+                min="1" 
+                required 
+                class="w-full bg-slate-950 border border-slate-700 rounded-xl pl-7 pr-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-400 font-outfit"
+              >
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-300 font-outfit mb-1">
+              एमआरपी (Original MRP ₹) <span class="text-rose-400">*</span>
+            </label>
+            <div class="relative">
+              <span class="absolute left-3 top-2 text-slate-400 font-bold text-xs">₹</span>
+              <input 
+                type="number" 
+                id="newProdMrp" 
+                placeholder="175" 
+                min="1" 
+                required 
+                class="w-full bg-slate-950 border border-slate-700 rounded-xl pl-7 pr-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-400 font-outfit"
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- प्रोडक्ट फ़ोटो URL और लाइव प्रिव्यू -->
+        <div>
+          <label class="block text-xs font-bold text-slate-300 font-outfit mb-1">
+            उत्पाद फ़ोटो लिंक (Image URL)
+          </label>
+          <input 
+            type="url" 
+            id="newProdImage" 
+            oninput="updateNewImagePreview()" 
+            placeholder="https://images.unsplash.com/..." 
+            class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-400"
+          >
+          
+          <!-- प्रिव्यू बॉक्स -->
+          <div class="mt-2 flex items-center gap-3 p-2.5 bg-slate-950 border border-slate-800 rounded-xl">
+            <img 
+              id="newImagePreview" 
+              src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=500&auto=format&fit=crop&q=80" 
+              alt="Preview" 
+              class="w-14 h-14 rounded-lg object-cover border border-slate-700 bg-slate-900"
+              onerror="this.src='https://placehold.co/100x100/f8fafc/0f172a?text=Item';"
+            >
+            <div class="text-[11px] text-slate-400">
+              <div class="font-bold text-slate-300">फ़ोटो प्रिव्यू (Live Preview)</div>
+              <div>छवि लिंक खाली छोड़ने पर डिफ़ॉल्ट किराना फ़ोटो इस्तेमाल होगी।</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ऐक्शन बटन्स -->
+        <div class="pt-3 border-t border-slate-800 flex items-center justify-end gap-2.5">
+          <button 
+            type="button" 
+            onclick="closeAddProductModal()" 
+            class="px-4 py-2 rounded-xl text-xs font-bold text-slate-400 hover:text-white hover:bg-slate-800 transition cursor-pointer font-outfit"
+          >
+            रद्द करें (Cancel)
+          </button>
+          <button 
+            type="submit" 
+            class="px-5 py-2 rounded-xl text-xs font-black bg-emerald-600 hover:bg-emerald-500 text-white shadow-md hover:shadow-glow transition active:scale-95 cursor-pointer font-outfit flex items-center gap-1.5"
+          >
+            <i data-lucide="check" class="w-4 h-4"></i>
+            <span>✅ उत्पाद सेव करें</span>
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+
+  <!-- ==============================================================
+       Modal 2: उत्पाद मूल्य व फ़ोटो एडिट करें (Edit Product Modal)
+       ============================================================== -->
+  <div id="editProductModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm hidden">
+    <div class="bg-slate-900 border border-slate-700/80 rounded-3xl w-full max-w-md p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+      
+      <!-- हेडर -->
+      <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
+            <i data-lucide="edit-3" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-black text-white font-outfit">उत्पाद मूल्य व फ़ोटो बदलें</h3>
+            <p id="editProdTitleDisplay" class="text-[11px] text-amber-300 font-bold truncate max-w-[240px]">उत्पाद का नाम</p>
+          </div>
+        </div>
+        <button onclick="closeEditProductModal()" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition cursor-pointer">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- एडिट फॉर्म -->
+      <form id="editProductForm" onsubmit="handleEditProductSubmit(event)" class="mt-4 space-y-4">
+        <input type="hidden" id="editProdId">
+
+        <!-- मूल्य & MRP -->
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-300 font-outfit mb-1">
+              नया विक्रय मूल्य (Price ₹) <span class="text-rose-400">*</span>
+            </label>
+            <div class="relative">
+              <span class="absolute left-3 top-2 text-slate-400 font-bold text-xs">₹</span>
+              <input 
+                type="number" 
+                id="editProdPrice" 
+                min="1" 
+                required 
+                class="w-full bg-slate-950 border border-slate-700 rounded-xl pl-7 pr-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 font-outfit"
+              >
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-300 font-outfit mb-1">
+              एमआरपी (Original MRP ₹) <span class="text-rose-400">*</span>
+            </label>
+            <div class="relative">
+              <span class="absolute left-3 top-2 text-slate-400 font-bold text-xs">₹</span>
+              <input 
+                type="number" 
+                id="editProdMrp" 
+                min="1" 
+                required 
+                class="w-full bg-slate-950 border border-slate-700 rounded-xl pl-7 pr-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 font-outfit"
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- फ़ोटो URL -->
+        <div>
+          <label class="block text-xs font-bold text-slate-300 font-outfit mb-1">
+            उत्पाद फ़ोटो लिंक (Photo Image URL) <span class="text-rose-400">*</span>
+          </label>
+          <input 
+            type="url" 
+            id="editProdImage" 
+            oninput="updateEditImagePreview()" 
+            required 
+            class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400"
+          >
+          
+          <!-- प्रिव्यू बॉक्स -->
+          <div class="mt-2 flex items-center gap-3 p-2.5 bg-slate-950 border border-slate-800 rounded-xl">
+            <img 
+              id="editImagePreview" 
+              src="https://placehold.co/100x100/f8fafc/0f172a?text=Item" 
+              alt="Preview" 
+              class="w-14 h-14 rounded-lg object-cover border border-slate-700 bg-slate-900"
+              onerror="this.src='https://placehold.co/100x100/f8fafc/0f172a?text=Item';"
+            >
+            <div class="text-[11px] text-slate-400">
+              <div class="font-bold text-slate-300">फ़ोटो प्रिव्यू (Live Preview)</div>
+              <div>वैलिड Unsplash या वेब इमेज URL दर्ज करें।</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ऐक्शन बटन्स -->
+        <div class="pt-3 border-t border-slate-800 flex items-center justify-end gap-2.5">
+          <button 
+            type="button" 
+            onclick="closeEditProductModal()" 
+            class="px-4 py-2 rounded-xl text-xs font-bold text-slate-400 hover:text-white hover:bg-slate-800 transition cursor-pointer font-outfit"
+          >
+            रद्द करें (Cancel)
+          </button>
+          <button 
+            type="submit" 
+            class="px-5 py-2 rounded-xl text-xs font-black bg-amber-500 hover:bg-amber-400 text-slate-950 shadow-md transition active:scale-95 cursor-pointer font-outfit flex items-center gap-1.5"
+          >
+            <i data-lucide="save" class="w-4 h-4"></i>
+            <span>💾 बदलाव सेव करें</span>
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+
+  <!-- ==============================================================
+       8. एडमिन जावास्क्रिप्ट लॉजिक (Admin Dashboard Script)
+       ============================================================== -->
+  <script>
+    // 🛡️ 1. सुरक्षा पिन प्रमाणीकरण (Security PIN: '1234')
+    const DEFAULT_ADMIN_PIN = "1234";
+
+    document.addEventListener("DOMContentLoaded", () => {
+      checkAdminSession();
+      startLiveClock();
+      loadInventoryCatalogData();
+
+      // पिन इनपुट पर 'Enter' की दबाने पर लॉगिन
+      const pinInput = document.getElementById("adminPinInput");
+      if (pinInput) {
+        pinInput.focus();
+        pinInput.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") {
+            verifyAdminPin();
+          }
+        });
+      }
+    });
+
+    function checkAdminSession() {
+      const isAuth = sessionStorage.getItem("dkm_admin_auth") === "true";
+      const pinModal = document.getElementById("pinAuthModal");
+      const dashboard = document.getElementById("adminDashboard");
+
+      if (isAuth) {
+        if (pinModal) pinModal.classList.add("hidden");
+        if (dashboard) dashboard.classList.remove("hidden");
+        initDashboardData();
+      } else {
+        if (pinModal) pinModal.classList.remove("hidden");
+        if (dashboard) dashboard.classList.add("hidden");
+      }
+
+      if (window.lucide) {
+        lucide.createIcons();
+      }
+    }
+
+    function verifyAdminPin() {
+      const pinInput = document.getElementById("adminPinInput");
+      const errorMsg = document.getElementById("pinErrorMsg");
+      const pinCard = document.getElementById("pinBoxCard");
+      const pin = pinInput ? pinInput.value.trim() : "";
+
+      if (pin === DEFAULT_ADMIN_PIN) {
+        sessionStorage.setItem("dkm_admin_auth", "true");
+        if (errorMsg) errorMsg.classList.add("hidden");
+        checkAdminSession();
+      } else {
+        if (errorMsg) errorMsg.classList.remove("hidden");
+        if (pinCard) {
+          pinCard.classList.remove("pin-shake");
+          void pinCard.offsetWidth; // ट्रिगर रीफ्लो
+          pinCard.classList.add("pin-shake");
+        }
+        if (pinInput) {
+          pinInput.value = "";
+          pinInput.focus();
+        }
+      }
+    }
+
+    function adminLogout() {
+      sessionStorage.removeItem("dkm_admin_auth");
+      checkAdminSession();
+    }
+
+    // 🕒 2. लाइव डिजिटल घड़ी (Real-time Clock)
+    function startLiveClock() {
+      const clockEl = document.getElementById("liveClockText");
+      setInterval(() => {
+        if (clockEl) {
+          const now = new Date();
+          clockEl.innerText = now.toLocaleDateString('hi-IN', {
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+          });
+        }
+      }, 1000);
+    }
+
+    // 📋 3. ऑर्डर्स डेटा स्टेट व फ़िल्टरिंग
+    let currentFilter = "all";
+    let adminOrders = [];
+
+    function initDashboardData() {
+      loadOrdersFromStorage();
+      renderExecutiveMetrics();
+      renderOrdersBoard();
+      renderInventoryCatalog();
+    }
+
+    function loadOrdersFromStorage() {
+      try {
+        const stored = localStorage.getItem("dkm_orders");
+        if (stored) {
+          adminOrders = JSON.parse(stored);
+        } else {
+          seedSampleOrders(false); // यदि कोई ऑर्डर न हो तो डिफ़ॉल्ट सैंपल भरें
+        }
+      } catch (e) {
+        console.error("Orders load error:", e);
+        adminOrders = [];
+      }
+    }
+
+    function saveOrdersToStorage() {
+      try {
+        localStorage.setItem("dkm_orders", JSON.stringify(adminOrders));
+      } catch (e) {
+        console.error("Orders save error:", e);
+      }
+      renderExecutiveMetrics();
+      renderOrdersBoard();
+    }
+
+    // 📊 4. एग्जीक्यूटिव मेट्रिक्स गणना (Today's Revenue, Orders, Delivery)
+    function renderExecutiveMetrics() {
+      const revEl = document.getElementById("statTotalRevenue");
+      const totalEl = document.getElementById("statTotalOrders");
+      const pendingEl = document.getElementById("statPendingOrders");
+      const compEl = document.getElementById("statCompletedOrders");
+      const tabBadge = document.getElementById("tabBadgeOrdersCount");
+
+      const totalRevenue = adminOrders.reduce((sum, o) => {
+        return o.status && !o.status.toLowerCase().includes("cancel") ? sum + (o.grandTotal || 0) : sum;
+      }, 0);
+
+      const totalCount = adminOrders.length;
+      
+      const pendingCount = adminOrders.filter(o => {
+        const s = (o.status || "").toLowerCase();
+        return s.includes("placed") || s.includes("out") || s.includes("रास्ते") || s.includes("नया");
+      }).length;
+
+      const completedCount = adminOrders.filter(o => {
+        const s = (o.status || "").toLowerCase();
+        return s.includes("deliver") || s.includes("सफलतापूर्वक") || s.includes("पूर्ण");
+      }).length;
+
+      if (revEl) revEl.innerText = `₹${totalRevenue.toLocaleString('en-IN')}`;
+      if (totalEl) totalEl.innerText = totalCount;
+      if (pendingEl) pendingEl.innerText = pendingCount;
+      if (compEl) compEl.innerText = completedCount;
+      if (tabBadge) tabBadge.innerText = totalCount;
+    }
+
+    // 🎯 5. ऑर्डर्स बोर्ड रेंडरिंग (Live Orders Board)
+    function setOrderFilter(filterName, btnEl) {
+      currentFilter = filterName;
+      const pills = document.querySelectorAll(".order-filter-pill");
+      pills.forEach(p => {
+        p.className = "order-filter-pill bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs px-3 py-1.5 rounded-xl transition cursor-pointer font-outfit shrink-0";
+      });
+      if (btnEl) {
+        btnEl.className = "order-filter-pill active bg-amber-500 text-slate-950 font-black text-xs px-3 py-1.5 rounded-xl transition cursor-pointer font-outfit shrink-0";
+      }
+      renderOrdersBoard();
+    }
+
+    function renderOrdersBoard() {
+      const container = document.getElementById("ordersListContainer");
+      const emptyView = document.getElementById("noOrdersView");
+      const searchInput = document.getElementById("orderSearchInput");
+      const query = searchInput ? searchInput.value.trim().toLowerCase() : "";
+
+      if (!container) return;
+
+      let filtered = adminOrders.filter(o => {
+        const status = (o.status || "").toLowerCase();
+        
+        // फ़िल्टर मिलान
+        let matchesFilter = true;
+        if (currentFilter === "new") {
+          matchesFilter = status.includes("placed") || status.includes("नया");
+        } else if (currentFilter === "out") {
+          matchesFilter = status.includes("out") || status.includes("रास्ते");
+        } else if (currentFilter === "delivered") {
+          matchesFilter = status.includes("deliver") || status.includes("सफलतापूर्वक");
+        } else if (currentFilter === "cancelled") {
+          matchesFilter = status.includes("cancel") || status.includes("रद्द");
+        }
+
+        // सर्च मिलान
+        const custName = (o.customer && o.customer.name) ? o.customer.name.toLowerCase() : "";
+        const custPhone = (o.customer && o.customer.phone) ? o.customer.phone.toLowerCase() : "";
+        const orderId = (o.orderId || "").toLowerCase();
+
+        const matchesSearch = !query || 
+          orderId.includes(query) || 
+          custName.includes(query) || 
+          custPhone.includes(query);
+
+        return matchesFilter && matchesSearch;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = "";
+        if (emptyView) emptyView.classList.remove("hidden");
+        return;
+      }
+
+      if (emptyView) emptyView.classList.add("hidden");
+
+      container.innerHTML = filtered.map(order => {
+        const isCOD = order.paymentMode === 'COD';
+        const isDelivered = (order.status || "").toLowerCase().includes("deliver");
+        const isOut = (order.status || "").toLowerCase().includes("out") || (order.status || "").toLowerCase().includes("रास्ते");
+        const isCancelled = (order.status || "").toLowerCase().includes("cancel") || (order.status || "").toLowerCase().includes("रद्द");
+
+        const statusBadgeClass = isDelivered 
+          ? "bg-emerald-500/20 text-emerald-400 border-emerald-500/40"
+          : isOut 
+            ? "bg-blue-500/20 text-blue-400 border-blue-500/40 animate-pulse"
+            : isCancelled 
+              ? "bg-rose-500/20 text-rose-400 border-rose-500/40"
+              : "bg-amber-500/20 text-amber-400 border-amber-500/40";
+
+        const paymentBadge = isCOD
+          ? `<span class="bg-amber-500/15 text-amber-400 border border-amber-500/30 text-[10px] font-black px-2.5 py-1 rounded-lg font-outfit">💵 नकद भुगतान (COD)</span>`
+          : `<span class="bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-[10px] font-black px-2.5 py-1 rounded-lg font-outfit">⚡ Paid via UPI (ऑनलाइन)</span>`;
+
+        const waMessage = encodeURIComponent(
+          `नमस्ते ${order.customer.name}! डिजिटल किराना मार्ट से आपका ऑर्डर #${order.orderId} (${order.status}) पर अपडेट है। कुल राशि: ₹${order.grandTotal}। सहायता: +91 9826012345 🙏`
+        );
+
+        return `
+          <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-md hover:border-slate-700 transition space-y-4">
+            
+            <!-- ऑर्डर हेडर रो -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-800">
+              <div class="flex items-center gap-2.5 flex-wrap">
+                <span class="text-base font-black text-white font-outfit">#${order.orderId}</span>
+                <span class="text-xs text-slate-400 font-medium font-outfit">${order.date || 'आज'}</span>
+                <span class="text-[10px] font-bold text-slate-300 bg-slate-800 px-2 py-0.5 rounded-md font-outfit">
+                  ${order.deliverySlot || '⚡ 15 मिनट डिलीवरी'}
+                </span>
+                ${paymentBadge}
+              </div>
+
+              <!-- वर्तमान स्टेटस पिल -->
+              <div>
+                <span class="text-xs font-black px-3 py-1 rounded-xl border font-outfit ${statusBadgeClass}">
+                  ${order.status || 'Order Placed'}
+                </span>
+              </div>
+            </div>
+
+            <!-- ग्राहक विवरण व डिलीवरी पता कार्ड -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-slate-950/70 p-4 rounded-2xl border border-slate-800/80 text-xs">
+              <div class="space-y-1">
+                <div class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">ग्राहक विवरण (Customer Info):</div>
+                <div class="font-bold text-white text-sm flex items-center gap-1.5">
+                  <i data-lucide="user" class="w-3.5 h-3.5 text-amber-400"></i>
+                  <span>${order.customer.name}</span>
+                </div>
+                <div class="text-slate-300 flex items-center gap-1.5 font-outfit">
+                  <i data-lucide="phone" class="w-3.5 h-3.5 text-emerald-400"></i>
+                  <span>+91 ${order.customer.phone}</span>
+                </div>
+              </div>
+
+              <div class="space-y-1">
+                <div class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">डिलीवरी पता (Address):</div>
+                <div class="text-slate-200 leading-relaxed">
+                  ${order.customer.address}
+                </div>
+                ${order.customer.landmark ? `<div class="text-slate-400 text-[11px]">🏢 लैंडमार्क: ${order.customer.landmark}</div>` : ''}
+                <div class="text-slate-400 text-[11px] font-outfit">पिनकोड: ${order.customer.pincode || '452001'}</div>
+              </div>
+            </div>
+
+            <!-- ऑर्डर किए गए सामानों की सूची -->
+            <div class="space-y-1.5">
+              <div class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">सामानों की सूची (${order.items.length} उत्पाद):</div>
+              <div class="bg-slate-950/40 rounded-xl p-3 border border-slate-800/60 divide-y divide-slate-800 text-xs">
+                ${order.items.map(item => `
+                  <div class="py-1.5 first:pt-0 last:pb-0 flex items-center justify-between text-slate-300">
+                    <div>
+                      <span class="font-bold text-white">${item.title}</span>
+                      <span class="text-[10px] text-amber-400 bg-amber-400/10 px-1.5 py-0.2 rounded ml-1 font-outfit">${item.weight}</span>
+                      <span class="text-slate-500 ml-1">× ${item.quantity}</span>
+                    </div>
+                    <div class="font-bold text-slate-200 font-outfit">₹${item.total || (item.price * item.quantity)}</div>
+                  </div>
+                `).join("")}
+              </div>
+            </div>
+
+            <!-- फाइनेंशियल समरी व त्वरित स्टेटस एक्शन बटन्स -->
+            <div class="pt-3 border-t border-slate-800 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-3">
+              
+              <!-- कुल राशि -->
+              <div class="flex items-baseline gap-2">
+                <span class="text-xs text-slate-400">कुल देय राशि:</span>
+                <span class="text-lg font-black text-amber-400 font-outfit">₹${order.grandTotal}</span>
+                <span class="text-[10px] text-slate-500 font-medium">(${isCOD ? 'डिलीवरी पर नकद लें' : 'UPI भुगतान प्राप्त'})</span>
+              </div>
+
+              <!-- एक्शन बटन्स रो -->
+              <div class="flex items-center gap-1.5 flex-wrap w-full lg:w-auto">
+                
+                <!-- कॉल ग्राहक -->
+                <a 
+                  href="tel:${order.customer.phone}" 
+                  class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold px-3 py-2 rounded-xl transition flex items-center gap-1 font-outfit cursor-pointer border border-slate-700"
+                >
+                  <i data-lucide="phone-call" class="w-3.5 h-3.5 text-emerald-400"></i>
+                  <span>कॉल</span>
+                </a>
+
+                <!-- WhatsApp ग्राहक -->
+                <a 
+                  href="https://wa.me/91${order.customer.phone}?text=${waMessage}" 
+                  target="_blank" 
+                  class="bg-[#25D366]/15 hover:bg-[#25D366]/25 border border-[#25D366]/40 text-[#25D366] text-xs font-bold px-3 py-2 rounded-xl transition flex items-center gap-1 font-outfit cursor-pointer"
+                >
+                  <i data-lucide="message-square" class="w-3.5 h-3.5"></i>
+                  <span>WhatsApp</span>
+                </a>
+
+                <!-- डिलीवरी चालान प्रिंट -->
+                <button 
+                  onclick="printDeliveryChallan('${order.orderId}')" 
+                  type="button" 
+                  class="bg-slate-800 hover:bg-slate-700 text-amber-300 border border-amber-500/40 text-xs font-black px-3 py-2 rounded-xl transition flex items-center gap-1 font-outfit cursor-pointer"
+                >
+                  <i data-lucide="printer" class="w-3.5 h-3.5"></i>
+                  <span>चालान प्रिंट</span>
+                </button>
+
+                <!-- स्टेटस बदलने के बटन्स -->
+                <button 
+                  onclick="updateOrderStatus('${order.orderId}', '🛵 रास्ते में है (Out for Delivery)')" 
+                  type="button" 
+                  class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-black px-3 py-2 rounded-xl transition flex items-center gap-1 font-outfit cursor-pointer active:scale-95 shadow-xs"
+                >
+                  <i data-lucide="bike" class="w-3.5 h-3.5"></i>
+                  <span>🛵 Out for Delivery</span>
+                </button>
+
+                <button 
+                  onclick="updateOrderStatus('${order.orderId}', '✅ सफलतापूर्वक डिलीवर हुआ (Delivered)')" 
+                  type="button" 
+                  class="bg-brand-600 hover:bg-brand-500 text-white text-xs font-black px-3 py-2 rounded-xl transition flex items-center gap-1 font-outfit cursor-pointer active:scale-95 shadow-xs"
+                >
+                  <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
+                  <span>✅ Delivered</span>
+                </button>
+
+                <button 
+                  onclick="updateOrderStatus('${order.orderId}', '❌ रद्द किया गया (Cancelled)')" 
+                  type="button" 
+                  class="bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/40 text-xs font-bold px-2.5 py-2 rounded-xl transition flex items-center gap-1 font-outfit cursor-pointer"
+                  title="ऑर्डर रद्द करें"
+                >
+                  <i data-lucide="x-circle" class="w-3.5 h-3.5"></i>
+                </button>
+
+              </div>
+
+            </div>
+
+          </div>
+        `;
+      }).join("");
+
+      if (window.lucide) {
+        lucide.createIcons();
+      }
+    }
+
+    function updateOrderStatus(orderId, newStatus) {
+      const order = adminOrders.find(o => o.orderId === orderId);
+      if (order) {
+        order.status = newStatus;
+        saveOrdersToStorage();
+      }
+    }
+
+    // 🖨️ 6. डिलीवरी चालान जनरेटर व प्रिंट
+    function printDeliveryChallan(orderId) {
+      const order = adminOrders.find(o => o.orderId === orderId);
+      if (!order) return;
+
+      document.getElementById("challanOrderId").innerText = `#${order.orderId}`;
+      document.getElementById("challanDate").innerText = order.date || new Date().toLocaleString('hi-IN');
+      document.getElementById("challanSlot").innerText = order.deliverySlot || "⚡ तुरंत 15 मिनट डिलीवरी";
+      
+      document.getElementById("challanCustName").innerText = order.customer.name;
+      document.getElementById("challanCustPhone").innerText = "+91 " + order.customer.phone;
+      document.getElementById("challanCustAddr").innerText = order.customer.address;
+      document.getElementById("challanCustLandmark").innerText = order.customer.landmark || "N/A";
+      document.getElementById("challanCustPin").innerText = order.customer.pincode || "452001";
+
+      const tbody = document.getElementById("challanItemsTableBody");
+      if (tbody) {
+        tbody.innerHTML = order.items.map(item => `
+          <tr style="border-bottom: 1px dotted #ccc;">
+            <td style="padding: 3px 0;">${item.title} (${item.weight})</td>
+            <td style="text-align: center; padding: 3px 0;">${item.quantity}</td>
+            <td style="text-align: right; padding: 3px 0;">₹${item.total || (item.price * item.quantity)}.00</td>
+          </tr>
+        `).join("");
+      }
+
+      document.getElementById("challanSubtotal").innerText = `₹${order.subtotal}.00`;
+      document.getElementById("challanDelivery").innerText = order.deliveryFee === 0 ? "मुफ्त (FREE)" : `₹${order.deliveryFee}.00`;
+      document.getElementById("challanGrandTotal").innerText = `₹${order.grandTotal}.00`;
+
+      const noticeEl = document.getElementById("challanPaymentNotice");
+      if (noticeEl) {
+        if (order.paymentMode === 'COD') {
+          noticeEl.innerText = `💵 CASH ON DELIVERY: ग्राहक से ₹${order.grandTotal}.00 नकद प्राप्त करें`;
+          noticeEl.style.background = "#fff3cd";
+        } else {
+          noticeEl.innerText = `⚡ PREPAID (UPI): ऑनलाइन भुगतान प्राप्त हो चुका है। कोई नकद न लें।`;
+          noticeEl.style.background = "#d1e7dd";
+        }
+      }
+
+      window.print();
+    }
+
+    // 📦 7. टैब 2: इन्वेंट्री व स्टॉक नियंत्रण (Catalog, Price/Photo Editing & New Products)
+    const CATALOG_PRODUCTS = [
+      // 1. चावल (Rice Varieties)
+      { id: 1, title: "इंडिया गेट क्लासिक बासमती चावल (Aged Rice)", brand: "India Gate", cat: "grains", categoryName: "चावल व दालें", weight: "1 kg", price: 195, mrp: 240, image: "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=500&auto=format&fit=crop&q=80" },
+      { id: 2, title: "दावत रोज़ाना सुपर बासमती चावल", brand: "Daawat", cat: "grains", categoryName: "चावल व दालें", weight: "1 kg", price: 82, mrp: 105, image: "https://images.unsplash.com/photo-1536304993881-ff6e9eefa2a6?w=500&auto=format&fit=crop&q=80" },
+      { id: 3, title: "फॉर्च्यून स्पेशल बिरयानी क्लासिक बासमती", brand: "Fortune", cat: "grains", categoryName: "चावल व दालें", weight: "1 kg", price: 145, mrp: 185, image: "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=500&auto=format&fit=crop&q=80" },
+      { id: 4, title: "रॉयल सोना मसूरी स्टीम चावल", brand: "India Gate", cat: "grains", categoryName: "चावल व दालें", weight: "1 kg", price: 68, mrp: 85, image: "https://images.unsplash.com/photo-1568271679792-dd7c140d04c6?w=500&auto=format&fit=crop&q=80" },
+      { id: 5, title: "वाडा कोलम स्टीम प्रीमियम चावल", brand: "Daawat", cat: "grains", categoryName: "चावल व दालें", weight: "1 kg", price: 74, mrp: 95, image: "https://images.unsplash.com/photo-1594489428504-5c0c480a15fd?w=500&auto=format&fit=crop&q=80" },
+      { id: 6, title: "ऑर्गेनिक ब्राउन राइस (High Fibre)", brand: "Tata Sampann", cat: "grains", categoryName: "चावल व दालें", weight: "1 kg", price: 120, mrp: 155, image: "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=500&auto=format&fit=crop&q=80" },
+      
+      // 2. मसाले (Spices Range)
+      { id: 7, title: "एवरेस्ट तीखालाल शुद्ध लाल मिर्च पाउडर", brand: "Everest", cat: "spices", categoryName: "मसाले", weight: "100 g", price: 46, mrp: 55, image: "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=500&auto=format&fit=crop&q=80" },
+      { id: 8, title: "एवरेस्ट शुद्ध हल्दी पाउडर", brand: "Everest", cat: "spices", categoryName: "मसाले", weight: "100 g", price: 36, mrp: 44, image: "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=500&auto=format&fit=crop&q=80" },
+      { id: 9, title: "कैच सुगन्धित धनिया पाउडर", brand: "Catch", cat: "spices", categoryName: "मसाले", weight: "100 g", price: 38, mrp: 48, image: "https://images.unsplash.com/photo-1599940824399-b87987ceb72a?w=500&auto=format&fit=crop&q=80" },
+      { id: 10, title: "एमडीएच शाही गरम मसाला", brand: "MDH", cat: "spices", categoryName: "मसाले", weight: "100 g", price: 92, mrp: 110, image: "https://images.unsplash.com/photo-1509358271058-acd22cc93898?w=500&auto=format&fit=crop&q=80" },
+      { id: 11, title: "कैच रॉयल साबुत जीरा", brand: "Catch", cat: "spices", categoryName: "मसाले", weight: "100 g", price: 72, mrp: 90, image: "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=500&auto=format&fit=crop&q=80" },
+      { id: 12, title: "टाटा नमक (देश का नमक)", brand: "Tata Salt", cat: "spices", categoryName: "मसाले", weight: "1 kg", price: 28, mrp: 30, image: "https://images.unsplash.com/photo-1518110925495-5fe2fda0442c?w=500&auto=format&fit=crop&q=80" },
+
+      // 3. तेल व घी (Cooking Oils & Pure Ghee)
+      { id: 13, title: "अमूल स्पेशल शुद्ध देशी गाय का घी", brand: "Amul", cat: "oils", categoryName: "तेल-घी", weight: "500 ml", price: 320, mrp: 375, image: "https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?w=500&auto=format&fit=crop&q=80" },
+      { id: 14, title: "फॉर्च्यून सोया हेल्थ सोयाबीन तेल", brand: "Fortune", cat: "oils", categoryName: "तेल-घी", weight: "1 Litre", price: 125, mrp: 155, image: "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=500&auto=format&fit=crop&q=80" },
+      { id: 15, title: "फॉर्च्यून सनलाइट रिफाइंड सनफ्लावर ऑइल", brand: "Fortune", cat: "oils", categoryName: "तेल-घी", weight: "1 Litre", price: 135, mrp: 165, image: "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=500&auto=format&fit=crop&q=80" },
+      { id: 16, title: "धारा कच्ची घानी शुद्ध सरसों का तेल", brand: "Dhara", cat: "oils", categoryName: "तेल-घी", weight: "1 Litre", price: 142, mrp: 175, image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=500&auto=format&fit=crop&q=80" },
+      { id: 17, title: "सफ़ोला गोल्ड प्रो-हेल्दी हार्ट ऑइल", brand: "Saffola", cat: "oils", categoryName: "तेल-घी", weight: "1 Litre", price: 165, mrp: 205, image: "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=500&auto=format&fit=crop&q=80" },
+
+      // 4. आटा, बेसन व दालें (Atta & Pulses)
+      { id: 18, title: "आशीर्वाद 100% शुद्ध चक्की ताजा आटा", brand: "Aashirvaad", cat: "grains", categoryName: "आटा व दालें", weight: "1 kg", price: 52, mrp: 65, image: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=500&auto=format&fit=crop&q=80" },
+      { id: 19, title: "फॉर्च्यून शरबती शुद्ध देशी गेहूं का आटा", brand: "Fortune", cat: "grains", categoryName: "आटा व दालें", weight: "5 kg", price: 275, mrp: 345, image: "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=500&auto=format&fit=crop&q=80" },
+      { id: 20, title: "टाटा सम्पन्न अनपॉलिश्ड अरहर / तुअर दाल", brand: "Tata Sampann", cat: "grains", categoryName: "आटा व दालें", weight: "500 g", price: 88, mrp: 110, image: "https://images.unsplash.com/photo-1585994192701-f1a505c8574a?w=500&auto=format&fit=crop&q=80" },
+      { id: 21, title: "राजधानी सुपरफाइन शुद्ध चना बेसन", brand: "Tata Sampann", cat: "grains", categoryName: "आटा व दालें", weight: "500 g", price: 55, mrp: 68, image: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=500&auto=format&fit=crop&q=80" },
+
+      // 5. पेय पदार्थ (Drinks & Juices)
+      { id: 22, title: "कोका-कोला ओरिजिनल चिल्ड टेस्ट", brand: "Coca-Cola", cat: "drinks", categoryName: "पेय पदार्थ", weight: "250 ml", price: 20, mrp: 20, image: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=500&auto=format&fit=crop&q=80" },
+      { id: 23, title: "थम्स अप तूफानी थंडर टेस्ट", brand: "Coca-Cola", cat: "drinks", categoryName: "पेय पदार्थ", weight: "250 ml", price: 20, mrp: 20, image: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=500&auto=format&fit=crop&q=80" },
+      { id: 24, title: "रियल फ्रूट पावर मिक्स्ड फ्रूट जूस", brand: "Coca-Cola", cat: "drinks", categoryName: "पेय पदार्थ", weight: "1 Litre", price: 115, mrp: 135, image: "https://images.unsplash.com/photo-1613478223719-2ab802602423?w=500&auto=format&fit=crop&q=80" },
+
+      // 6. स्नैक्स व बिस्कुट (Snacks & Munchies)
+      { id: 25, title: "हल्दीराम भुजिया सेव नमकीन", brand: "Haldiram's", cat: "snacks", categoryName: "स्नैक्स", weight: "200 g", price: 55, mrp: 65, image: "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=500&auto=format&fit=crop&q=80" },
+      { id: 26, title: "हल्दीराम ऑल-इन-वन टेस्टी मिक्सचर", brand: "Haldiram's", cat: "snacks", categoryName: "स्नैक्स", weight: "200 g", price: 50, mrp: 60, image: "https://images.unsplash.com/photo-1599488615731-7e5c2823ff28?w=500&auto=format&fit=crop&q=80" },
+      { id: 27, title: "लेज़ क्लासिक नमकीन / मैजिक मसाला", brand: "Haldiram's", cat: "snacks", categoryName: "स्नैक्स", weight: "50 g", price: 20, mrp: 20, image: "https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=500&auto=format&fit=crop&q=80" },
+      { id: 28, title: "कुरकुरे मसाला मंच (चटपटा क्रंच)", brand: "Haldiram's", cat: "snacks", categoryName: "स्नैक्स", weight: "75 g", price: 20, mrp: 20, image: "https://images.unsplash.com/photo-1621447504864-d8686e12698c?w=500&auto=format&fit=crop&q=80" },
+      { id: 29, title: "पारले-जी ओरिजिनल ग्लूकोज बिस्कुट", brand: "Haldiram's", cat: "snacks", categoryName: "स्नैक्स", weight: "250 g", price: 30, mrp: 35, image: "https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e?w=500&auto=format&fit=crop&q=80" },
+
+      // 7. नाश्ता व इंस्टेंट फूड (Breakfast & Noodles)
+      { id: 30, title: "मैगी 2-मिनट मसाला नूडल्स (फैमिली पैक)", brand: "Maggi", cat: "breakfast", categoryName: "नाश्ता", weight: "4-Pack (280g)", price: 54, mrp: 60, image: "https://images.unsplash.com/photo-1612927601601-6638404737ce?w=500&auto=format&fit=crop&q=80" },
+      { id: 31, title: "कैलॉग्स कॉर्न फ्लेक्स ओरिजिनल", brand: "Maggi", cat: "breakfast", categoryName: "नाश्ता", weight: "300 g", price: 115, mrp: 135, image: "https://images.unsplash.com/photo-1521483451569-e33803c0330c?w=500&auto=format&fit=crop&q=80" },
+
+      // 8. ड्राई फ्रूट्स (Dry Fruits & Nuts)
+      { id: 32, title: "प्रीमियम साबुत काजू दाना W240", brand: "Nutraj", cat: "dryfruits", categoryName: "ड्राई फ्रूट्स", weight: "250 g", price: 245, mrp: 310, image: "https://images.unsplash.com/photo-1508061257970-4a641c4f2dd8?w=500&auto=format&fit=crop&q=80" },
+      { id: 33, title: "कैलिफ़ोर्निया बादाम गिरी", brand: "Nutraj", cat: "dryfruits", categoryName: "ड्राई फ्रूट्स", weight: "250 g", price: 215, mrp: 275, image: "https://images.unsplash.com/photo-1508061252445-5350f3ab0a55?w=500&auto=format&fit=crop&q=80" },
+      { id: 34, title: "हरी मीठी किशमिश (Premium Raisins)", brand: "Nutraj", cat: "dryfruits", categoryName: "ड्राई फ्रूट्स", weight: "250 g", price: 120, mrp: 160, image: "https://images.unsplash.com/photo-1508061257970-4a641c4f2dd8?w=500&auto=format&fit=crop&q=80" }
+    ];
+
+    let stockStatusMap = {};
+    let customProducts = []; // localStorage: 'dkm_custom_products'
+
+    function getCategoryLabel(cat) {
+      const labels = {
+        grains: "चावल व दालें",
+        oils: "तेल व घी",
+        spices: "मसाले",
+        drinks: "पेय पदार्थ",
+        snacks: "स्नैक्स",
+        breakfast: "नाश्ता",
+        dryfruits: "ड्राई फ्रूट्स"
+      };
+      return labels[cat] || "किराना";
+    }
+
+    function loadInventoryCatalogData() {
+      // 1. स्टॉक स्थिति लोड करें
+      try {
+        const storedStock = localStorage.getItem("dkm_stock_status");
+        if (storedStock) {
+          stockStatusMap = JSON.parse(storedStock);
+        }
+      } catch (e) {}
+
+      // 2. कस्टम प्रोडक्ट्स व प्राइस/फ़ोटो बदलाव लोड करें
+      try {
+        const storedCustom = localStorage.getItem("dkm_custom_products");
+        if (storedCustom) {
+          const parsed = JSON.parse(storedCustom);
+          customProducts = Array.isArray(parsed) ? parsed : (parsed.items || parsed.newProducts || []);
+        } else {
+          customProducts = [];
+        }
+      } catch (e) {
+        customProducts = [];
+      }
+    }
+
+    function saveCustomProductsToStorage() {
+      try {
+        localStorage.setItem("dkm_custom_products", JSON.stringify(customProducts));
+      } catch (e) {
+        console.error("Error saving custom products:", e);
+      }
+    }
+
+    // एक्टिव कैटलॉग जनरेट करें (बेस कैटलॉग + प्राइस बदलाव + नए उत्पाद)
+    function getActiveCatalog() {
+      const catalog = CATALOG_PRODUCTS.map(p => ({ ...p }));
+
+      customProducts.forEach(item => {
+        if (!item || !item.id) return;
+        const existing = catalog.find(p => p.id == item.id);
+        if (existing) {
+          if (item.price !== undefined) existing.price = Number(item.price);
+          if (item.mrp !== undefined) existing.mrp = Number(item.mrp);
+          if (item.image) existing.image = item.image;
+          if (item.title) existing.title = item.title;
+        } else {
+          // नया उत्पाद
+          catalog.push({
+            id: item.id,
+            title: item.title,
+            brand: item.brand || "Digital Kirana",
+            cat: item.category || item.cat || "grains",
+            categoryName: item.categoryName || getCategoryLabel(item.category || item.cat),
+            weight: item.weight || (item.variants && item.variants[0] ? item.variants[0].weight : "1 kg"),
+            price: Number(item.price),
+            mrp: Number(item.mrp || Math.round(item.price * 1.25)),
+            image: item.image || "https://images.unsplash.com/photo-1542838132-92c53300491e?w=500&auto=format&fit=crop&q=80",
+            isCustom: true
+          });
+        }
+      });
+
+      return catalog;
+    }
+
+    function toggleStockStatus(productId) {
+      const current = stockStatusMap[productId] !== false; // डिफ़ॉल्ट true
+      stockStatusMap[productId] = !current;
+      try {
+        localStorage.setItem("dkm_stock_status", JSON.stringify(stockStatusMap));
+      } catch (e) {}
+      renderInventoryCatalog();
+    }
+
+    function renderInventoryCatalog() {
+      const container = document.getElementById("inventoryGridContainer");
+      const searchInput = document.getElementById("inventorySearchInput");
+      const query = searchInput ? searchInput.value.trim().toLowerCase() : "";
+
+      if (!container) return;
+
+      const activeCatalog = getActiveCatalog();
+
+      const filtered = activeCatalog.filter(p => {
+        return !query || 
+          p.title.toLowerCase().includes(query) || 
+          p.brand.toLowerCase().includes(query) || 
+          p.cat.toLowerCase().includes(query) ||
+          (p.categoryName && p.categoryName.toLowerCase().includes(query));
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="col-span-full py-12 text-center bg-slate-900 border border-slate-800 rounded-3xl p-6">
+            <i data-lucide="package-x" class="w-12 h-12 text-slate-600 mx-auto mb-2"></i>
+            <h4 class="text-sm font-bold text-slate-300 font-outfit">कोई उत्पाद नहीं मिला</h4>
+            <p class="text-xs text-slate-500 mt-1">खोजे गए नाम से मेल खाता कोई उत्पाद उपलब्ध नहीं है।</p>
+          </div>
+        `;
+        if (window.lucide) lucide.createIcons();
+        return;
+      }
+
+      container.innerHTML = filtered.map(p => {
+        const inStock = stockStatusMap[p.id] !== false;
+
+        return `
+          <div class="bg-slate-900 border ${inStock ? 'border-slate-800' : 'border-rose-900/40 bg-slate-950/80'} rounded-3xl p-4 shadow-sm flex flex-col justify-between space-y-3 transition">
+            
+            <div class="space-y-2">
+              <div class="flex items-center justify-between gap-2">
+                <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-slate-800 text-slate-300 font-outfit uppercase">${p.categoryName || p.cat}</span>
+                <div class="text-right">
+                  <span class="text-xs font-black text-amber-400 font-outfit">₹${p.price}</span>
+                  <span class="text-[10px] text-slate-500 line-through font-outfit ml-1">₹${p.mrp || Math.round(p.price * 1.25)}</span>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-3">
+                <img src="${p.image}" alt="${p.title}" class="w-12 h-12 rounded-xl object-cover border border-slate-700/80 bg-slate-800 shrink-0 ${inStock ? '' : 'grayscale opacity-60'}" onerror="this.src='https://placehold.co/100x100/f8fafc/0f172a?text=Item';">
+                <div class="min-w-0 flex-1">
+                  <div class="flex items-center gap-1.5">
+                    <span class="text-[10px] text-brand-400 font-extrabold uppercase font-outfit truncate">${p.brand || 'Kirana'}</span>
+                    ${p.isCustom ? '<span class="text-[9px] bg-amber-500/20 text-amber-300 border border-amber-500/30 px-1 rounded font-outfit">नया</span>' : ''}
+                  </div>
+                  <h4 class="text-xs font-bold text-white leading-tight line-clamp-2" title="${p.title}">${p.title}</h4>
+                  <div class="text-[10px] text-slate-400 font-outfit mt-0.5">${p.weight}</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ऐक्शन बटन्स: ✏️ एडिट करें + स्टॉक स्थिति टॉगल -->
+            <div class="grid grid-cols-2 gap-2 pt-1 border-t border-slate-800/80">
+              <button 
+                onclick="openEditProductModal('${p.id}')" 
+                type="button" 
+                class="py-2 px-2.5 rounded-xl font-bold text-[11px] flex items-center justify-center gap-1 transition active:scale-95 cursor-pointer font-outfit bg-slate-800 hover:bg-slate-700 text-amber-300 border border-slate-700"
+                title="मूल्य व फ़ोटो एडिट करें"
+              >
+                <i data-lucide="edit-3" class="w-3.5 h-3.5 text-amber-400"></i>
+                <span>✏️ एडिट</span>
+              </button>
+
+              <button 
+                onclick="toggleStockStatus('${p.id}')" 
+                type="button" 
+                class="py-2 px-2.5 rounded-xl font-bold text-[11px] flex items-center justify-center gap-1 transition active:scale-95 cursor-pointer font-outfit ${
+                  inStock 
+                    ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 hover:bg-emerald-500/30' 
+                    : 'bg-rose-500/20 text-rose-300 border border-rose-500/40 hover:bg-rose-500/30'
+                }"
+              >
+                <i data-lucide="${inStock ? 'check-circle-2' : 'alert-circle'}" class="w-3.5 h-3.5"></i>
+                <span>${inStock ? 'In Stock' : 'Out Stock'}</span>
+              </button>
+            </div>
+
+          </div>
+        `;
+      }).join("");
+
+      if (window.lucide) {
+        lucide.createIcons();
+      }
+    }
+
+    // ➕ 7b. नया उत्पाद जोड़ें मोडल लॉजिक (Add New Product Modal Functions)
+    function openAddProductModal() {
+      const modal = document.getElementById("addProductModal");
+      if (!modal) return;
+      document.getElementById("addNewProductForm").reset();
+      const preview = document.getElementById("newImagePreview");
+      if (preview) {
+        preview.src = "https://images.unsplash.com/photo-1542838132-92c53300491e?w=500&auto=format&fit=crop&q=80";
+      }
+      modal.classList.remove("hidden");
+      document.body.style.overflow = "hidden";
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function closeAddProductModal() {
+      const modal = document.getElementById("addProductModal");
+      if (modal) modal.classList.add("hidden");
+      document.body.style.overflow = "auto";
+    }
+
+    function updateNewImagePreview() {
+      const url = document.getElementById("newProdImage").value.trim();
+      const preview = document.getElementById("newImagePreview");
+      if (preview) {
+        preview.src = url || "https://images.unsplash.com/photo-1542838132-92c53300491e?w=500&auto=format&fit=crop&q=80";
+      }
+    }
+
+    function handleAddNewProductSubmit(e) {
+      e.preventDefault();
+      const title = document.getElementById("newProdTitle").value.trim();
+      const category = document.getElementById("newProdCategory").value;
+      const weight = document.getElementById("newProdWeight").value.trim();
+      const price = Number(document.getElementById("newProdPrice").value);
+      const mrp = Number(document.getElementById("newProdMrp").value);
+      let image = document.getElementById("newProdImage").value.trim();
+      if (!image) {
+        image = "https://images.unsplash.com/photo-1542838132-92c53300491e?w=500&auto=format&fit=crop&q=80";
+      }
+
+      if (!title || !price || !weight) {
+        alert("कृपया सभी आवश्यक फ़ील्ड भरें!");
+        return;
+      }
+
+      const newId = Date.now();
+      const newProductObj = {
+        id: newId,
+        title: title,
+        titleEn: title,
+        brand: "Digital Kirana",
+        category: category,
+        cat: category,
+        categoryName: getCategoryLabel(category),
+        weight: weight,
+        price: price,
+        mrp: mrp || Math.round(price * 1.25),
+        image: image,
+        rating: 4.9,
+        reviews: "100+",
+        tag: "नया उत्पाद (New)",
+        isCustom: true,
+        variants: [
+          {
+            weight: weight,
+            price: price,
+            mrp: mrp || Math.round(price * 1.25),
+            save: Math.max(0, (mrp || Math.round(price * 1.25)) - price)
+          }
+        ]
+      };
+
+      customProducts.push(newProductObj);
+      saveCustomProductsToStorage();
+
+      // नया उत्पाद स्वतः स्टॉक में सक्रिय करें
+      stockStatusMap[newId] = true;
+      try {
+        localStorage.setItem("dkm_stock_status", JSON.stringify(stockStatusMap));
+      } catch (err) {}
+
+      closeAddProductModal();
+      renderInventoryCatalog();
+      alert(`✅ नया उत्पाद '${title}' सफलतापूर्वक जोड़ दिया गया!`);
+    }
+
+    // ✏️ 7c. उत्पाद मूल्य व फ़ोटो एडिट मोडल (Edit Product Modal Functions)
+    function openEditProductModal(productId) {
+      const activeCatalog = getActiveCatalog();
+      const product = activeCatalog.find(p => p.id == productId);
+      if (!product) return;
+
+      const modal = document.getElementById("editProductModal");
+      if (!modal) return;
+
+      document.getElementById("editProdId").value = product.id;
+      document.getElementById("editProdTitleDisplay").innerText = product.title;
+      document.getElementById("editProdPrice").value = product.price;
+      document.getElementById("editProdMrp").value = product.mrp || Math.round(product.price * 1.25);
+      document.getElementById("editProdImage").value = product.image;
+
+      const preview = document.getElementById("editImagePreview");
+      if (preview) preview.src = product.image;
+
+      modal.classList.remove("hidden");
+      document.body.style.overflow = "hidden";
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function closeEditProductModal() {
+      const modal = document.getElementById("editProductModal");
+      if (modal) modal.classList.add("hidden");
+      document.body.style.overflow = "auto";
+    }
+
+    function updateEditImagePreview() {
+      const url = document.getElementById("editProdImage").value.trim();
+      const preview = document.getElementById("editImagePreview");
+      if (preview) {
+        preview.src = url || "https://placehold.co/100x100/f8fafc/0f172a?text=Item";
+      }
+    }
+
+    function handleEditProductSubmit(e) {
+      e.preventDefault();
+      const id = document.getElementById("editProdId").value;
+      const price = Number(document.getElementById("editProdPrice").value);
+      const mrp = Number(document.getElementById("editProdMrp").value);
+      const image = document.getElementById("editProdImage").value.trim();
+
+      if (!price || !image) {
+        alert("कृपया मूल्य व फ़ोटो लिंक दर्ज करें!");
+        return;
+      }
+
+      // देखें कि क्या यह उत्पाद पहले से customProducts में है
+      const existingIdx = customProducts.findIndex(p => p.id == id);
+      if (existingIdx !== -1) {
+        customProducts[existingIdx].price = price;
+        customProducts[existingIdx].mrp = mrp;
+        customProducts[existingIdx].image = image;
+        if (customProducts[existingIdx].variants && customProducts[existingIdx].variants.length > 0) {
+          customProducts[existingIdx].variants[0].price = price;
+          customProducts[existingIdx].variants[0].mrp = mrp;
+          customProducts[existingIdx].variants[0].save = Math.max(0, mrp - price);
+        }
+      } else {
+        // बेस कैटलॉग उत्पाद है, ओवरराइड रिकॉर्ड जोड़ें
+        const baseProd = CATALOG_PRODUCTS.find(p => p.id == id);
+        customProducts.push({
+          id: Number(id) || id,
+          title: baseProd ? baseProd.title : "",
+          price: price,
+          mrp: mrp,
+          image: image
+        });
+      }
+
+      saveCustomProductsToStorage();
+      closeEditProductModal();
+      renderInventoryCatalog();
+      alert("✅ उत्पाद मूल्य व फ़ोटो सफलतापूर्वक अपडेट हो गए!");
+    }
+
+    // ⌨️ मोडल कीबोर्ड 'Escape' व बैकड्रॉप क्लिक हैंडलर्स
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        closeAddProductModal();
+        closeEditProductModal();
+        document.body.style.overflow = "auto";
+      }
+    });
+
+    ["addProductModal", "editProductModal"].forEach(mId => {
+      const el = document.getElementById(mId);
+      if (el) {
+        el.addEventListener("click", function(event) {
+          if (event.target === this) {
+            this.classList.add("hidden");
+            document.body.style.overflow = "auto";
+          }
+        });
+      }
+    });
+
+    // 🔄 8. टैब स्विचिंग (Orders vs Inventory)
+    function switchAdminTab(tabName) {
+      const tabOrders = document.getElementById("tabContentOrders");
+      const tabInventory = document.getElementById("tabContentInventory");
+      const btnOrders = document.getElementById("tabBtnOrders");
+      const btnInventory = document.getElementById("tabBtnInventory");
+
+      if (tabName === 'orders') {
+        if (tabOrders) tabOrders.classList.remove("hidden");
+        if (tabInventory) tabInventory.classList.add("hidden");
+        if (btnOrders) {
+          btnOrders.className = "px-4 py-2.5 rounded-2xl font-black text-xs sm:text-sm flex items-center gap-2 transition cursor-pointer font-outfit bg-brand-600 text-white shadow-lg";
+        }
+        if (btnInventory) {
+          btnInventory.className = "px-4 py-2.5 rounded-2xl font-bold text-xs sm:text-sm flex items-center gap-2 transition cursor-pointer font-outfit bg-slate-900 text-slate-400 hover:text-white border border-slate-800";
+        }
+      } else {
+        if (tabOrders) tabOrders.classList.add("hidden");
+        if (tabInventory) tabInventory.classList.remove("hidden");
+        renderInventoryCatalog();
+        if (btnInventory) {
+          btnInventory.className = "px-4 py-2.5 rounded-2xl font-black text-xs sm:text-sm flex items-center gap-2 transition cursor-pointer font-outfit bg-brand-600 text-white shadow-lg";
+        }
+        if (btnOrders) {
+          btnOrders.className = "px-4 py-2.5 rounded-2xl font-bold text-xs sm:text-sm flex items-center gap-2 transition cursor-pointer font-outfit bg-slate-900 text-slate-400 hover:text-white border border-slate-800";
+        }
+      }
+
+      if (window.lucide) {
+        lucide.createIcons();
+      }
+    }
+
+    // ➕ 9. डेमो ऑर्डर्स सीडर (Seed Sample Orders for Instant Testing)
+    function seedSampleOrders(showAlert = true) {
+      const sampleOrders = [
+        {
+          orderId: "DKM-948102",
+          date: new Date().toLocaleDateString('hi-IN', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
+          deliverySlot: "⚡ तुरंत 15 मिनट डिलीवरी",
+          customer: {
+            name: "राजेश शर्मा",
+            phone: "9826012345",
+            address: "मकान नं. 14, आनंद नगर, मेन रोड, इंदौर",
+            landmark: "शिव मंदिर के पास",
+            pincode: "452001"
+          },
+          paymentMode: "COD",
+          items: [
+            { title: "इंडिया गेट क्लासिक बासमती चावल", weight: "5 kg", price: 920, quantity: 1, total: 920 },
+            { title: "एवरेस्ट तीखालाल शुद्ध लाल मिर्च पाउडर", weight: "250 g", price: 110, quantity: 2, total: 220 }
+          ],
+          subtotal: 1140,
+          deliveryFee: 0,
+          discount: 50,
+          grandTotal: 1090,
+          status: "⚡ नया ऑर्डर (Order Placed)"
+        },
+        {
+          orderId: "DKM-739281",
+          date: new Date(Date.now() - 35 * 60 * 1000).toLocaleDateString('hi-IN', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
+          deliverySlot: "⚡ तुरंत 15 मिनट डिलीवरी",
+          customer: {
+            name: "अमित वर्मा",
+            phone: "9893054321",
+            address: "फ्लैट 302, सिल्वर स्प्रिंग्स, बाईपास रोड, इंदौर",
+            landmark: "क्लब हाउस के सामने",
+            pincode: "452016"
+          },
+          paymentMode: "UPI",
+          items: [
+            { title: "अमूल स्पेशल शुद्ध देशी गाय का घी", weight: "1L टिन", price: 615, quantity: 1, total: 615 },
+            { title: "कैलिफ़ोर्निया प्रीमियम साबुत बादाम गिरी", weight: "500 g", price: 430, quantity: 1, total: 430 }
+          ],
+          subtotal: 1045,
+          deliveryFee: 0,
+          discount: 50,
+          grandTotal: 995,
+          status: "🛵 रास्ते में है (Out for Delivery)"
+        },
+        {
+          orderId: "DKM-618492",
+          date: new Date(Date.now() - 2 * 3600 * 1000).toLocaleDateString('hi-IN', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
+          deliverySlot: "🕒 आज शाम 6:00 - 8:00 बजे",
+          customer: {
+            name: "प्रिया पटेल",
+            phone: "9755011223",
+            address: "बंगलो 8, विजय नगर, स्कीम 54, इंदौर",
+            landmark: "मेघदूत गार्डन के पास",
+            pincode: "452010"
+          },
+          paymentMode: "COD",
+          items: [
+            { title: "आशीर्वाद 100% शुद्ध चक्की ताजा आटा", weight: "5 kg", price: 245, quantity: 2, total: 490 },
+            { title: "टाटा सम्पन्न अनपॉलिश्ड अरहर / तुअर दाल", weight: "1 kg", price: 172, quantity: 1, total: 172 }
+          ],
+          subtotal: 662,
+          deliveryFee: 0,
+          discount: 50,
+          grandTotal: 612,
+          status: "✅ सफलतापूर्वक डिलीवर हुआ (Delivered)"
+        }
+      ];
+
+      adminOrders = sampleOrders;
+      saveOrdersToStorage();
+      if (showAlert) {
+        alert("✅ 3 टेस्ट किराना ऑर्डर्स सफलतापूर्वक लोड कर दिए गए!");
+      }
+    }
+  </script>
+
+</body>
+</html>

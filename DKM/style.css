@@ -1,0 +1,338 @@
+/* ==========================================================================
+   DIGITAL KIRANA MART - ULTRA-PREMIUM STYLESHEET (style.css)
+   चरण 1: विशेष स्टाइलिंग, 3D ट्रस्ट कार्ड्स, कार्ट ड्रॉअर, एनिमेशन्स और @media print
+   ========================================================================== */
+
+/* -------------------------------------------------------------
+   1. स्मूथ स्क्रोलिंग और टाइपोग्राफी बिहेवियर
+   ------------------------------------------------------------- */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  background-color: #f8fafc;
+  overflow-x: hidden;
+}
+
+/* हेडिंग्स और कीमतों के लिए लग्ज़री 'Outfit' फॉन्ट */
+.font-outfit {
+  font-family: 'Outfit', 'Noto Sans Devanagari', sans-serif;
+}
+
+/* सेक्शन स्क्रोलिंग मार्जिन (स्टिकी नेवबार के लिए) */
+#productsSection, #lightningDealsSection, #quickListSection, #dealsSection, #parchiSection {
+  scroll-margin-top: 140px;
+}
+
+/* -------------------------------------------------------------
+   2. स्क्रॉलबार छिपाने की यूटिलिटी (No Scrollbar - Smooth Touch)
+   ------------------------------------------------------------- */
+.no-scrollbar::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+.no-scrollbar {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* -------------------------------------------------------------
+   3. सुंदर व पतला कस्टम स्क्रॉलबार (Dark Midnight Theme Compatible)
+   ------------------------------------------------------------- */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-track {
+  background: #090d16;
+}
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 9999px;
+  border: 1px solid #1e293b;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #f59e0b;
+}
+
+/* -------------------------------------------------------------
+   4. 3D ट्रस्ट कार्ड्स (Interactive Hover Elevation & Golden Glow)
+   माउस ले जाने पर उभार (-8px), एम्बर/गोल्डन ग्लो और आइकन पल्स
+   ------------------------------------------------------------- */
+.trust-card {
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), 
+              border-color 0.35s ease;
+  will-change: transform, box-shadow;
+  position: relative;
+  overflow: hidden;
+}
+
+.trust-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.75s ease;
+  pointer-events: none;
+}
+
+.trust-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(245, 158, 11, 0.6);
+  box-shadow: 0 20px 30px -10px rgba(245, 158, 11, 0.28), 
+              0 0 0 1.5px rgba(245, 158, 11, 0.45);
+}
+
+.trust-card:hover::after {
+  left: 100%;
+}
+
+.trust-card:hover .trust-icon-box {
+  transform: scale(1.15) rotate(-4deg);
+  background-color: #fef3c7;
+  color: #b45309;
+  box-shadow: 0 0 18px rgba(245, 158, 11, 0.45);
+}
+
+.trust-icon-box {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* -------------------------------------------------------------
+   5. फ्री डिलीवरी प्रोग्रेस बार की स्मूथ हरी पट्टी (Green Shimmer)
+   ------------------------------------------------------------- */
+@keyframes progressShimmer {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 40px 0;
+  }
+}
+
+.delivery-progress-active {
+  background: linear-gradient(
+    45deg,
+    #059669 25%,
+    #10b981 25%,
+    #10b981 50%,
+    #059669 50%,
+    #059669 75%,
+    #10b981 75%,
+    #10b981 100%
+  );
+  background-size: 20px 20px;
+  animation: progressShimmer 1.5s linear infinite;
+}
+
+.deal-progress-bar {
+  background: linear-gradient(90deg, #ef4444, #f59e0b);
+}
+
+/* -------------------------------------------------------------
+   6. कार्ट ड्रॉअर स्मूथ स्लाइड-इन एनिमेशन (Smooth Slide-Over Drawer)
+   ------------------------------------------------------------- */
+#cartDrawer {
+  transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+#cartBackdrop {
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* -------------------------------------------------------------
+   7. Blinkit स्टाइल विज़ुअल कैटेगरी सर्कुलर बटन्स
+   ------------------------------------------------------------- */
+.category-circle-btn {
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.category-circle-btn:hover .cat-img-box {
+  transform: scale(1.08) translateY(-3px);
+  box-shadow: 0 12px 22px -5px rgba(5, 150, 105, 0.3);
+  border-color: #10b981;
+}
+.category-circle-btn.active .cat-img-box {
+  border-color: #059669 !important;
+  background-color: #ecfdf5 !important;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.4) !important;
+  transform: scale(1.05);
+}
+.category-circle-btn.active .cat-title {
+  color: #047857 !important;
+  font-weight: 800;
+}
+
+/* -------------------------------------------------------------
+   8. 3D पुश बटन्स (Start Shopping और मुख्य ऐक्शन बटन्स)
+   ------------------------------------------------------------- */
+.btn-3d {
+  position: relative;
+  transition: all 0.15s ease-in-out;
+  box-shadow: 0 5px 0 0 #047857, 0 8px 15px 0 rgba(4, 120, 87, 0.3);
+}
+.btn-3d:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 0 0 #047857, 0 12px 20px 0 rgba(4, 120, 87, 0.35);
+}
+.btn-3d:active {
+  transform: translateY(4px);
+  box-shadow: 0 1px 0 0 #047857, 0 3px 6px 0 rgba(4, 120, 87, 0.2);
+}
+
+.btn-3d-amber {
+  position: relative;
+  transition: all 0.15s ease-in-out;
+  box-shadow: 0 5px 0 0 #b45309, 0 8px 15px 0 rgba(245, 158, 11, 0.35);
+}
+.btn-3d-amber:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 0 0 #b45309, 0 12px 20px 0 rgba(245, 158, 11, 0.4);
+}
+.btn-3d-amber:active {
+  transform: translateY(4px);
+  box-shadow: 0 1px 0 0 #b45309, 0 3px 6px 0 rgba(245, 158, 11, 0.2);
+}
+
+/* -------------------------------------------------------------
+   9. प्रोडक्ट कार्ड्स के लिए स्मूथ लिफ्ट इफ़ेक्ट
+   ------------------------------------------------------------- */
+.product-card {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 340px;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.25s ease, 
+              border-color 0.25s ease;
+}
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+}
+
+/* -------------------------------------------------------------
+   10. पल्स व फ्लेम इफेक्ट्स (Top Discounts & Deals)
+   ------------------------------------------------------------- */
+@keyframes flamePulse {
+  0%, 100% {
+    box-shadow: 0 0 12px rgba(245, 158, 11, 0.45);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 22px rgba(239, 68, 68, 0.7);
+    transform: scale(1.03);
+  }
+}
+.glow-flame {
+  animation: flamePulse 2s infinite ease-in-out;
+}
+
+@keyframes goldShimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+.gold-shimmer-badge {
+  background: linear-gradient(90deg, #b45309 0%, #f59e0b 50%, #b45309 100%);
+  background-size: 200% auto;
+  animation: goldShimmer 4s linear infinite;
+}
+
+/* -------------------------------------------------------------
+   11. मोबाइल स्टिकी बॉटम बार (Mobile Sticky Cart Bar)
+   ------------------------------------------------------------- */
+.mobile-cart-float {
+  box-shadow: 0 -4px 20px -2px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* -------------------------------------------------------------
+   12. अकाउंट मोडल टैब्स
+   ------------------------------------------------------------- */
+.account-tab-btn {
+  transition: all 0.2s ease;
+}
+.account-tab-btn.active {
+  color: #047857;
+  border-bottom: 3px solid #059669;
+  background-color: #ecfdf5;
+}
+
+/* -------------------------------------------------------------
+   13. फॉर्म वैलिडेशन एरर स्टेट (Form Validation Error Highlight)
+   सॉफ्ट रेड बॉर्डर व रिंग ताकि ग्राहक को त्रुटि तुरंत समझ आ सके
+   ------------------------------------------------------------- */
+.input-error {
+  border-color: #ef4444 !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.25) !important;
+}
+
+/* -------------------------------------------------------------
+   14. @media print — असली थर्मल स्टोर रसीद प्रिंटिंग स्टाइल
+   प्रिंट करते समय केवल बिल रसीद साफ़ दिखेगी, बाक़ी सब छुप जाएगा!
+   ------------------------------------------------------------- */
+@media print {
+  /* वेब पेज के सामान्य सेक्शंस को प्रिंट से छिपाएं */
+  header, 
+  aside, 
+  footer, 
+  #productsSection, 
+  #lightningDealsSection, 
+  #quickListSection, 
+  #visualCategoryBar, 
+  #brandPillsSection,
+  #cartBackdrop, 
+  #cartDrawer, 
+  #locationModal, 
+  #upiModal, 
+  #toastNotification, 
+  .no-print,
+  button:not(.print-allow) {
+    display: none !important;
+  }
+
+  /* बॉडी और बैकग्राउंड को शुद्ध सफ़ेद सेट करें */
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    font-family: 'Courier New', Courier, monospace, sans-serif !important;
+  }
+
+  /* प्रिंट बिल कंटेनर को 100% प्रिंट रेडी बनाएं */
+  .printable-receipt-area {
+    display: block !important;
+    position: static !important;
+    width: 100% !important;
+    max-width: 380px !important;
+    margin: 0 auto !important;
+    padding: 15px !important;
+    border: 1px dashed #000000 !important;
+    background: #ffffff !important;
+    box-shadow: none !important;
+  }
+
+  /* हेडिंग्स और बॉर्डर्स */
+  .printable-receipt-area * {
+    color: #000000 !important;
+    background: transparent !important;
+  }
+
+  .print-dashed-divider {
+    border-top: 1px dashed #000000 !important;
+    margin: 8px 0 !important;
+  }
+}

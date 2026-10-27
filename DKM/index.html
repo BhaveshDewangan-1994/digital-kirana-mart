@@ -1,0 +1,2187 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta name="google-site-verification" content="vlOr5JDGCJyzWT6-F6YYd1tbjvIOhehf2fQ6QQPNOSc" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digital Kirana Mart | शुद्ध देशी किराना, 15 मिनट सुपरफास्ट डिलीवरी</title>
+  <meta name="description" content="ताज़ा आटा, दालें, शुद्ध देशी घी, मसाले और दैनिक किराना 15 मिनट में आपके घर तक। कैश ऑन डिलीवरी (COD) व UPI सुविधा उपलब्ध।">
+  
+  <!-- 1. फेविकॉन (Favicon & Apple Touch Icon) -->
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="apple-touch-icon" href="logo.png">
+
+  <!-- 2. कैनोनिकल टैग (Canonical Tag for SEO) -->
+  <link rel="canonical" href="https://digital-kirana-mart.vercel.app/">
+
+  <!-- 3. सोशल शेयरिंग मेटा टैग्स (Open Graph - WhatsApp, Facebook) -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Digital Kirana Mart">
+  <meta property="og:title" content="Digital Kirana Mart | 100% शुद्ध देशी किराना & 15 मिनट डिलीवरी">
+  <meta property="og:description" content="ताज़ा आटा, दालें, शुद्ध देशी घी, मसाले और दैनिक किराना 15 मिनट में आपके घर तक। कैश ऑन डिलीवरी (COD) व UPI सुविधा उपलब्ध।">
+  <meta property="og:image" content="logo.png">
+  <meta property="og:url" content="https://digital-kirana-mart.vercel.app/">
+  <meta property="og:locale" content="hi_IN">
+
+  <!-- ट्विटर कार्ड्स (Twitter Cards) -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Digital Kirana Mart | सुपरफास्ट 15 मिनट किराना डिलीवरी">
+  <meta name="twitter:description" content="100% शुद्ध देशी उत्पाद, बेस्टसेलर डील्स और आसान WhatsApp ऑर्डर।">
+  <meta name="twitter:image" content="logo.png">
+  
+  <!-- Resource Hints (Eliminate Render Blocking & Speed Up Connections) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+  <link rel="dns-prefetch" href="https://images.unsplash.com">
+
+  <!-- Tailwind CSS CDN (आधुनिक स्टाइलिंग और रिस्पॉन्सिव ग्रिड के लिए) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Lucide Icons CDN (आधुनिक आइकन्स - Defer to eliminate render blocking) -->
+  <script src="https://unpkg.com/lucide@latest" defer></script>
+  
+  <!-- Streamlined Google Fonts: 'Outfit' (हेडिंग्स) + 'Plus Jakarta Sans' (बॉडी) with display=swap -->
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- कस्टम स्टाइलशीट (style.css) -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Tailwind कॉन्फ़िगरेशन -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', '"Noto Sans Devanagari"', 'sans-serif'],
+            outfit: ['"Outfit"', '"Noto Sans Devanagari"', 'sans-serif'],
+            heading: ['"Outfit"', '"Noto Sans Devanagari"', 'sans-serif'],
+          },
+          colors: {
+            midnight: {
+              900: '#090D16', // डीप लग्ज़री मिडनाइट स्लेट
+              950: '#05070B',
+            },
+            charcoal: {
+              900: '#0B0F19', // एग्जीक्यूटिव फुटर ब्लैक
+              800: '#131B2E',
+            },
+            brand: {
+              50: '#ecfdf5',
+              100: '#d1fae5',
+              400: '#34d399',
+              500: '#10b981',
+              600: '#059669', // Blinkit फ्रेश एमराल्ड ग्रीन
+              700: '#047857',
+              800: '#065f46',
+              900: '#064e3b',
+            },
+            festive: {
+              300: '#fcd34d',
+              400: '#fbbf24',
+              500: '#f59e0b', // Flipkart ऑरेंज-गोल्ड
+              600: '#d97706',
+              700: '#b45309'
+            }
+          },
+          boxShadow: {
+            'glow': '0 0 25px -5px rgba(16, 185, 129, 0.4)',
+            'glow-amber': '0 0 25px -5px rgba(245, 158, 11, 0.45)',
+            'glow-gold': '0 0 30px rgba(245, 158, 11, 0.35)',
+            'card-lift': '0 20px 30px -10px rgba(0, 0, 0, 0.08)'
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- 4. स्ट्रक्चर्ड डेटा स्कीमा (JSON-LD Local Business / Grocery Store Schema) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "GroceryStore",
+    "name": "Digital Kirana Mart",
+    "image": "logo.png",
+    "description": "Indore's leading digital supermarket providing pure staples, grains, oils, spices, snacks, and daily groceries with 15-minute doorstep delivery.",
+    "telephone": "+919826012345",
+    "priceRange": "₹₹",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Rajwada Market, M.G. Road",
+      "addressLocality": "Indore",
+      "addressRegion": "MP",
+      "postalCode": "452001",
+      "addressCountry": "IN"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 22.7196,
+      "longitude": 75.8577
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        "opens": "07:00",
+        "closes": "23:00"
+      }
+    ],
+    "paymentAccepted": ["Cash", "UPI", "Credit Card", "Debit Card"],
+    "currenciesAccepted": "INR",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.9",
+      "reviewCount": "1420"
+    }
+  }
+  </script>
+</head>
+<body id="top" class="bg-[#f8fafc] text-slate-800 font-sans antialiased selection:bg-brand-500 selection:text-white min-h-screen flex flex-col pb-16 sm:pb-0">
+
+  <!-- ==============================================================
+       1. लग्ज़री टॉप अनाउंसमेंट बार (Luxury Top Announcement Bar)
+       डीप मिडनाइट स्लेट (#090D16) + डिलीवरी टाइमर + "🔥 Top Discounts"
+       ============================================================== -->
+  <aside aria-label="घोषणा पट्टी" class="bg-[#090D16] text-white text-xs py-2 px-4 border-b border-slate-800/80 sticky top-0 z-50 shadow-md">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2.5 text-center sm:text-left">
+      
+      <!-- डिलीवरी मैसेज और 'Top Discounts' बटन -->
+      <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2.5 font-medium tracking-wide">
+        <span class="inline-flex items-center justify-center bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 font-black px-2.5 py-0.5 rounded-full text-[11px] shadow-sm animate-pulse">
+          ⚡ 15 मिनट डिलीवरी
+        </span>
+        <span class="text-slate-200">100% शुद्ध देशी किराना | थोक दरों पर घर बैठे</span>
+        
+        <!-- 🔥 Top Discounts / भारी छूट बटन -->
+        <a 
+          href="#lightningDealsSection" 
+          onclick="filterTopDiscounts()"
+          class="bg-gradient-to-r from-amber-400 via-orange-500 to-amber-500 hover:from-amber-300 hover:to-orange-400 text-slate-950 font-black text-[11px] px-3.5 py-1 rounded-full shadow-md hover:scale-105 transition flex items-center gap-1.5 glow-flame active:scale-95 cursor-pointer font-outfit"
+          title="सबसे ज्यादा छूट वाले सामान देखें"
+        >
+          <span>🔥</span>
+          <span class="tracking-wide">Top Discounts (50% तक छूट)</span>
+        </a>
+      </div>
+
+      <!-- हेल्पलाइन, समय और भाषा बदलने का बटन [ English | हिंदी ] -->
+      <div class="flex items-center justify-center sm:justify-end gap-2.5 sm:gap-3.5 text-xs text-slate-300 flex-wrap">
+        <a href="tel:18001235566" class="flex items-center gap-1.5 hover:text-amber-400 transition font-semibold">
+          <i data-lucide="phone-call" class="w-3.5 h-3.5 text-amber-400"></i>
+          <span class="font-outfit tracking-wide">1800-123-5566 (टोल फ्री)</span>
+        </a>
+        <span class="text-slate-700 hidden sm:inline">|</span>
+        <span class="hidden md:flex items-center gap-1 text-emerald-300 font-medium">
+          <i data-lucide="clock" class="w-3.5 h-3.5"></i>
+          <span>प्रातः 6:00 से रात्रि 11:00</span>
+        </span>
+
+        <!-- 🌐 भाषा बदलने का टॉगल बटन [ English | हिंदी ] -->
+        <button 
+          id="langToggleBtn" 
+          onclick="toggleLanguage()" 
+          type="button" 
+          class="flex items-center gap-1 px-2.5 py-1 text-[11px] rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-300 border border-slate-700 font-bold transition shrink-0 cursor-pointer shadow-xs group"
+          title="भाषा बदलें / Switch Language"
+        >
+          <i data-lucide="globe" class="w-3.5 h-3.5 text-amber-400 group-hover:rotate-12 transition-transform"></i>
+          <span class="font-outfit text-amber-300">English</span>
+          <span class="text-slate-500">|</span>
+          <span class="font-semibold text-white">हिंदी</span>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+
+  <!-- ==============================================================
+       2. एग्जीक्यूटिव स्मार्ट नेवबार (Executive Midnight Glass Navbar)
+       - डीप स्लेट बैकग्राउंड (#090D16)
+       - लोकेशन पिकर
+       - बड़ा Amazon-स्टाइल सर्च बार
+       - ग्राहक अकाउंट व My Cart बटन (लाइव बैज के साथ)
+       ============================================================== -->
+  <header class="sticky top-[37px] z-40 bg-[#090D16]/95 backdrop-blur-md border-b border-slate-800 text-white shadow-xl transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 py-3 sm:py-3.5">
+      <div class="flex items-center justify-between gap-2.5 sm:gap-4 md:gap-6">
+        
+        <!-- दुकान का लोगो (logo.png) और नाम (LCP Optimized with Width/Height & Fetchpriority) -->
+        <a href="#top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});" class="flex items-center gap-2.5 sm:gap-3 shrink-0 group">
+          <div class="rounded-2xl bg-white p-1 border-2 border-amber-400/50 shadow-glow-amber overflow-hidden flex items-center justify-center group-hover:scale-105 group-hover:border-amber-400 transition-all shrink-0">
+            <img src="logo.png" alt="Digital Kirana Mart Logo" width="140" height="46" fetchpriority="high" class="h-10 sm:h-11 w-auto object-contain shrink-0" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1542838132-92c53300491e?w=100&auto=format&fit=crop&q=60';">
+          </div>
+          <div class="flex flex-col">
+            <div class="flex items-center gap-1.5">
+              <span class="text-base sm:text-xl md:text-2xl font-black text-white tracking-tight font-outfit">
+                Digital <span class="text-amber-400">Kirana</span> Mart
+              </span>
+              <span class="bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 text-[10px] font-black px-1.5 py-0.5 rounded-md shadow-xs hidden lg:inline-block font-outfit">
+                LUXURY
+              </span>
+            </div>
+            <span class="text-[10px] sm:text-[11px] text-slate-400 font-medium hidden sm:inline-block">इंदौर की प्रीमियम सुपरफास्ट किराना सेवा</span>
+          </div>
+        </a>
+
+        <!-- डिलीवरी लोकेशन पिकर (Amazon स्टाइल) -->
+        <button onclick="openLocationModal()" type="button" class="hidden lg:flex items-center gap-2 px-3 py-2 rounded-2xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 text-left transition text-white shrink-0 group cursor-pointer">
+          <div class="w-8 h-8 rounded-xl bg-amber-500/10 group-hover:bg-amber-500/20 text-amber-400 flex items-center justify-center transition border border-amber-500/30">
+            <i data-lucide="map-pin" class="w-4 h-4 text-amber-400"></i>
+          </div>
+          <div>
+            <div class="text-[9px] uppercase font-extrabold text-slate-400 tracking-wider">डिलीवरी पता</div>
+            <div class="text-xs font-black text-slate-100 flex items-center gap-1 font-outfit">
+              <span id="currentLocationText">Indore - 452001</span>
+              <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400 group-hover:text-amber-400 transition"></i>
+            </div>
+          </div>
+        </button>
+
+        <!-- बड़ा सर्च बार (Amazon स्टाइल सर्च बार) -->
+        <div class="flex-1 max-w-xl relative hidden md:block">
+          <form onsubmit="event.preventDefault(); document.getElementById('productsSection').scrollIntoView({behavior: 'smooth'});" class="flex items-center rounded-2xl overflow-hidden border-2 border-amber-500/80 focus-within:border-amber-400 focus-within:ring-4 focus-within:ring-amber-500/20 bg-white transition-all shadow-md">
+            
+            <!-- कॉम्पैक्ट ऑल-कैटेगरी ड्रॉपडाउन -->
+            <div class="hidden sm:flex items-center bg-slate-100 hover:bg-slate-200 border-r border-slate-200 max-w-[85px] sm:max-w-[105px] px-2 py-1.5 text-[11px] font-bold text-slate-700 transition shrink-0">
+              <select id="searchCategorySelect" class="bg-transparent text-slate-800 font-bold cursor-pointer focus:outline-none truncate w-full text-[11px]">
+                <option value="all">सभी (All)</option>
+                <option value="grains">आटा, चावल व दालें</option>
+                <option value="oils">तेल व शुद्ध घी</option>
+                <option value="spices">मसाले</option>
+                <option value="drinks">Cold Drinks</option>
+                <option value="snacks">Snacks</option>
+                <option value="breakfast">Breakfast</option>
+                <option value="dryfruits">ड्राई फ्रूट्स</option>
+              </select>
+            </div>
+
+            <!-- सर्च इनपुट फ़ील्ड -->
+            <div class="relative flex-1 flex items-center">
+              <input 
+                type="text" 
+                id="searchInput" 
+                placeholder="सर्च करें: बासमती चावल, आशीर्वाद आटा, मैगी, कोका कोला, मसाले..." 
+                class="w-full pl-3.5 pr-8 py-2.5 text-xs font-medium text-slate-800 placeholder-slate-400 focus:outline-none"
+              >
+              <!-- क्लियर बटन -->
+              <button 
+                type="button" 
+                id="searchClearBtn" 
+                aria-label="सर्च साफ़ करें"
+                onclick="clearSearchInput()" 
+                class="hidden absolute right-2.5 text-slate-400 hover:text-slate-600 p-1 focus:outline-none focus:ring-2 focus:ring-amber-400 rounded-lg"
+                title="सर्च साफ़ करें"
+              >
+                <i data-lucide="x" class="w-4 h-4"></i>
+              </button>
+            </div>
+
+            <!-- बड़ा सर्च बटन -->
+            <button type="submit" aria-label="सर्च करें" class="bg-amber-500 hover:bg-amber-600 text-slate-950 px-4 py-2.5 transition flex items-center justify-center gap-1.5 font-black text-xs shrink-0 cursor-pointer focus:outline-none focus:ring-2 focus:ring-amber-400">
+              <i data-lucide="search" class="w-4 h-4"></i>
+              <span>खोजें</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- 👤 ग्राहक लॉगिन / माय अकाउंट बटन (Smart Account Button) -->
+        <button 
+          onclick="openAccountModal()" 
+          type="button" 
+          id="navbarUserBtn" 
+          class="flex items-center gap-2 px-2.5 sm:px-3 py-2 rounded-2xl border border-slate-700 bg-slate-900/80 hover:border-amber-400 hover:bg-slate-800 text-white transition shrink-0 group cursor-pointer"
+          title="माय प्रोफाइल व ऑर्डर्स"
+        >
+          <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-amber-500/10 group-hover:bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold border border-amber-500/30">
+            <i data-lucide="user" class="w-4 h-4 text-amber-400"></i>
+          </div>
+          <div class="text-left hidden xl:block">
+            <div class="text-[9px] text-slate-400 uppercase font-extrabold tracking-wider">Account</div>
+            <div id="navUserBtnText" class="text-xs font-black text-slate-200">Login / Sign In</div>
+          </div>
+        </button>
+
+        <!-- My Basket / Cart बटन (लाइव काउंट बैज के साथ) -->
+        <button 
+          onclick="toggleCartDrawer(true)" 
+          type="button" 
+          id="navbarCartBtn" 
+          class="relative flex items-center gap-2 sm:gap-2.5 bg-gradient-to-r from-emerald-600 to-brand-600 hover:from-emerald-500 hover:to-brand-500 text-white px-3 sm:px-4 py-2 sm:py-2.5 rounded-2xl shadow-lg hover:shadow-glow transition-all transform active:scale-95 shrink-0 border border-emerald-400/40 cursor-pointer"
+        >
+          <div class="relative">
+            <i data-lucide="shopping-bag" class="w-5 h-5 text-white"></i>
+            <span id="navCartCountBadge" class="absolute -top-2 -right-2 bg-amber-400 text-slate-950 font-black text-[10px] w-4.5 h-4.5 rounded-full flex items-center justify-center shadow-md font-outfit">
+              0
+            </span>
+          </div>
+
+          <div class="text-left leading-tight hidden xs:block">
+            <div class="text-[9px] text-emerald-200 font-extrabold uppercase tracking-wider">मेरी टोकरी</div>
+            <div id="navCartTotalText" class="text-xs sm:text-sm font-black text-white font-outfit">₹0</div>
+          </div>
+        </button>
+
+      </div>
+
+      <!-- मोबाइल सर्च बार (Mobile Search Row) -->
+      <div class="mt-2.5 md:hidden">
+        <form onsubmit="event.preventDefault(); document.getElementById('productsSection').scrollIntoView({behavior: 'smooth'});" class="flex items-center rounded-xl overflow-hidden border border-amber-500/70 bg-white shadow-xs">
+          <input 
+            type="text" 
+            id="mobileSearchInput"
+            placeholder="सर्च: बासमती, आटा, मसाले, मैगी..." 
+            class="w-full pl-3 pr-2 py-2 text-xs font-medium text-slate-800 placeholder-slate-400 focus:outline-none"
+          >
+          <button type="submit" aria-label="सर्च करें" class="bg-amber-500 text-slate-950 px-3.5 py-2 font-bold text-xs shrink-0 focus:outline-none focus:ring-2 focus:ring-amber-400">
+            <i data-lucide="search" class="w-3.5 h-3.5"></i>
+          </button>
+        </form>
+      </div>
+
+      <!-- मोबाइल लोकेशन व 15 मिनट डिलीवरी बार -->
+      <div class="mt-2 pt-1.5 border-t border-slate-800 flex lg:hidden items-center justify-between text-[11px] text-slate-300">
+        <button onclick="openLocationModal()" class="flex items-center gap-1 font-bold text-slate-200">
+          <i data-lucide="map-pin" class="w-3 h-3 text-amber-400"></i>
+          <span>डिलीवरी: <strong id="currentLocationTextMobile" class="text-white">Indore - 452001</strong></span>
+          <i data-lucide="chevron-down" class="w-3 h-3 text-slate-400"></i>
+        </button>
+        <span class="text-emerald-400 font-bold text-[10px] bg-emerald-950/60 border border-emerald-800/80 px-2 py-0.5 rounded-md">
+          ⚡ 15 मिनट डिलीवरी
+        </span>
+      </div>
+    </div>
+  </header>
+
+
+  <!-- ==============================================================
+       3. Blinkit स्टाइल विज़ुअल कैटेगरी बार (फ़ोटो + नाम)
+       - गोल (Circle) फ़ोटो वाले आकर्षक कैटेगरी बटन
+       - क्लिक करने पर नीचे प्रोडक्ट्स पर स्मूथ स्क्रोल
+       ============================================================== -->
+  <section class="bg-white border-b border-slate-200 py-3 sticky top-[108px] md:top-[118px] z-30 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="flex items-center gap-4 sm:gap-6 overflow-x-auto no-scrollbar py-1" id="visualCategoryBar">
+        
+        <!-- All Products -->
+        <button type="button" onclick="selectCategory('all', this, true)" data-category="all" class="category-circle-btn active flex flex-col items-center gap-1.5 shrink-0 group cursor-pointer focus:outline-none">
+          <div class="cat-img-box w-16 h-16 sm:w-18 sm:h-18 rounded-full border-2 border-brand-600 bg-brand-50 p-1 flex items-center justify-center transition-all overflow-hidden shadow-xs">
+            <span class="text-2xl">✨</span>
+          </div>
+          <span class="cat-title text-xs font-bold text-slate-800 text-center whitespace-nowrap">सभी उत्पाद</span>
+        </button>
+
+        <!-- आटा, चावल व दालें -->
+        <button type="button" onclick="selectCategory('grains', this, true)" data-category="grains" class="category-circle-btn flex flex-col items-center gap-1.5 shrink-0 group cursor-pointer focus:outline-none">
+          <div class="cat-img-box w-16 h-16 sm:w-18 sm:h-18 rounded-full border-2 border-slate-200 bg-slate-50 p-0.5 flex items-center justify-center transition-all overflow-hidden shadow-xs">
+            <img src="https://images.unsplash.com/photo-1586201375761-83865001e31c?w=150&auto=format&fit=crop&q=80" alt="आटा, चावल व दालें - Atta, Basmati Rice & Dals" onerror="this.onerror=null; this.src='https://placehold.co/400x400/f8fafc/0f172a?text=Fresh+Kirana';" class="w-full h-full object-cover rounded-full" loading="lazy" decoding="async">
+          </div>
+          <span class="cat-title text-xs font-bold text-slate-700 text-center whitespace-nowrap">आटा, चावल, दालें</span>
+        </button>
+
+        <!-- तेल व शुद्ध घी -->
+        <button type="button" onclick="selectCategory('oils', this, true)" data-category="oils" class="category-circle-btn flex flex-col items-center gap-1.5 shrink-0 group cursor-pointer focus:outline-none">
+          <div class="cat-img-box w-16 h-16 sm:w-18 sm:h-18 rounded-full border-2 border-slate-200 bg-slate-50 p-0.5 flex items-center justify-center transition-all overflow-hidden shadow-xs">
+            <img src="https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=180&auto=format&fit=crop&q=80" alt="सरसों तेल, रिफाइंड व शुद्ध देशी गाय का घी - Oils & Pure Ghee" onerror="this.onerror=null; this.src='https://placehold.co/400x400/f8fafc/0f172a?text=Fresh+Kirana';" class="w-full h-full object-cover rounded-full" loading="lazy" decoding="async">
+          </div>
+          <span class="cat-title text-xs font-bold text-slate-700 text-center whitespace-nowrap">तेल व शुद्ध घी</span>
+        </button>
+
+        <!-- मसाले व खड़े मसाले -->
+        <button type="button" onclick="selectCategory('spices', this, true)" data-category="spices" class="category-circle-btn flex flex-col items-center gap-1.5 shrink-0 group cursor-pointer focus:outline-none">
+          <div class="cat-img-box w-16 h-16 sm:w-18 sm:h-18 rounded-full border-2 border-slate-200 bg-slate-50 p-0.5 flex items-center justify-center transition-all overflow-hidden shadow-xs">
+            <img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=180&auto=format&fit=crop&q=80" alt="शुद्ध खड़े मसाले व पिसा मसाला - Spices & Whole Masala" onerror="this.onerror=null; this.src='https://placehold.co/400x400/f8fafc/0f172a?text=Fresh+Kirana';" class="w-full h-full object-cover rounded-full" loading="lazy" decoding="async">
+          </div>
+          <span class="cat-title text-xs font-bold text-slate-700 text-center whitespace-nowrap">मसाले व खड़े मसाले</span>
+        </button>
+
+        <!-- Cold Drinks & Juices -->
+        <button type="button" onclick="selectCategory('drinks', this, true)" data-category="drinks" class="category-circle-btn flex flex-col items-center gap-1.5 shrink-0 group cursor-pointer focus:outline-none">
+          <div class="cat-img-box w-16 h-16 sm:w-18 sm:h-18 rounded-full border-2 border-slate-200 bg-slate-50 p-0.5 flex items-center justify-center transition-all overflow-hidden shadow-xs">
+            <img src="https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=150&auto=format&fit=crop&q=80" alt="कोल्ड ड्रिंक्स व फ्रेश जूस - Cold Drinks & Natural Fruit Juices" onerror="this.onerror=null; this.src='https://placehold.co/400x400/f8fafc/0f172a?text=Fresh+Kirana';" class="w-full h-full object-cover rounded-full" loading="lazy" decoding="async">
+          </div>
+          <span class="cat-title text-xs font-bold text-slate-700 text-center whitespace-nowrap">Cold Drinks & Juices</span>
+        </button>
+
+        <!-- Snacks & Munchies -->
+        <button type="button" onclick="selectCategory('snacks', this, true)" data-category="snacks" class="category-circle-btn flex flex-col items-center gap-1.5 shrink-0 group cursor-pointer focus:outline-none">
+          <div class="cat-img-box w-16 h-16 sm:w-18 sm:h-18 rounded-full border-2 border-slate-200 bg-slate-50 p-0.5 flex items-center justify-center transition-all overflow-hidden shadow-xs">
+            <img src="https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=150&auto=format&fit=crop&q=80" alt="स्नैक्स, हल्दीराम भुजिया व चिप्स - Snacks & Munchies" onerror="this.onerror=null; this.src='https://placehold.co/400x400/f8fafc/0f172a?text=Fresh+Kirana';" class="w-full h-full object-cover rounded-full" loading="lazy" decoding="async">
+          </div>
+          <span class="cat-title text-xs font-bold text-slate-700 text-center whitespace-nowrap">Snacks & Munchies</span>
+        </button>
+
+        <!-- Breakfast & Instant Food -->
+        <button type="button" onclick="selectCategory('breakfast', this, true)" data-category="breakfast" class="category-circle-btn flex flex-col items-center gap-1.5 shrink-0 group cursor-pointer focus:outline-none">
+          <div class="cat-img-box w-16 h-16 sm:w-18 sm:h-18 rounded-full border-2 border-slate-200 bg-slate-50 p-0.5 flex items-center justify-center transition-all overflow-hidden shadow-xs">
+            <img src="https://images.unsplash.com/photo-1612927601601-6638404737ce?w=150&auto=format&fit=crop&q=80" alt="नाश्ता, मैगी नूडल्स व कॉर्नफ्लेक्स - Breakfast & Maggi Noodles" onerror="this.onerror=null; this.src='https://placehold.co/400x400/f8fafc/0f172a?text=Fresh+Kirana';" class="w-full h-full object-cover rounded-full" loading="lazy" decoding="async">
+          </div>
+          <span class="cat-title text-xs font-bold text-slate-700 text-center whitespace-nowrap">Breakfast & Maggi</span>
+        </button>
+
+        <!-- ड्राई फ्रूट्स -->
+        <button type="button" onclick="selectCategory('dryfruits', this, true)" data-category="dryfruits" class="category-circle-btn flex flex-col items-center gap-1.5 shrink-0 group cursor-pointer focus:outline-none">
+          <div class="cat-img-box w-16 h-16 sm:w-18 sm:h-18 rounded-full border-2 border-slate-200 bg-slate-50 p-0.5 flex items-center justify-center transition-all overflow-hidden shadow-xs">
+            <img src="https://images.unsplash.com/photo-1508061257970-4a641c4f2dd8?w=150&auto=format&fit=crop&q=80" alt="प्रीमियम काजू, बादाम व किशमिश - Dry Fruits & Nuts" onerror="this.onerror=null; this.src='https://placehold.co/400x400/f8fafc/0f172a?text=Fresh+Kirana';" class="w-full h-full object-cover rounded-full" loading="lazy" decoding="async">
+          </div>
+          <span class="cat-title text-xs font-bold text-slate-700 text-center whitespace-nowrap">ड्राई फ्रूट्स</span>
+        </button>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- मल्टी-ब्रांड सेलेक्टर बार -->
+  <section class="bg-slate-100/80 border-b border-slate-200 py-2">
+    <div class="max-w-7xl mx-auto px-4 flex items-center gap-2 overflow-x-auto no-scrollbar">
+      <span class="text-[11px] font-extrabold uppercase tracking-wider text-slate-500 whitespace-nowrap flex items-center gap-1 font-outfit">
+        <i data-lucide="badge-check" class="w-3.5 h-3.5 text-brand-600"></i>
+        <span>पसंदीदा ब्रांड:</span>
+      </span>
+
+      <div class="flex items-center gap-1.5" id="brandPillsList">
+        <button type="button" onclick="selectBrand('all', this)" class="brand-pill active px-3 py-1 rounded-lg text-xs font-bold whitespace-nowrap bg-slate-800 text-white transition cursor-pointer">
+          सभी ब्रांड
+        </button>
+        <button type="button" onclick="selectBrand('India Gate', this)" class="brand-pill px-3 py-1 rounded-lg text-xs font-bold whitespace-nowrap bg-white hover:bg-slate-200 text-slate-700 border border-slate-200 transition cursor-pointer">
+          India Gate
+        </button>
+        <button type="button" onclick="selectBrand('Daawat', this)" class="brand-pill px-3 py-1 rounded-lg text-xs font-bold whitespace-nowrap bg-white hover:bg-slate-200 text-slate-700 border border-slate-200 transition cursor-pointer">
+          Daawat
+        </button>
+        <button type="button" onclick="selectBrand('Aashirvaad', this)" class="brand-pill px-3 py-1 rounded-lg text-xs font-bold whitespace-nowrap bg-white hover:bg-slate-200 text-slate-700 border border-slate-200 transition cursor-pointer">
+          Aashirvaad
+        </button>
+        <button type="button" onclick="selectBrand('Tata Sampann', this)" class="brand-pill px-3 py-1 rounded-lg text-xs font-bold whitespace-nowrap bg-white hover:bg-slate-200 text-slate-700 border border-slate-200 transition cursor-pointer">
+          Tata Sampann
+        </button>
+        <button type="button" onclick="selectBrand('Fortune', this)" class="brand-pill px-3 py-1 rounded-lg text-xs font-bold whitespace-nowrap bg-white hover:bg-slate-200 text-slate-700 border border-slate-200 transition cursor-pointer">
+          Fortune
+        </button>
+        <button type="button" onclick="selectBrand('Everest', this)" class="brand-pill px-3 py-1 rounded-lg text-xs font-bold whitespace-nowrap bg-white hover:bg-slate-200 text-slate-700 border border-slate-200 transition cursor-pointer">
+          Everest
+        </button>
+        <button type="button" onclick="selectBrand('MDH', this)" class="brand-pill px-3 py-1 rounded-lg text-xs font-bold whitespace-nowrap bg-white hover:bg-slate-200 text-slate-700 border border-slate-200 transition cursor-pointer">
+          MDH
+        </button>
+        <button type="button" onclick="selectBrand('Haldiram\'s', this)" class="brand-pill px-3 py-1 rounded-lg text-xs font-bold whitespace-nowrap bg-white hover:bg-slate-200 text-slate-700 border border-slate-200 transition cursor-pointer">
+          Haldiram's
+        </button>
+        <button type="button" onclick="selectBrand('Maggi', this)" class="brand-pill px-3 py-1 rounded-lg text-xs font-bold whitespace-nowrap bg-white hover:bg-slate-200 text-slate-700 border border-slate-200 transition cursor-pointer">
+          Maggi
+        </button>
+        <button type="button" onclick="selectBrand('Coca-Cola', this)" class="brand-pill px-3 py-1 rounded-lg text-xs font-bold whitespace-nowrap bg-white hover:bg-slate-200 text-slate-700 border border-slate-200 transition cursor-pointer">
+          Coca-Cola
+        </button>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ==============================================================
+       4. Amazon स्टाइल "🔥 महा-बचत धमाका (Top Lightning Deals)"
+       लाइव काउंटडाउन टाइमर + क्लेम्ड प्रोग्रेस बार + सीधे Add विकल्प
+       ============================================================== -->
+  <section id="lightningDealsSection" class="max-w-7xl mx-auto px-4 pt-6 pb-2">
+    <!-- Anchor alias for #dealsSection -->
+    <div id="dealsSection" class="scroll-mt-36"></div>
+    <div class="bg-gradient-to-br from-amber-500/10 via-orange-500/5 to-transparent rounded-3xl border border-amber-300/80 p-5 sm:p-7 shadow-lg relative overflow-hidden">
+      
+      <!-- हेडर: टाइटल + लाइव टाइमर + स्पेशल बैज -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-amber-200/70">
+        <div class="space-y-1">
+          <div class="flex items-center gap-2">
+            <span class="gold-shimmer-badge text-slate-950 font-black text-[11px] uppercase tracking-wider px-3 py-0.5 rounded-full shadow-xs font-outfit">
+              UP TO 50% OFF
+            </span>
+            <span class="text-xs font-bold text-amber-800 bg-amber-100/80 px-2.5 py-0.5 rounded-full border border-amber-200">
+              सीमित समय की लूट
+            </span>
+          </div>
+          <h2 class="text-xl sm:text-2xl md:text-3xl font-black text-slate-900 flex items-center gap-2 font-outfit">
+            <span>🔥 महा-बचत धमाका (Top Lightning Deals)</span>
+          </h2>
+          <p class="text-xs text-slate-600">सीमित स्टॉक! आज के सबसे भारी छूट वाले 4 चुनिंदा किराना उत्पाद</p>
+        </div>
+
+        <!-- लाइव काउंटडाउन टाइमर -->
+        <div class="flex items-center gap-2.5 bg-slate-950 text-white px-4 py-2.5 rounded-2xl shadow-md border border-amber-500/40 shrink-0 self-start sm:self-auto">
+          <i data-lucide="timer" class="w-5 h-5 text-amber-400 animate-pulse"></i>
+          <div>
+            <div class="text-[9px] uppercase tracking-wider text-slate-400 font-bold">डील समाप्त होने में:</div>
+            <div id="lightningDealTimer" class="text-sm sm:text-base font-black text-amber-400 font-outfit tracking-wider">
+              03h : 45m : 12s
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 लाइटनिंग डील कार्ड्स ग्रिड -->
+      <div id="lightningDealsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+        
+        <!-- डील कार्ड 1: बासमती चावल -->
+        <div class="bg-white rounded-3xl border border-slate-200/90 p-4 flex flex-col justify-between shadow-sm hover:shadow-xl hover:border-amber-500/50 transition-all duration-300 relative group">
+          <div>
+            <div class="flex items-center justify-between gap-1 mb-2.5">
+              <span class="bg-gradient-to-r from-red-600 to-amber-500 text-white font-black text-[10px] sm:text-[11px] px-2.5 py-0.5 rounded-lg shadow-xs flex items-center gap-1 font-outfit">
+                <i data-lucide="zap" class="w-3 h-3 fill-current"></i>
+                <span>Save ₹230</span>
+              </span>
+              <span class="text-[10px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200">
+                ⚡ बिजली डील
+              </span>
+            </div>
+
+            <div class="relative w-full h-36 sm:h-40 rounded-2xl overflow-hidden bg-slate-100 mb-3 flex items-center justify-center p-2 border border-slate-100 aspect-[4/3] sm:aspect-auto">
+              <img src="https://images.unsplash.com/photo-1586201375761-83865001e31c?w=500&auto=format&fit=crop&q=80" alt="India Gate Basmati Rice (5kg) - इंडिया गेट क्लासिक बासमती चावल" width="280" height="160" fetchpriority="high" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/400x400/f8fafc/0f172a?text=Fresh+Kirana';" class="w-full h-full object-cover rounded-xl group-hover:scale-108 transition-transform duration-300">
+              <div class="absolute bottom-2 left-2 bg-slate-900/80 backdrop-blur-xs text-[10px] font-bold text-white px-2 py-0.5 rounded-md shadow-xs">
+                5 kg पैक
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between text-[11px] text-slate-500 mb-1">
+              <span class="font-extrabold text-brand-700 uppercase tracking-wider font-outfit">INDIA GATE</span>
+              <span class="flex items-center gap-0.5 text-amber-500 font-bold">★ 4.9</span>
+            </div>
+
+            <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-snug line-clamp-2">
+              इंडिया गेट क्लासिक बासमती चावल (Aged Rice)
+            </h4>
+
+            <div class="mt-3 space-y-1">
+              <div class="flex justify-between text-[10px] font-extrabold text-slate-500 font-outfit">
+                <span class="text-red-600 font-bold">78% बिक चुका</span>
+                <span class="text-slate-400">सीमित स्टॉक</span>
+              </div>
+              <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden border border-slate-200">
+                <div class="deal-progress-bar h-2 rounded-full" style="width: 78%"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+            <div>
+              <div class="flex items-baseline gap-1.5">
+                <span class="text-base sm:text-lg font-black text-slate-900 font-outfit">₹920</span>
+                <span class="text-xs text-slate-400 line-through font-outfit">₹1150</span>
+              </div>
+            </div>
+            <button onclick="document.getElementById('cartDrawer').classList.remove('translate-x-full'); document.getElementById('cartBackdrop').classList.remove('opacity-0', 'pointer-events-none'); document.body.style.overflow='hidden';" type="button" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs px-3.5 py-2 rounded-xl shadow-xs transition active:scale-95 flex items-center gap-1 shrink-0 cursor-pointer font-outfit">
+              <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+              <span>लूटें (Add)</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- डील कार्ड 2: अमूल शुद्ध घी -->
+        <div class="bg-white rounded-3xl border border-slate-200/90 p-4 flex flex-col justify-between shadow-sm hover:shadow-xl hover:border-amber-500/50 transition-all duration-300 relative group">
+          <div>
+            <div class="flex items-center justify-between gap-1 mb-2.5">
+              <span class="bg-gradient-to-r from-red-600 to-amber-500 text-white font-black text-[10px] sm:text-[11px] px-2.5 py-0.5 rounded-lg shadow-xs flex items-center gap-1 font-outfit">
+                <i data-lucide="zap" class="w-3 h-3 fill-current"></i>
+                <span>Save ₹85</span>
+              </span>
+              <span class="text-[10px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200">
+                ⚡ 15 मिनट
+              </span>
+            </div>
+
+            <div class="relative w-full h-36 sm:h-40 rounded-2xl overflow-hidden bg-slate-100 mb-3 flex items-center justify-center p-2 border border-slate-100 aspect-[4/3] sm:aspect-auto">
+              <img src="https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?w=500&auto=format&fit=crop&q=80" alt="Amul Pure Cow Ghee (1L) - अमूल 100% शुद्ध देशी गाय का घी" width="280" height="160" onerror="this.onerror=null; this.src='https://placehold.co/400x400/f8fafc/0f172a?text=Fresh+Kirana';" class="w-full h-full object-cover rounded-xl group-hover:scale-108 transition-transform duration-300" loading="lazy" decoding="async">
+              <div class="absolute bottom-2 left-2 bg-slate-900/80 backdrop-blur-xs text-[10px] font-bold text-white px-2 py-0.5 rounded-md shadow-xs">
+                1 Litre टिन
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between text-[11px] text-slate-500 mb-1">
+              <span class="font-extrabold text-brand-700 uppercase tracking-wider font-outfit">AMUL</span>
+              <span class="flex items-center gap-0.5 text-amber-500 font-bold">★ 4.9</span>
+            </div>
+
+            <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-snug line-clamp-2">
+              अमूल 100% शुद्ध देशी गाय का घी (Pure Cow Ghee)
+            </h4>
+
+            <div class="mt-3 space-y-1">
+              <div class="flex justify-between text-[10px] font-extrabold text-slate-500 font-outfit">
+                <span class="text-red-600 font-bold">86% बिक चुका</span>
+                <span class="text-slate-400">सीमित स्टॉक</span>
+              </div>
+              <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden border border-slate-200">
+                <div class="deal-progress-bar h-2 rounded-full" style="width: 86%"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+            <div>
+              <div class="flex items-baseline gap-1.5">
+                <span class="text-base sm:text-lg font-black text-slate-900 font-outfit">₹615</span>
+                <span class="text-xs text-slate-400 line-through font-outfit">₹700</span>
+              </div>
+            </div>
+            <button onclick="document.getElementById('cartDrawer').classList.remove('translate-x-full'); document.getElementById('cartBackdrop').classList.remove('opacity-0', 'pointer-events-none'); document.body.style.overflow='hidden';" type="button" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs px-3.5 py-2 rounded-xl shadow-xs transition active:scale-95 flex items-center gap-1 shrink-0 cursor-pointer font-outfit">
+              <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+              <span>लूटें (Add)</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- डील कार्ड 3: कैलिफ़ोर्निया बादाम -->
+        <div class="bg-white rounded-3xl border border-slate-200/90 p-4 flex flex-col justify-between shadow-sm hover:shadow-xl hover:border-amber-500/50 transition-all duration-300 relative group">
+          <div>
+            <div class="flex items-center justify-between gap-1 mb-2.5">
+              <span class="bg-gradient-to-r from-red-600 to-amber-500 text-white font-black text-[10px] sm:text-[11px] px-2.5 py-0.5 rounded-lg shadow-xs flex items-center gap-1 font-outfit">
+                <i data-lucide="zap" class="w-3 h-3 fill-current"></i>
+                <span>Save ₹120</span>
+              </span>
+              <span class="text-[10px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200">
+                ⚡ सुपरफूड
+              </span>
+            </div>
+
+            <div class="relative w-full h-36 sm:h-40 rounded-2xl overflow-hidden bg-slate-100 mb-3 flex items-center justify-center p-2 border border-slate-100 aspect-[4/3] sm:aspect-auto">
+              <img src="https://images.unsplash.com/photo-1508061252445-5350f3ab0a55?w=500&auto=format&fit=crop&q=80" alt="Nutraj California Raw Almonds (500g) - कैलिफ़ोर्निया बादाम Giri" width="280" height="160" onerror="this.onerror=null; this.src='https://placehold.co/400x400/f8fafc/0f172a?text=Fresh+Kirana';" class="w-full h-full object-cover rounded-xl group-hover:scale-108 transition-transform duration-300" loading="lazy" decoding="async">
+              <div class="absolute bottom-2 left-2 bg-slate-900/80 backdrop-blur-xs text-[10px] font-bold text-white px-2 py-0.5 rounded-md shadow-xs">
+                500 g पैक
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between text-[11px] text-slate-500 mb-1">
+              <span class="font-extrabold text-brand-700 uppercase tracking-wider font-outfit">NUTRAJ</span>
+              <span class="flex items-center gap-0.5 text-amber-500 font-bold">★ 4.9</span>
+            </div>
+
+            <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-snug line-clamp-2">
+              कैलिफ़ोर्निया प्रीमियम साबुत बादाम गिरी (Raw Almonds)
+            </h4>
+
+            <div class="mt-3 space-y-1">
+              <div class="flex justify-between text-[10px] font-extrabold text-slate-500 font-outfit">
+                <span class="text-red-600 font-bold">92% बिक चुका</span>
+                <span class="text-slate-400">आखरी 15 पीस</span>
+              </div>
+              <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden border border-slate-200">
+                <div class="deal-progress-bar h-2 rounded-full" style="width: 92%"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+            <div>
+              <div class="flex items-baseline gap-1.5">
+                <span class="text-base sm:text-lg font-black text-slate-900 font-outfit">₹430</span>
+                <span class="text-xs text-slate-400 line-through font-outfit">₹550</span>
+              </div>
+            </div>
+            <button onclick="document.getElementById('cartDrawer').classList.remove('translate-x-full'); document.getElementById('cartBackdrop').classList.remove('opacity-0', 'pointer-events-none'); document.body.style.overflow='hidden';" type="button" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs px-3.5 py-2 rounded-xl shadow-xs transition active:scale-95 flex items-center gap-1 shrink-0 cursor-pointer font-outfit">
+              <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+              <span>लूटें (Add)</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- डील कार्ड 4: फार्च्यून सनफ्लावर तेल -->
+        <div class="bg-white rounded-3xl border border-slate-200/90 p-4 flex flex-col justify-between shadow-sm hover:shadow-xl hover:border-amber-500/50 transition-all duration-300 relative group">
+          <div>
+            <div class="flex items-center justify-between gap-1 mb-2.5">
+              <span class="bg-gradient-to-r from-red-600 to-amber-500 text-white font-black text-[10px] sm:text-[11px] px-2.5 py-0.5 rounded-lg shadow-xs flex items-center gap-1 font-outfit">
+                <i data-lucide="zap" class="w-3 h-3 fill-current"></i>
+                <span>Save ₹45</span>
+              </span>
+              <span class="text-[10px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200">
+                ⚡ बेस्टसेलर
+              </span>
+            </div>
+
+            <div class="relative w-full h-36 sm:h-40 rounded-2xl overflow-hidden bg-slate-100 mb-3 flex items-center justify-center p-2 border border-slate-100 aspect-[4/3] sm:aspect-auto">
+              <img src="https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=500&auto=format&fit=crop&q=80" alt="Fortune Sunflower Oil (1L) - फॉर्च्यून सनफ्लावर कुकिंग ऑइल" width="280" height="160" onerror="this.onerror=null; this.src='https://placehold.co/400x400/f8fafc/0f172a?text=Fresh+Kirana';" class="w-full h-full object-cover rounded-xl group-hover:scale-108 transition-transform duration-300" loading="lazy" decoding="async">
+              <div class="absolute bottom-2 left-2 bg-slate-900/80 backdrop-blur-xs text-[10px] font-bold text-white px-2 py-0.5 rounded-md shadow-xs">
+                1 Litre पाउच
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between text-[11px] text-slate-500 mb-1">
+              <span class="font-extrabold text-brand-700 uppercase tracking-wider font-outfit">FORTUNE</span>
+              <span class="flex items-center gap-0.5 text-amber-500 font-bold">★ 4.8</span>
+            </div>
+
+            <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-snug line-clamp-2">
+              फॉर्च्यून सनलाइट रिफाइंड सनफ्लावर कुकिंग ऑइल
+            </h4>
+
+            <div class="mt-3 space-y-1">
+              <div class="flex justify-between text-[10px] font-extrabold text-slate-500 font-outfit">
+                <span class="text-red-600 font-bold">69% बिक चुका</span>
+                <span class="text-slate-400">सीमित स्टॉक</span>
+              </div>
+              <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden border border-slate-200">
+                <div class="deal-progress-bar h-2 rounded-full" style="width: 69%"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+            <div>
+              <div class="flex items-baseline gap-1.5">
+                <span class="text-base sm:text-lg font-black text-slate-900 font-outfit">₹145</span>
+                <span class="text-xs text-slate-400 line-through font-outfit">₹190</span>
+              </div>
+            </div>
+            <button onclick="document.getElementById('cartDrawer').classList.remove('translate-x-full'); document.getElementById('cartBackdrop').classList.remove('opacity-0', 'pointer-events-none'); document.body.style.overflow='hidden';" type="button" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs px-3.5 py-2 rounded-xl shadow-xs transition active:scale-95 flex items-center gap-1 shrink-0 cursor-pointer font-outfit">
+              <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+              <span>लूटें (Add)</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ==============================================================
+       5. "हाथ से लिखी पर्ची भेजो" बैनर (Send Handwritten Grocery List)
+       "किराना लिस्ट टाइप करने का समय नहीं? पर्ची का फोटो WhatsApp पर भेजें!"
+       ============================================================== -->
+  <section id="quickListSection" class="max-w-7xl mx-auto px-4 py-5">
+    <!-- Anchor alias for #parchiSection -->
+    <div id="parchiSection" class="scroll-mt-36"></div>
+    <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-emerald-900 via-brand-800 to-slate-950 text-white p-6 sm:p-8 md:p-9 shadow-xl border border-emerald-600/40">
+      
+      <!-- बैकग्राउंड डेकोरेशन ग्लो -->
+      <div class="absolute -right-10 -bottom-10 w-72 h-72 bg-emerald-500/20 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -left-10 -top-10 w-60 h-60 bg-amber-500/15 rounded-full blur-2xl pointer-events-none"></div>
+
+      <div class="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-6">
+        
+        <div class="space-y-3 text-center lg:text-left max-w-2xl">
+          <div class="inline-flex items-center gap-2 bg-emerald-500/20 border border-emerald-400 text-emerald-300 px-3.5 py-1 rounded-full text-xs font-black tracking-wide font-outfit">
+            <span>📝 सुपरफास्ट सुविधा</span>
+            <span>•</span>
+            <span>नो टाइपिंग, नो झंझट</span>
+          </div>
+
+          <h3 class="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight leading-tight font-outfit">
+            किराना लिस्ट टाइप करने का समय नहीं? <br class="hidden sm:inline">
+            <span class="text-amber-400 underline decoration-wavy decoration-amber-400">हाथ से लिखी पर्ची</span> WhatsApp पर भेजें!
+          </h3>
+
+          <p class="text-slate-200 text-xs sm:text-sm leading-relaxed">
+            कागज़ पर अपनी ज़रूरत का सामान लिखें, उसकी साफ़ फोटो खींचकर हमारे WhatsApp पर भेजें। हमारी टीम 15 मिनट में पूरा शुद्ध किराना आपके घर पहुंचाएगी!
+          </p>
+
+          <!-- 3 आसान स्टेप्स -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-2">
+            <div class="bg-white/10 backdrop-blur-xs rounded-xl p-2.5 border border-white/15 flex items-center gap-2">
+              <span class="w-6 h-6 rounded-lg bg-amber-400 text-slate-950 font-black text-xs flex items-center justify-center shrink-0 font-outfit">1</span>
+              <span class="text-xs text-slate-100 font-bold">कागज़ पर सामान लिखें</span>
+            </div>
+            <div class="bg-white/10 backdrop-blur-xs rounded-xl p-2.5 border border-white/15 flex items-center gap-2">
+              <span class="w-6 h-6 rounded-lg bg-amber-400 text-slate-950 font-black text-xs flex items-center justify-center shrink-0 font-outfit">2</span>
+              <span class="text-xs text-slate-100 font-bold">फोटो WhatsApp करें</span>
+            </div>
+            <div class="bg-white/10 backdrop-blur-xs rounded-xl p-2.5 border border-white/15 flex items-center gap-2">
+              <span class="w-6 h-6 rounded-lg bg-amber-400 text-slate-950 font-black text-xs flex items-center justify-center shrink-0 font-outfit">3</span>
+              <span class="text-xs text-slate-100 font-bold">15 मिनट में डिलीवरी लें</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- WhatsApp डायरेक्ट CTA बटन -->
+        <div class="shrink-0 text-center lg:text-right w-full lg:w-auto">
+          <a 
+            href="https://wa.me/919826012345?text=%E0%A4%A8%E0%A4%AE%E0%A4%B8%E0%A5%8D%E0%A4%A4%E0%A5%87%20Digital%20Kirana%20Mart!%20%E0%A4%AE%E0%A5%81%E0%A4%9D%E0%A5%87%20%E0%A4%85%E0%A4%AA%E0%A4%A8%E0%A5%87%20%E0%A4%98%E0%A4%B0%20%E0%A4%95%E0%A5%87%20%E0%A4%B0%E0%A4%BE%E0%A4%B6%E0%A4%A8%20%E0%A4%95%E0%A5%80%20%E0%A4%AA%E0%A4%B0%E0%A5%8D%E0%A4%9A%E0%A5%80%20%E0%A4%AD%E0%A5%87%E0%A4%9C%E0%A4%A8%E0%A5%80%20%E0%A4%B9%E0%A5%88%E0%A5%A4" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            class="inline-flex items-center justify-center gap-3 bg-[#25D366] hover:bg-[#20ba59] text-white font-black text-base sm:text-lg px-8 py-4 rounded-2xl shadow-xl transition-all transform hover:scale-105 active:scale-95 border border-white/20 font-outfit"
+          >
+            <i data-lucide="camera" class="w-6 h-6"></i>
+            <span>📸 पर्ची की फोटो WhatsApp करें</span>
+            <i data-lucide="arrow-right" class="w-5 h-5"></i>
+          </a>
+          <p class="text-[11px] text-emerald-200 mt-2 font-medium">हेल्पलाइन: +91 98260-12345 (तुरंत जवाब)</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ==============================================================
+       6. 4 इंटरएक्टिव 3D ट्रस्ट कार्ड्स (Interactive 3D Trust Badges)
+       माउस ले जाने पर उठने वाले (Hover Elevation), एम्बर ग्लो और आइकन पल्स
+       ============================================================== -->
+  <section class="max-w-7xl mx-auto px-4 py-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      
+      <!-- कार्ड 1: 100% शुद्ध देशी उत्पाद -->
+      <div class="trust-card bg-white rounded-3xl p-5 border border-slate-200/90 shadow-sm flex items-center gap-4 cursor-default">
+        <div class="trust-icon-box w-13 h-13 rounded-2xl bg-emerald-50 text-brand-600 flex items-center justify-center shrink-0 border border-emerald-100 shadow-xs">
+          <i data-lucide="shield-check" class="w-7 h-7"></i>
+        </div>
+        <div>
+          <h4 class="font-black text-sm text-slate-900 leading-snug font-outfit">100% शुद्ध देशी उत्पाद</h4>
+          <p class="text-[11px] text-slate-500 mt-0.5">सीधे किसानों व रजिस्टर्ड ब्रांड्स से शुद्धता प्रमाणित</p>
+        </div>
+      </div>
+
+      <!-- कार्ड 2: 15 मिनट सुपरफास्ट डिलीवरी -->
+      <div class="trust-card bg-white rounded-3xl p-5 border border-slate-200/90 shadow-sm flex items-center gap-4 cursor-default">
+        <div class="trust-icon-box w-13 h-13 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 border border-amber-100 shadow-xs">
+          <i data-lucide="zap" class="w-7 h-7"></i>
+        </div>
+        <div>
+          <h4 class="font-black text-sm text-slate-900 leading-snug font-outfit">⚡ 15 मिनट डिलीवरी</h4>
+          <p class="text-[11px] text-slate-500 mt-0.5">इंदौर में आपके दरवाजे तक एक्सप्रेस स्पीड</p>
+        </div>
+      </div>
+
+      <!-- कार्ड 3: आसान रिटर्न व रिफंड -->
+      <div class="trust-card bg-white rounded-3xl p-5 border border-slate-200/90 shadow-sm flex items-center gap-4 cursor-default">
+        <div class="trust-icon-box w-13 h-13 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 border border-blue-100 shadow-xs">
+          <i data-lucide="refresh-cw" class="w-7 h-7"></i>
+        </div>
+        <div>
+          <h4 class="font-black text-sm text-slate-900 leading-snug font-outfit">आसान रिटर्न व रिफंड</h4>
+          <p class="text-[11px] text-slate-500 mt-0.5">पसंद न आने पर 24 घंटे में वापसी व तत्काल रिफंड</p>
+        </div>
+      </div>
+
+      <!-- कार्ड 4: सुरक्षित UPI व COD -->
+      <div class="trust-card bg-white rounded-3xl p-5 border border-slate-200/90 shadow-sm flex items-center gap-4 cursor-default">
+        <div class="trust-icon-box w-13 h-13 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0 border border-purple-100 shadow-xs">
+          <i data-lucide="credit-card" class="w-7 h-7"></i>
+        </div>
+        <div>
+          <h4 class="font-black text-sm text-slate-900 leading-snug font-outfit">सुरक्षित UPI व COD</h4>
+          <p class="text-[11px] text-slate-500 mt-0.5">डिलीवरी पर नकद दें या UPI से तुरंत पेमेंट करें</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ==============================================================
+       7. मुख्य प्रोडक्ट ग्रिड सेक्शन (Product Cards Grid)
+       वजन सेलेक्टर (Weight Selector Pills) व लाइव रेट्स
+       ============================================================== -->
+  <main id="productsSection" class="max-w-7xl mx-auto px-4 py-8 flex-1">
+    
+    <!-- सेक्शन हेडर -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-3 border-b border-slate-200">
+      <div>
+        <h2 class="text-xl md:text-3xl font-black text-slate-900 flex items-center gap-2 font-outfit">
+          <span>किराना उत्पाद रेंज</span>
+          <span id="categoryHeadingBadge" class="text-xs md:text-sm font-bold bg-brand-100 text-brand-800 px-3 py-1 rounded-full">
+            सभी उत्पाद (All)
+          </span>
+        </h2>
+        <p class="text-xs md:text-sm text-slate-500 mt-1" id="productsCountText">26+ किराना उत्पाद उपलब्ध हैं</p>
+      </div>
+
+      <div class="flex items-center gap-2 self-start sm:self-auto">
+        <label for="sortFilter" class="text-xs font-bold text-slate-600 whitespace-nowrap">सॉर्ट करें:</label>
+        <select id="sortFilter" class="bg-white border border-slate-300 text-slate-700 text-xs font-bold rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand-500 cursor-pointer">
+          <option value="featured">लोकप्रिय (Featured)</option>
+          <option value="discount">🔥 ज्यादा बचत (Top Discount)</option>
+          <option value="price-low">कीमत: कम से ज्यादा</option>
+          <option value="price-high">कीमत: ज्यादा से कम</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- मुख्य प्रोडक्ट ग्रिड (Phase 1 में नमूना चालू कार्ड्स) -->
+    <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+      
+      <!-- प्रोडक्ट 1: इंडिया गेट बासमती -->
+      <div class="product-card bg-white rounded-3xl border border-slate-200/90 p-4 flex flex-col justify-between hover:shadow-xl hover:border-brand-500/50 group relative">
+        <div>
+          <div class="flex items-center justify-between gap-1 mb-2.5">
+            <span class="bg-festive-500 text-slate-950 font-black text-[11px] px-2.5 py-0.5 rounded-lg shadow-xs font-outfit">
+              ₹45 की बचत
+            </span>
+            <span class="text-[10px] font-bold text-brand-700 bg-brand-50 px-2 py-0.5 rounded-md flex items-center gap-1 font-outfit">
+              ⚡ 15 मिनट
+            </span>
+          </div>
+
+          <div class="relative w-full h-40 sm:h-44 rounded-2xl overflow-hidden bg-slate-100 mb-3 flex items-center justify-center p-2 border border-slate-100">
+            <img src="https://images.unsplash.com/photo-1586201375761-83865001e31c?w=500&auto=format&fit=crop&q=80" alt="India Gate Classic Basmati Rice - इंडिया गेट क्लासिक बासमती चावल" onerror="this.onerror=null; this.src='https://placehold.co/400x400/f8fafc/0f172a?text=Fresh+Kirana';" class="w-full h-full object-cover rounded-xl group-hover:scale-108 transition-transform duration-300" loading="lazy" decoding="async">
+            <div class="absolute bottom-2 left-2 bg-slate-900/80 backdrop-blur-xs text-[10px] font-bold text-white px-2 py-0.5 rounded-md shadow-xs font-outfit">
+              India Gate
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between text-[11px] text-slate-500 mb-1">
+            <span class="font-extrabold text-brand-700 uppercase tracking-wider font-outfit">INDIA GATE</span>
+            <span class="flex items-center gap-0.5 text-amber-500 font-bold">★ 4.9 <span class="text-slate-400 font-normal">(4.8k)</span></span>
+          </div>
+
+          <h3 class="font-bold text-sm text-slate-900 leading-snug line-clamp-2">
+            इंडिया गेट क्लासिक बासमती चावल
+          </h3>
+          <p class="text-[11px] text-slate-400 truncate mt-0.5 font-outfit">India Gate Classic Premium Aged Basmati Rice</p>
+
+          <!-- वजन चुनने का विकल्प (Weight Selector Pills) -->
+          <div class="mt-3 pt-2 border-t border-slate-100">
+            <div class="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 mb-1.5 flex items-center justify-between font-outfit">
+              <span>वजन चुनें (Weight):</span>
+              <span class="text-brand-700 font-bold">1 kg</span>
+            </div>
+            
+            <div class="flex flex-wrap gap-1.5">
+              <button type="button" class="px-2.5 py-1 text-xs font-bold rounded-lg transition-all bg-brand-600 text-white shadow-xs font-outfit">1 kg</button>
+              <button type="button" class="px-2.5 py-1 text-xs font-bold rounded-lg transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 font-outfit">5 kg</button>
+              <button type="button" class="px-2.5 py-1 text-xs font-bold rounded-lg transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 font-outfit">10 kg</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+          <div>
+            <div class="flex items-baseline gap-1.5">
+              <span class="text-base sm:text-lg font-black text-slate-900 font-outfit">₹195</span>
+              <span class="text-xs text-slate-400 line-through font-outfit">₹240</span>
+            </div>
+            <div class="text-[10px] text-emerald-600 font-bold font-outfit">छूट: ₹45 OFF</div>
+          </div>
+          <button onclick="document.getElementById('cartDrawer').classList.remove('translate-x-full'); document.getElementById('cartBackdrop').classList.remove('opacity-0', 'pointer-events-none'); document.body.style.overflow='hidden';" class="bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs sm:text-sm px-4 py-2 rounded-xl shadow-sm hover:shadow transition active:scale-95 flex items-center gap-1 cursor-pointer font-outfit">
+            <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+            <span>जोड़ें</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- प्रोडक्ट 2: आशीर्वाद आटा -->
+      <div class="product-card bg-white rounded-3xl border border-slate-200/90 p-4 flex flex-col justify-between hover:shadow-xl hover:border-brand-500/50 group relative">
+        <div>
+          <div class="flex items-center justify-between gap-1 mb-2.5">
+            <span class="bg-festive-500 text-slate-950 font-black text-[11px] px-2.5 py-0.5 rounded-lg shadow-xs font-outfit">
+              ₹45 की बचत
+            </span>
+            <span class="text-[10px] font-bold text-brand-700 bg-brand-50 px-2 py-0.5 rounded-md flex items-center gap-1 font-outfit">
+              ⚡ 15 मिनट
+            </span>
+          </div>
+
+          <div class="relative w-full h-40 sm:h-44 rounded-2xl overflow-hidden bg-slate-100 mb-3 flex items-center justify-center p-2 border border-slate-100">
+            <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?w=500&auto=format&fit=crop&q=80" alt="Aashirvaad Shuddh Chakki Atta - आशीर्वाद 100% शुद्ध चक्की ताजा आटा" onerror="this.onerror=null; this.src='https://placehold.co/400x400/f8fafc/0f172a?text=Fresh+Kirana';" class="w-full h-full object-cover rounded-xl group-hover:scale-108 transition-transform duration-300" loading="lazy" decoding="async">
+            <div class="absolute bottom-2 left-2 bg-slate-900/80 backdrop-blur-xs text-[10px] font-bold text-white px-2 py-0.5 rounded-md shadow-xs font-outfit">
+              Aashirvaad
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between text-[11px] text-slate-500 mb-1">
+            <span class="font-extrabold text-brand-700 uppercase tracking-wider font-outfit">AASHIRVAAD</span>
+            <span class="flex items-center gap-0.5 text-amber-500 font-bold">★ 4.9 <span class="text-slate-400 font-normal">(6.4k)</span></span>
+          </div>
+
+          <h3 class="font-bold text-sm text-slate-900 leading-snug line-clamp-2">
+            आशीर्वाद 100% शुद्ध चक्की ताजा आटा
+          </h3>
+          <p class="text-[11px] text-slate-400 truncate mt-0.5 font-outfit">Aashirvaad Superior MP Shuddh Chakki Atta</p>
+
+          <div class="mt-3 pt-2 border-t border-slate-100">
+            <div class="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 mb-1.5 flex items-center justify-between font-outfit">
+              <span>वजन चुनें (Weight):</span>
+              <span class="text-brand-700 font-bold">5 kg</span>
+            </div>
+            
+            <div class="flex flex-wrap gap-1.5">
+              <button type="button" class="px-2.5 py-1 text-xs font-bold rounded-lg transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 font-outfit">1 kg</button>
+              <button type="button" class="px-2.5 py-1 text-xs font-bold rounded-lg transition-all bg-brand-600 text-white shadow-xs font-outfit">5 kg</button>
+              <button type="button" class="px-2.5 py-1 text-xs font-bold rounded-lg transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 font-outfit">10 kg</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+          <div>
+            <div class="flex items-baseline gap-1.5">
+              <span class="text-base sm:text-lg font-black text-slate-900 font-outfit">₹245</span>
+              <span class="text-xs text-slate-400 line-through font-outfit">₹290</span>
+            </div>
+            <div class="text-[10px] text-emerald-600 font-bold font-outfit">छूट: ₹45 OFF</div>
+          </div>
+          <button onclick="document.getElementById('cartDrawer').classList.remove('translate-x-full'); document.getElementById('cartBackdrop').classList.remove('opacity-0', 'pointer-events-none'); document.body.style.overflow='hidden';" class="bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs sm:text-sm px-4 py-2 rounded-xl shadow-sm hover:shadow transition active:scale-95 flex items-center gap-1 cursor-pointer font-outfit">
+            <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+            <span>जोड़ें</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- प्रोडक्ट 3: टाटा सम्पन्न तुअर दाल -->
+      <div class="product-card bg-white rounded-3xl border border-slate-200/90 p-4 flex flex-col justify-between hover:shadow-xl hover:border-brand-500/50 group relative">
+        <div>
+          <div class="flex items-center justify-between gap-1 mb-2.5">
+            <span class="bg-festive-500 text-slate-950 font-black text-[11px] px-2.5 py-0.5 rounded-lg shadow-xs font-outfit">
+              ₹38 की बचत
+            </span>
+            <span class="text-[10px] font-bold text-brand-700 bg-brand-50 px-2 py-0.5 rounded-md flex items-center gap-1 font-outfit">
+              ⚡ 15 मिनट
+            </span>
+          </div>
+
+          <div class="relative w-full h-40 sm:h-44 rounded-2xl overflow-hidden bg-slate-100 mb-3 flex items-center justify-center p-2 border border-slate-100">
+            <img src="https://images.unsplash.com/photo-1585994192701-f1a505c8574a?w=500&auto=format&fit=crop&q=80" alt="Tata Sampann Toor Dal - टाटा सम्पन्न अनपॉलिश्ड तुअर दाल" onerror="this.onerror=null; this.src='https://placehold.co/400x400/f8fafc/0f172a?text=Fresh+Kirana';" class="w-full h-full object-cover rounded-xl group-hover:scale-108 transition-transform duration-300" loading="lazy" decoding="async">
+            <div class="absolute bottom-2 left-2 bg-slate-900/80 backdrop-blur-xs text-[10px] font-bold text-white px-2 py-0.5 rounded-md shadow-xs font-outfit">
+              Tata Sampann
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between text-[11px] text-slate-500 mb-1">
+            <span class="font-extrabold text-brand-700 uppercase tracking-wider font-outfit">TATA SAMPANN</span>
+            <span class="flex items-center gap-0.5 text-amber-500 font-bold">★ 4.9 <span class="text-slate-400 font-normal">(3.7k)</span></span>
+          </div>
+
+          <h3 class="font-bold text-sm text-slate-900 leading-snug line-clamp-2">
+            टाटा सम्पन्न अनपॉलिश्ड अरहर / तुअर दाल
+          </h3>
+          <p class="text-[11px] text-slate-400 truncate mt-0.5 font-outfit">Tata Sampann Unpolished Toor Dal Rich Protein</p>
+
+          <div class="mt-3 pt-2 border-t border-slate-100">
+            <div class="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 mb-1.5 flex items-center justify-between font-outfit">
+              <span>वजन चुनें (Weight):</span>
+              <span class="text-brand-700 font-bold">1 kg</span>
+            </div>
+            
+            <div class="flex flex-wrap gap-1.5">
+              <button type="button" class="px-2.5 py-1 text-xs font-bold rounded-lg transition-all bg-brand-600 text-white shadow-xs font-outfit">1 kg</button>
+              <button type="button" class="px-2.5 py-1 text-xs font-bold rounded-lg transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 font-outfit">2 kg</button>
+              <button type="button" class="px-2.5 py-1 text-xs font-bold rounded-lg transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 font-outfit">5 kg</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+          <div>
+            <div class="flex items-baseline gap-1.5">
+              <span class="text-base sm:text-lg font-black text-slate-900 font-outfit">₹172</span>
+              <span class="text-xs text-slate-400 line-through font-outfit">₹210</span>
+            </div>
+            <div class="text-[10px] text-emerald-600 font-bold font-outfit">छूट: ₹38 OFF</div>
+          </div>
+          <button onclick="document.getElementById('cartDrawer').classList.remove('translate-x-full'); document.getElementById('cartBackdrop').classList.remove('opacity-0', 'pointer-events-none'); document.body.style.overflow='hidden';" class="bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs sm:text-sm px-4 py-2 rounded-xl shadow-sm hover:shadow transition active:scale-95 flex items-center gap-1 cursor-pointer font-outfit">
+            <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+            <span>जोड़ें</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- प्रोडक्ट 4: मैगी 2-मिनट मसाला नूडल्स -->
+      <div class="product-card bg-white rounded-3xl border border-slate-200/90 p-4 flex flex-col justify-between hover:shadow-xl hover:border-brand-500/50 group relative">
+        <div>
+          <div class="flex items-center justify-between gap-1 mb-2.5">
+            <span class="bg-festive-500 text-slate-950 font-black text-[11px] px-2.5 py-0.5 rounded-lg shadow-xs font-outfit">
+              ₹18 की बचत
+            </span>
+            <span class="text-[10px] font-bold text-brand-700 bg-brand-50 px-2 py-0.5 rounded-md flex items-center gap-1 font-outfit">
+              ⚡ 15 मिनट
+            </span>
+          </div>
+
+          <div class="relative w-full h-40 sm:h-44 rounded-2xl overflow-hidden bg-slate-100 mb-3 flex items-center justify-center p-2 border border-slate-100">
+            <img src="https://images.unsplash.com/photo-1612927601601-6638404737ce?w=500&auto=format&fit=crop&q=80" alt="Maggi 2-Minute Noodles - मैगी 2-मिनट मसाला नूडल्स" onerror="this.onerror=null; this.src='https://placehold.co/400x400/f8fafc/0f172a?text=Fresh+Kirana';" class="w-full h-full object-cover rounded-xl group-hover:scale-108 transition-transform duration-300" loading="lazy" decoding="async">
+            <div class="absolute bottom-2 left-2 bg-slate-900/80 backdrop-blur-xs text-[10px] font-bold text-white px-2 py-0.5 rounded-md shadow-xs font-outfit">
+              Maggi
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between text-[11px] text-slate-500 mb-1">
+            <span class="font-extrabold text-brand-700 uppercase tracking-wider font-outfit">MAGGI</span>
+            <span class="flex items-center gap-0.5 text-amber-500 font-bold">★ 4.9 <span class="text-slate-400 font-normal">(9.2k)</span></span>
+          </div>
+
+          <h3 class="font-bold text-sm text-slate-900 leading-snug line-clamp-2">
+            मैगी 2-मिनट मसाला नूडल्स (फैमिली पैक)
+          </h3>
+          <p class="text-[11px] text-slate-400 truncate mt-0.5 font-outfit">Maggi 2-Minute Masala Instant Noodles Pack</p>
+
+          <div class="mt-3 pt-2 border-t border-slate-100">
+            <div class="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 mb-1.5 flex items-center justify-between font-outfit">
+              <span>पैक चुनें (Pack):</span>
+              <span class="text-brand-700 font-bold">Pack of 8</span>
+            </div>
+            
+            <div class="flex flex-wrap gap-1.5">
+              <button type="button" class="px-2.5 py-1 text-xs font-bold rounded-lg transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 font-outfit">Pack 4</button>
+              <button type="button" class="px-2.5 py-1 text-xs font-bold rounded-lg transition-all bg-brand-600 text-white shadow-xs font-outfit">Pack 8</button>
+              <button type="button" class="px-2.5 py-1 text-xs font-bold rounded-lg transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 font-outfit">Pack 12</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+          <div>
+            <div class="flex items-baseline gap-1.5">
+              <span class="text-base sm:text-lg font-black text-slate-900 font-outfit">₹102</span>
+              <span class="text-xs text-slate-400 line-through font-outfit">₹120</span>
+            </div>
+            <div class="text-[10px] text-emerald-600 font-bold font-outfit">छूट: ₹18 OFF</div>
+          </div>
+          <button onclick="document.getElementById('cartDrawer').classList.remove('translate-x-full'); document.getElementById('cartBackdrop').classList.remove('opacity-0', 'pointer-events-none'); document.body.style.overflow='hidden';" class="bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs sm:text-sm px-4 py-2 rounded-xl shadow-sm hover:shadow transition active:scale-95 flex items-center gap-1 cursor-pointer font-outfit">
+            <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+            <span>जोड़ें</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+
+  <!-- ==============================================================
+       8. Blinkit स्टाइल Slide-Over Cart Drawer (टोकरी ड्रावर)
+       - ऊपर "फ्री डिलीवरी प्रोग्रेस बार"
+       - सामानों की लिस्ट
+       - कूपन कोड इनपुट (SHUDDH50)
+       - डिलीवरी एड्रेस फॉर्म (नाम, मोबाइल, पता)
+       - COD / UPI पेमेंट रेडियो बटन्स
+       ============================================================== -->
+  <div id="cartBackdrop" onclick="document.getElementById('cartDrawer').classList.add('translate-x-full'); this.classList.add('opacity-0', 'pointer-events-none'); document.body.style.overflow='auto';" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 opacity-0 pointer-events-none transition-opacity duration-300"></div>
+
+  <div id="cartDrawer" class="fixed top-0 right-0 h-full w-full sm:w-[480px] bg-slate-50 z-50 shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
+    
+    <!-- ड्रावर हेडर -->
+    <div class="bg-white p-4 border-b border-slate-200 flex items-center justify-between shadow-xs">
+      <div class="flex items-center gap-2.5">
+        <div class="w-10 h-10 rounded-2xl bg-brand-50 text-brand-700 flex items-center justify-center font-bold">
+          <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <h3 class="font-black text-slate-900 text-base md:text-lg font-outfit">मेरी टोकरी (My Basket)</h3>
+          <p class="text-xs text-slate-500 font-medium" id="drawerItemCount">2 सामान जोड़े गए (15 मिनट डिलीवरी)</p>
+        </div>
+      </div>
+      
+      <button aria-label="कार्ट बंद करें" onclick="toggleCartDrawer(false)" class="w-9 h-9 rounded-xl hover:bg-slate-100 text-slate-400 hover:text-slate-700 flex items-center justify-center transition cursor-pointer focus:outline-none focus:ring-2 focus:ring-emerald-500">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+    </div>
+
+    <!-- 1. फ्री डिलीवरी प्रोग्रेस बार (Smooth Green Bar) -->
+    <div class="bg-emerald-50 border-b border-emerald-100 p-3">
+      <div class="flex items-center justify-between text-xs font-bold mb-1.5" id="deliveryProgressText">
+        <span class="text-emerald-900 flex items-center gap-1.5">
+          <i data-lucide="truck" class="w-4 h-4 text-brand-600"></i>
+          <span id="deliveryMessage">🎉 बधाई! आपका ऑर्डर <strong>मुफ्त डिलीवरी</strong> के योग्य है</span>
+        </span>
+        <span id="freeDeliveryStatus" class="text-brand-700 font-black font-outfit">मुफ्त (FREE)</span>
+      </div>
+      <div class="w-full bg-emerald-200 rounded-full h-2.5 overflow-hidden">
+        <div id="deliveryProgressBar" class="delivery-progress-active h-2.5 rounded-full transition-all duration-300" style="width: 100%"></div>
+      </div>
+    </div>
+
+    <!-- 2. स्क्रॉलेबल मुख्य बॉडी (सामान, पता, कूपन) -->
+    <div class="flex-1 overflow-y-auto p-4 space-y-4">
+      
+      <!-- खाली कार्ट दृश्य -->
+      <div id="emptyCartView" class="hidden py-10 flex flex-col items-center justify-center text-center">
+        <div class="w-24 h-24 rounded-full bg-brand-50 flex items-center justify-center mb-4 text-brand-600">
+          <i data-lucide="shopping-bag" class="w-12 h-12"></i>
+        </div>
+        <h4 class="text-xl font-black text-slate-900 font-outfit">आपकी टोकरी अभी खाली है!</h4>
+        <p class="text-xs text-slate-500 mt-1 max-w-xs leading-relaxed">
+          चावल, दालें, कोल्ड ड्रिंक्स और शुद्ध देशी घी अपनी टोकरी में जोड़ें और 15 मिनट डिलीवरी का आनंद लें।
+        </p>
+        <button 
+          onclick="document.getElementById('cartDrawer').classList.add('translate-x-full'); document.getElementById('cartBackdrop').classList.add('opacity-0', 'pointer-events-none'); document.body.style.overflow='auto'; document.getElementById('productsSection').scrollIntoView({behavior: 'smooth'});" 
+          class="mt-6 bg-festive-500 hover:bg-festive-400 text-slate-950 font-black text-sm px-6 py-3.5 rounded-2xl shadow-3d-amber btn-3d-amber transition flex items-center gap-2 cursor-pointer font-outfit"
+        >
+          <i data-lucide="sparkles" class="w-4 h-4"></i>
+          <span>🛍️ अभी खरीदारी शुरू करें (Start Shopping)</span>
+        </button>
+      </div>
+
+      <!-- सामानों की लिस्ट (Cart Items List) -->
+      <div id="cartItemsList" class="space-y-2.5">
+        
+        <!-- आइटम 1 -->
+        <div class="bg-white p-3 rounded-2xl border border-slate-200/90 shadow-xs flex items-center justify-between gap-3">
+          <img src="https://images.unsplash.com/photo-1586201375761-83865001e31c?w=120&auto=format&fit=crop&q=80" alt="India Gate Basmati Rice (5kg) - इंडिया गेट क्लासिक बासमती चावल" onerror="this.onerror=null; this.src='https://placehold.co/400x400/f8fafc/0f172a?text=Fresh+Kirana';" class="w-14 h-14 object-cover rounded-xl shrink-0 bg-slate-100" loading="lazy" decoding="async">
+          <div class="flex-1 min-w-0">
+            <h4 class="font-bold text-xs text-slate-900 truncate">इंडिया गेट क्लासिक बासमती चावल</h4>
+            <div class="inline-block bg-brand-50 text-brand-800 font-extrabold text-[10px] px-2 py-0.5 rounded mt-0.5 font-outfit">
+              5 kg पैक
+            </div>
+            <div class="text-xs font-black text-brand-700 mt-0.5 font-outfit">₹920</div>
+          </div>
+
+          <div class="flex items-center bg-slate-100 rounded-xl overflow-hidden border border-slate-200 shrink-0 font-outfit">
+            <button aria-label="मात्रा घटाएं" class="w-7 h-7 flex items-center justify-center hover:bg-slate-200 text-slate-700 transition focus:outline-none focus:ring-2 focus:ring-emerald-500">
+              <i data-lucide="minus" class="w-3.5 h-3.5"></i>
+            </button>
+            <span class="w-7 text-center font-black text-xs text-slate-800">1</span>
+            <button aria-label="मात्रा बढ़ाएं" class="w-7 h-7 flex items-center justify-center hover:bg-slate-200 text-slate-700 transition focus:outline-none focus:ring-2 focus:ring-emerald-500">
+              <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+
+          <div class="text-right shrink-0">
+            <div class="text-xs font-black text-slate-900 font-outfit">₹920</div>
+          </div>
+        </div>
+
+        <!-- आइटम 2 -->
+        <div class="bg-white p-3 rounded-2xl border border-slate-200/90 shadow-xs flex items-center justify-between gap-3">
+          <img src="https://images.unsplash.com/photo-1586201375761-83865001e31c?w=120&auto=format&fit=crop&q=80" alt="India Gate Basmati Rice (1kg) - इंडिया गेट क्लासिक बासमती चावल" onerror="this.onerror=null; this.src='https://placehold.co/400x400/f8fafc/0f172a?text=Fresh+Kirana';" class="w-14 h-14 object-cover rounded-xl shrink-0 bg-slate-100" loading="lazy" decoding="async">
+          <div class="flex-1 min-w-0">
+            <h4 class="font-bold text-xs text-slate-900 truncate">इंडिया गेट क्लासिक बासमती चावल</h4>
+            <div class="inline-block bg-brand-50 text-brand-800 font-extrabold text-[10px] px-2 py-0.5 rounded mt-0.5 font-outfit">
+              1 kg
+            </div>
+            <div class="text-xs font-black text-brand-700 mt-0.5 font-outfit">₹195</div>
+          </div>
+
+          <div class="flex items-center bg-slate-100 rounded-xl overflow-hidden border border-slate-200 shrink-0 font-outfit">
+            <button aria-label="मात्रा घटाएं" class="w-7 h-7 flex items-center justify-center hover:bg-slate-200 text-slate-700 transition focus:outline-none focus:ring-2 focus:ring-emerald-500">
+              <i data-lucide="minus" class="w-3.5 h-3.5"></i>
+            </button>
+            <span class="w-7 text-center font-black text-xs text-slate-800">1</span>
+            <button aria-label="मात्रा बढ़ाएं" class="w-7 h-7 flex items-center justify-center hover:bg-slate-200 text-slate-700 transition focus:outline-none focus:ring-2 focus:ring-emerald-500">
+              <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+
+          <div class="text-right shrink-0">
+            <div class="text-xs font-black text-slate-900 font-outfit">₹195</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- पूरा चेकआउट फ्लो (Unfrozen Scrollable Checkout Flow) -->
+      <div id="cartCheckoutFlow" class="space-y-4 pt-1">
+        
+        <!-- (2) ग्राहक का डिलीवरी पता फॉर्म (Smart Memory Auto-Filled) -->
+        <div id="deliveryAddressSection" class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-sm space-y-3">
+          <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+            <div class="flex items-center gap-2">
+              <div class="w-7 h-7 rounded-lg bg-brand-50 text-brand-700 flex items-center justify-center font-bold">
+                <i data-lucide="map-pin" class="w-4 h-4"></i>
+              </div>
+              <div>
+                <h4 class="font-extrabold text-xs md:text-sm text-slate-900 font-outfit">डिलीवरी का पता (Delivery Address)</h4>
+                <p class="text-[10px] text-slate-400">यह पता हमेशा के लिए सुरक्षित रहेगा</p>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label for="custNameInput" class="text-[11px] font-bold text-slate-700 block mb-1">ग्राहक का पूरा नाम (Full Name) *</label>
+            <input 
+              type="text" 
+              id="custNameInput" 
+              name="full_name"
+              autocomplete="name"
+              value="राजेश शर्मा" 
+              placeholder="उदा. राजेश शर्मा" 
+              class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white transition"
+            >
+          </div>
+
+          <div>
+            <label for="custPhoneInput" class="text-[11px] font-bold text-slate-700 block mb-1">मोबाइल नंबर (WhatsApp / Phone) *</label>
+            <div id="custPhoneContainer" class="flex items-center rounded-xl border border-slate-300 bg-slate-50 overflow-hidden focus-within:ring-2 focus-within:ring-brand-500 focus-within:bg-white transition">
+              <span class="px-2.5 text-xs font-bold text-slate-500 border-r border-slate-200 font-outfit">+91</span>
+              <input 
+                type="tel" 
+                id="custPhoneInput" 
+                name="phone"
+                autocomplete="tel"
+                inputmode="numeric"
+                maxlength="10" 
+                value="9826012345" 
+                placeholder="10 अंकों का मोबाइल नंबर (उदा. 9826012345)" 
+                class="w-full bg-transparent px-2.5 py-2 text-xs font-semibold focus:outline-none font-outfit"
+              >
+            </div>
+          </div>
+
+          <div>
+            <label for="custAddressInput" class="text-[11px] font-bold text-slate-700 block mb-1">पूरा पता (मकान नं., गली, मोहल्ला) *</label>
+            <textarea 
+              id="custAddressInput" 
+              name="street_address"
+              autocomplete="street-address"
+              rows="2" 
+              placeholder="उदा. मकान नं. 14, आनंद नगर, मेन रोड, इंदौर" 
+              class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white transition resize-none"
+            >मकान नं. 14, आनंद नगर, मेन रोड, इंदौर</textarea>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label for="custLandmarkInput" class="text-[11px] font-bold text-slate-700 block mb-1">लैंडमार्क (नज़दीक)</label>
+              <input 
+                type="text" 
+                id="custLandmarkInput" 
+                name="landmark"
+                autocomplete="address-line2"
+                value="शिव मंदिर के पास" 
+                placeholder="उदा. शिव मंदिर के पास" 
+                class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white transition"
+              >
+            </div>
+            <div>
+              <label for="custPincodeInput" class="text-[11px] font-bold text-slate-700 block mb-1">पिनकोड *</label>
+              <input 
+                type="text" 
+                id="custPincodeInput" 
+                name="postal_code"
+                autocomplete="postal-code"
+                inputmode="numeric"
+                maxlength="6" 
+                value="452001" 
+                placeholder="उदा. 452001" 
+                class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white transition font-outfit"
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- (2b) डिलीवरी समय स्लॉट (Delivery Time Slot) -->
+        <div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-sm space-y-2.5">
+          <div class="flex items-center gap-2 pb-1.5 border-b border-slate-100">
+            <div class="w-7 h-7 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold">
+              <i data-lucide="clock" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <h4 class="font-extrabold text-xs md:text-sm text-slate-900 font-outfit">डिलीवरी समय स्लॉट (Delivery Slot)</h4>
+              <p class="text-[10px] text-slate-400">अपनी सुविधा अनुसार डिलीवरी समय चुनें</p>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+            <label id="slotExpressCard" class="flex items-center gap-2.5 p-2.5 rounded-xl border-2 border-emerald-500 bg-emerald-50/70 cursor-pointer text-xs font-bold text-slate-900 transition hover:bg-emerald-50">
+              <input type="radio" name="deliverySlot" id="slotExpress" value="⚡ तुरंत 15 मिनट डिलीवरी" checked onchange="updateDeliverySlotSelection()" class="text-brand-600 focus:ring-brand-500 w-4 h-4 cursor-pointer">
+              <span>⚡ तुरंत 15 मिनट डिलीवरी</span>
+            </label>
+            <label id="slotEveningCard" class="flex items-center gap-2.5 p-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 cursor-pointer text-xs font-bold text-slate-700 transition">
+              <input type="radio" name="deliverySlot" id="slotEvening" value="🕒 आज शाम 6:00 - 8:00 बजे" onchange="updateDeliverySlotSelection()" class="text-brand-600 focus:ring-brand-500 w-4 h-4 cursor-pointer">
+              <span>🕒 आज शाम 6:00 - 8:00 बजे</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- (3) भुगतान का माध्यम (Payment Method: Cash on Delivery vs UPI) -->
+        <div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-sm space-y-2.5">
+          <div class="flex items-center justify-between pb-1.5 border-b border-slate-100">
+            <div class="flex items-center gap-2">
+              <div class="w-7 h-7 rounded-lg bg-amber-50 text-amber-700 flex items-center justify-center font-bold">
+                <i data-lucide="credit-card" class="w-4 h-4"></i>
+              </div>
+              <div>
+                <h4 class="font-extrabold text-xs md:text-sm text-slate-900 font-outfit">भुगतान का माध्यम (Payment Method) *</h4>
+                <p class="text-[10px] text-slate-400">कैश ऑन डिलीवरी या ऑनलाइन UPI चुनें</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+            
+            <!-- COD कार्ड -->
+            <label id="payMethodCODCard" onclick="setPaymentMethod('COD')" class="flex items-center gap-2.5 p-3 rounded-2xl border-2 border-emerald-500 bg-emerald-50/70 shadow-xs cursor-pointer transition">
+              <input type="radio" name="paymentMethodRadio" id="payMethodCOD" value="COD" checked onchange="setPaymentMethod('COD')" class="text-brand-600 focus:ring-brand-500 cursor-pointer w-4 h-4">
+              <div class="text-left">
+                <div class="text-xs font-black text-slate-900 flex items-center gap-1 font-outfit">
+                  <span>💵 Cash on Delivery</span>
+                </div>
+                <div class="text-[10px] text-slate-500 font-medium">घर पर सामान मिलने पर नकद दें</div>
+              </div>
+            </label>
+
+            <!-- UPI कार्ड -->
+            <label id="payMethodUPICard" onclick="setPaymentMethod('UPI')" class="flex items-center gap-2.5 p-3 rounded-2xl border border-slate-200 bg-white hover:bg-slate-50 cursor-pointer transition">
+              <input type="radio" name="paymentMethodRadio" id="payMethodUPI" value="UPI" onchange="setPaymentMethod('UPI')" class="text-brand-600 focus:ring-brand-500 cursor-pointer w-4 h-4">
+              <div class="text-left">
+                <div class="text-xs font-black text-slate-900 flex items-center gap-1 font-outfit">
+                  <span>⚡ Pay via UPI</span>
+                </div>
+                <div class="text-[10px] text-slate-500 font-medium">Google Pay, PhonePe, Paytm</div>
+              </div>
+            </label>
+
+          </div>
+        </div>
+
+        <!-- (4) कूपन कोड बॉक्स -->
+        <div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-sm space-y-2.5">
+          <div class="flex items-center justify-between pb-1.5 border-b border-slate-100">
+            <div class="flex items-center gap-2">
+              <div class="w-7 h-7 rounded-lg bg-amber-50 text-amber-700 flex items-center justify-center font-bold">
+                <i data-lucide="tag" class="w-4 h-4"></i>
+              </div>
+              <div>
+                <h4 class="font-extrabold text-xs md:text-sm text-slate-900 font-outfit">कूपन कोड व ऑफर्स (Coupons)</h4>
+                <p class="text-[10px] text-slate-400">कूपन 'SHUDDH50' डालकर ₹50 की छूट पाएं</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2 bg-slate-50 p-2 rounded-xl border border-slate-200 focus-within:border-brand-500 focus-within:bg-white transition">
+            <i data-lucide="tag" class="w-4 h-4 text-slate-400 ml-1"></i>
+            <input 
+              type="text" 
+              id="cartCouponInput" 
+              value="SHUDDH50" 
+              placeholder="कूपन कोड (उदा. SHUDDH50)" 
+              class="bg-transparent text-xs text-slate-800 uppercase font-mono font-black tracking-wider focus:outline-none flex-1 font-outfit"
+            >
+            <button onclick="applyCartCoupon()" type="button" class="bg-slate-800 hover:bg-black text-white text-xs font-bold px-3.5 py-1.5 rounded-lg transition cursor-pointer font-outfit">
+              लागू करें
+            </button>
+          </div>
+
+          <!-- कूपन संदेश -->
+          <div id="couponSuccessMsg" class="hidden text-xs text-emerald-800 bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-200 flex items-center justify-between font-bold">
+            <span>🎉 कूपन SHUDDH50 लागू! (₹50 की छूट)</span>
+            <button onclick="removeCoupon()" type="button" class="text-emerald-900 font-black hover:underline text-[11px] cursor-pointer">हटाएँ</button>
+          </div>
+        </div>
+
+        <!-- (5) बिल का विवरण (Bill Summary) -->
+        <div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-sm space-y-2">
+          <div class="flex items-center justify-between pb-1.5 border-b border-slate-100">
+            <div class="flex items-center gap-2">
+              <div class="w-7 h-7 rounded-lg bg-emerald-50 text-brand-700 flex items-center justify-center font-bold">
+                <i data-lucide="receipt" class="w-4 h-4"></i>
+              </div>
+              <div>
+                <h4 class="font-extrabold text-xs md:text-sm text-slate-900 font-outfit">बिल का विवरण (Bill Details)</h4>
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-1.5 text-xs text-slate-600 pt-1">
+            <div class="flex justify-between">
+              <span>सामान का कुल मूल्य (Item Total)</span>
+              <span class="font-bold text-slate-900 font-outfit" id="billSubtotal">₹1,115</span>
+            </div>
+            <div class="flex justify-between">
+              <span>डिलीवरी शुल्क (Delivery Fee)</span>
+              <span class="font-bold text-emerald-600 font-outfit" id="billDeliveryFee">मुफ्त (FREE)</span>
+            </div>
+            <div class="flex justify-between text-emerald-600 font-bold" id="discountRow">
+              <span>कूपन छूट (SHUDDH50)</span>
+              <span id="billDiscount" class="font-outfit">- ₹50</span>
+            </div>
+            <div class="border-t border-slate-200 pt-2 flex justify-between items-center text-sm font-black text-slate-900">
+              <span class="font-outfit">कुल देय राशि (Grand Total)</span>
+              <span class="text-xl text-brand-700 font-black font-outfit" id="billGrandTotal">₹1,065</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- (6) 1 बड़ा डायनामिक 'Place Order' बटन -->
+        <div class="space-y-2 pt-1 pb-4">
+          <button 
+            type="button"
+            id="dynamicPlaceOrderBtn"
+            onclick="handleDynamicPlaceOrder()"
+            class="w-full bg-[#059669] hover:bg-[#047857] text-white font-black py-4 px-4 rounded-2xl shadow-lg hover:shadow-glow transition-all transform active:scale-98 flex items-center justify-center gap-2 text-sm sm:text-base cursor-pointer font-outfit"
+          >
+            <i data-lucide="package-check" class="w-5 h-5" id="dynamicPlaceOrderIcon"></i>
+            <span id="dynamicPlaceOrderText">📦 ऑर्डर प्लेस करें (Cash on Delivery)</span>
+          </button>
+
+          <div class="text-[11px] text-center text-slate-500 font-medium flex items-center justify-center gap-1.5">
+            <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-600"></i>
+            <span>100% सुरक्षित चेकआउट | 15 मिनट सुपरफास्ट एक्सप्रेस डिलीवरी</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ==============================================================
+       9. ग्राहक लॉगिन / माई अकाउंट मोडल (Customer Login & Account Modal)
+       पिछले ऑर्डर्स पर "🖨️ बिल प्रिंट करें" बटन के साथ!
+       ============================================================== -->
+  <div id="accountModal" class="fixed inset-0 bg-slate-950/65 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full max-h-[90vh] overflow-hidden shadow-2xl border border-slate-100 flex flex-col">
+      
+      <!-- मोडल हेडर -->
+      <div class="bg-[#090D16] text-white p-4 sm:p-5 flex items-center justify-between border-b border-slate-800">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-amber-500/15 border border-amber-500/30 text-amber-400 flex items-center justify-center font-bold shadow">
+            <i data-lucide="user" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 class="font-black text-base sm:text-lg font-outfit">ग्राहक अकाउंट (My Account)</h3>
+            <p class="text-xs text-slate-400">डिजिटल किराना मार्ट कस्टमर पोर्टल</p>
+          </div>
+        </div>
+        <button aria-label="खाता मोडल बंद करें" onclick="closeAccountModal()" class="w-9 h-9 rounded-xl hover:bg-white/10 text-slate-300 hover:text-white flex items-center justify-center transition cursor-pointer focus:outline-none focus:ring-2 focus:ring-amber-400">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- लॉगिन दृश्य (Profile & Order History Hub) -->
+      <div id="accountLoggedInView" class="flex-1 flex flex-col overflow-hidden">
+        
+        <!-- टैब नेविगेशन -->
+        <div class="flex border-b border-slate-200 bg-slate-100/70 text-xs font-black">
+          <button 
+            onclick="document.getElementById('accountProfileTabContent').classList.remove('hidden'); document.getElementById('accountOrdersTabContent').classList.add('hidden'); this.classList.add('active'); document.getElementById('tabBtnOrders').classList.remove('active');" 
+            id="tabBtnProfile" 
+            class="account-tab-btn active flex-1 py-3 px-4 text-center border-r border-slate-200 flex items-center justify-center gap-1.5 cursor-pointer font-outfit"
+          >
+            <i data-lucide="user" class="w-4 h-4"></i>
+            <span>प्रोफाइल व पता</span>
+          </button>
+          <button 
+            onclick="document.getElementById('accountProfileTabContent').classList.add('hidden'); document.getElementById('accountOrdersTabContent').classList.remove('hidden'); this.classList.add('active'); document.getElementById('tabBtnProfile').classList.remove('active');" 
+            id="tabBtnOrders" 
+            class="account-tab-btn flex-1 py-3 px-4 text-center flex items-center justify-center gap-1.5 cursor-pointer font-outfit"
+          >
+            <i data-lucide="package-check" class="w-4 h-4"></i>
+            <span>पिछले ऑर्डर्स (My Orders)</span>
+          </button>
+        </div>
+
+        <!-- टैब 1: प्रोफाइल व सुरक्षित पता -->
+        <div id="accountProfileTabContent" class="flex-1 overflow-y-auto p-5 space-y-4">
+          
+          <!-- प्रोफाइल कार्ड -->
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-2">
+            <div class="flex items-center justify-between">
+              <div>
+                <h4 class="font-black text-base text-slate-900 font-outfit" id="profileUserName">राजेश शर्मा</h4>
+                <p class="text-xs text-slate-500 font-outfit" id="profileUserPhone">+91 98260-12345</p>
+              </div>
+              <span class="bg-emerald-100 text-emerald-800 text-[10px] font-black px-2.5 py-1 rounded-full border border-emerald-300 font-outfit">
+                सक्रिय ग्राहक ✓
+              </span>
+            </div>
+          </div>
+
+          <!-- सुरक्षित पता बॉक्स (View Mode & Edit Mode) -->
+          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs space-y-3">
+            <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+              <h5 class="text-xs font-black text-slate-800 flex items-center gap-1.5 font-outfit">
+                <i data-lucide="map-pin" class="w-4 h-4 text-brand-600"></i>
+                <span>डिफ़ॉल्ट डिलीवरी पता (Saved Address)</span>
+              </h5>
+              <button 
+                onclick="document.getElementById('addressDisplayBox').classList.toggle('hidden'); document.getElementById('addressEditBox').classList.toggle('hidden');" 
+                type="button" 
+                class="text-brand-700 font-bold text-xs hover:underline flex items-center gap-1 cursor-pointer"
+              >
+                <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
+                <span>पता बदलें</span>
+              </button>
+            </div>
+
+            <!-- पता डिस्प्ले व्यू -->
+            <div id="addressDisplayBox" class="text-xs text-slate-600 space-y-1">
+              <p class="font-bold text-slate-800" id="profileSavedAddress">मकान नं. 14, आनंद नगर, मेन रोड, इंदौर</p>
+              <p class="text-slate-500 text-[11px]" id="profileSavedLandmark">(शिव मंदिर के पास)</p>
+              <p class="text-brand-700 font-bold text-[11px] font-outfit" id="profileSavedPincode">पिनकोड: 452001</p>
+            </div>
+
+            <!-- पता एडिट फॉर्म (टॉगल होने वाला) -->
+            <div id="addressEditBox" class="hidden space-y-2.5 pt-1">
+              <div>
+                <label for="editUserAddressInput" class="text-[10px] font-bold text-slate-600 block">नया पूरा पता:</label>
+                <textarea id="editUserAddressInput" name="street_address" autocomplete="street-address" rows="2" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500 resize-none">मकान नं. 14, आनंद नगर, मेन रोड, इंदौर</textarea>
+              </div>
+              <div class="grid grid-cols-2 gap-2">
+                <div>
+                  <label for="editUserLandmarkInput" class="text-[10px] font-bold text-slate-600 block">लैंडमार्क:</label>
+                  <input type="text" id="editUserLandmarkInput" name="landmark" autocomplete="address-line2" value="शिव मंदिर के पास" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500">
+                </div>
+                <div>
+                  <label for="editUserPincodeInput" class="text-[10px] font-bold text-slate-600 block">पिनकोड:</label>
+                  <input type="text" id="editUserPincodeInput" name="postal_code" autocomplete="postal-code" inputmode="numeric" maxlength="6" value="452001" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500 font-outfit">
+                </div>
+              </div>
+              <div class="flex gap-2 pt-1">
+                <button onclick="document.getElementById('addressDisplayBox').classList.remove('hidden'); document.getElementById('addressEditBox').classList.add('hidden');" type="button" class="flex-1 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs py-2 rounded-xl transition shadow cursor-pointer font-outfit">
+                  सेव करें
+                </button>
+                <button onclick="document.getElementById('addressDisplayBox').classList.remove('hidden'); document.getElementById('addressEditBox').classList.add('hidden');" type="button" class="px-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs py-2 rounded-xl transition cursor-pointer font-outfit">
+                  रद्द करें
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- लॉग-आउट बटन -->
+          <div class="pt-2">
+            <button 
+              onclick="handleUserLogout()" 
+              type="button" 
+              class="w-full bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-700 font-bold text-xs py-2.5 rounded-2xl transition flex items-center justify-center gap-1.5 cursor-pointer font-outfit"
+            >
+              <i data-lucide="log-out" class="w-4 h-4"></i>
+              <span>लॉग-आउट करें (Logout)</span>
+            </button>
+          </div>
+
+        </div>
+
+        <!-- टैब 2: पिछले ऑर्डर्स (My Past Orders - "🖨️ बिल प्रिंट करें" बटन के साथ) -->
+        <div id="accountOrdersTabContent" class="hidden flex-1 overflow-y-auto p-5 space-y-3">
+          
+          <!-- डायनामिक ऑर्डर्स कंटेनर -->
+          <div id="orderHistoryContainer" class="space-y-3">
+            <div class="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-xs space-y-2">
+              <div class="flex items-center justify-between text-xs pb-1.5 border-b border-slate-100">
+                <div>
+                  <span class="font-mono font-black text-slate-900 font-outfit">DKM-849201</span>
+                  <span class="text-[10px] text-slate-400 ml-1.5 font-outfit">आज, दोपहर 02:15</span>
+                </div>
+                <span class="inline-flex items-center gap-1 bg-emerald-50 text-emerald-700 text-[10px] font-extrabold px-2 py-0.5 rounded-md border border-emerald-200 font-outfit">
+                  <i data-lucide="check-circle" class="w-3 h-3"></i>
+                  <span>सफलतापूर्वक डिलीवर हुआ</span>
+                </span>
+              </div>
+
+              <div class="space-y-1 text-xs text-slate-600">
+                <div class="flex justify-between items-center text-[11px]">
+                  <span class="truncate max-w-[240px]">▪ इंडिया गेट क्लासिक बासमती (5 kg) x 1</span>
+                  <span class="font-bold text-slate-800 font-outfit">₹920</span>
+                </div>
+                <div class="flex justify-between items-center text-[11px]">
+                  <span class="truncate max-w-[240px]">▪ इंडिया गेट क्लासिक बासमती (1 kg) x 1</span>
+                  <span class="font-bold text-slate-800 font-outfit">₹195</span>
+                </div>
+              </div>
+
+              <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
+                <span class="text-[11px] text-slate-500">मोड: <strong>💵 नकद (COD)</strong></span>
+                <div class="flex items-center gap-3">
+                  <div class="text-right">
+                    <span class="text-[10px] text-slate-400">कुल बिल:</span>
+                    <span class="font-black text-sm text-brand-700 ml-1 font-outfit">₹1,065</span>
+                  </div>
+                  <!-- 🖨️ बिल प्रिंट करें बटन -->
+                  <button 
+                    onclick="printOrderReceipt('DKM-849201')" 
+                    type="button" 
+                    class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs px-2.5 py-1.5 rounded-xl border border-slate-200 flex items-center gap-1 transition cursor-pointer font-outfit"
+                    title="इस ऑर्डर का बिल प्रिंट करें"
+                  >
+                    <i data-lucide="printer" class="w-3.5 h-3.5 text-brand-600"></i>
+                    <span>🖨️ बिल प्रिंट करें</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="emptyOrderHistoryView" class="hidden text-center py-10">
+            <div class="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center mx-auto mb-3 text-slate-400">
+              <i data-lucide="package-x" class="w-8 h-8"></i>
+            </div>
+            <p class="text-xs text-slate-500 font-medium">अभी तक कोई पुराना ऑर्डर नहीं है।</p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ==============================================================
+       10. ऑर्डर सक्सेस पॉपअप मोडल (Order Success Popup Modal)
+       "🎉 बधाई! आपका ऑर्डर दर्ज हो गया है" (कन्फ़ेट्टी सेलिब्रेशन व बिल प्रिंट)
+       ============================================================== -->
+  <div id="orderSuccessModal" class="fixed inset-0 bg-slate-950/75 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-7 shadow-2xl border border-emerald-100 text-center relative overflow-hidden animate-in fade-in zoom-in duration-300">
+      
+      <!-- शीर्ष डेकोरेशन बैकग्राउंड -->
+      <div class="absolute -top-12 -right-12 w-32 h-32 bg-emerald-100 rounded-full blur-2xl pointer-events-none"></div>
+      <div class="absolute -bottom-12 -left-12 w-32 h-32 bg-amber-100 rounded-full blur-2xl pointer-events-none"></div>
+
+      <!-- बंद करें बटन -->
+      <button aria-label="सफलता मोडल बंद करें" onclick="closeOrderSuccessModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 cursor-pointer focus:outline-none focus:ring-2 focus:ring-emerald-500 rounded-lg p-1">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <!-- सेलिब्रेशन आइकन -->
+      <div class="w-16 h-16 rounded-3xl bg-gradient-to-tr from-brand-600 to-emerald-400 text-white flex items-center justify-center mx-auto mb-3 shadow-lg shadow-emerald-500/30">
+        <i data-lucide="party-popper" class="w-8 h-8 animate-bounce"></i>
+      </div>
+
+      <span class="inline-block bg-emerald-50 text-emerald-800 text-[11px] font-black px-3 py-1 rounded-full border border-emerald-200 mb-2 font-outfit">
+        ⚡ 15 मिनट सुपरफास्ट डिलीवरी
+      </span>
+
+      <h3 class="font-black text-slate-900 text-xl sm:text-2xl font-outfit leading-tight">
+        🎉 बधाई! आपका ऑर्डर दर्ज हो गया है!
+      </h3>
+      <p class="text-xs text-slate-500 mt-1 max-w-xs mx-auto">
+        आपका शुद्ध देशी किराना सामान पैक हो रहा है और अगले 15 मिनट में आपके पते पर पहुँच जाएगा।
+      </p>
+
+      <!-- ऑर्डर समरी कार्ड -->
+      <div class="bg-slate-50 rounded-2xl p-4 my-4 border border-slate-200 text-left space-y-2 text-xs">
+        <div class="flex justify-between pb-2 border-b border-slate-200 font-outfit">
+          <span class="text-slate-500">ऑर्डर क्रमांक:</span>
+          <span class="font-black text-slate-900" id="successModalOrderId">#DKM-849201</span>
+        </div>
+        <div class="flex justify-between font-outfit">
+          <span class="text-slate-500">कुल देय राशि:</span>
+          <span class="font-black text-brand-700 text-sm" id="successModalTotal">₹1,065</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-slate-500">भुगतान विधि:</span>
+          <span id="successModalPayMode" class="font-bold text-slate-800">💵 Cash on Delivery (COD)</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-slate-500">डिलीवरी पता:</span>
+          <span id="successModalAddress" class="font-bold text-slate-800 truncate max-w-[200px]">मकान नं. 14, आनंद नगर, मेन रोड, इंदौर</span>
+        </div>
+      </div>
+
+      <!-- 2 मुख्य बटन्स: रसीद प्रिंट करें और खरीदारी जारी रखें -->
+      <div class="space-y-2 pt-1">
+        <button 
+          onclick="printCurrentOrderReceipt()" 
+          type="button" 
+          class="w-full bg-slate-900 hover:bg-black text-white font-black text-xs sm:text-sm py-3.5 rounded-2xl shadow-md flex items-center justify-center gap-2 transition active:scale-95 cursor-pointer font-outfit print-allow"
+        >
+          <i data-lucide="printer" class="w-4 h-4 text-amber-400"></i>
+          <span>🖨️ पक्का बिल / रसीद प्रिंट करें</span>
+        </button>
+
+        <button 
+          onclick="closeOrderSuccessModal(); document.getElementById('productsSection').scrollIntoView({behavior: 'smooth'});" 
+          type="button" 
+          class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs py-2.5 rounded-2xl transition cursor-pointer font-outfit"
+        >
+          🛍️ और खरीदारी करें (Continue Shopping)
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ==============================================================
+       11. मोबाइल स्टिकी बार (Mobile Sticky Floating Bottom Cart Bar)
+       मोबाइल स्क्रीन के नीचे तैरने वाली त्वरित कार्ट व चेकआउट पट्टी
+       ============================================================== -->
+  <aside id="mobileBottomCartBar" aria-label="त्वरित कार्ट पट्टी" class="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#090D16]/95 backdrop-blur-md border-t border-slate-800 px-3.5 py-2.5 mobile-cart-float text-white flex items-center justify-between shadow-2xl">
+    <div class="flex items-center gap-2.5">
+      <div class="relative">
+        <div class="w-10 h-10 rounded-xl bg-amber-500/15 text-amber-400 flex items-center justify-center border border-amber-500/30 shrink-0">
+          <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+        </div>
+        <span id="mobileCartCountBadge" class="absolute -top-1 -right-1 bg-amber-400 text-slate-950 font-black text-[9px] w-4.5 h-4.5 rounded-full flex items-center justify-center font-outfit shadow-xs">
+          2
+        </span>
+      </div>
+      <div>
+        <div class="text-xs font-black text-white font-outfit flex items-center gap-1.5">
+          <span id="mobileCartTotalText">₹1,065</span>
+          <span id="mobileDeliveryStatus" class="text-[9px] text-emerald-400 font-bold bg-emerald-950/80 px-1.5 py-0.5 rounded border border-emerald-800">मुफ्त डिलीवरी</span>
+        </div>
+        <div class="text-[10px] text-slate-400 font-medium truncate max-w-[140px] xs:max-w-[180px]" id="mobileCartSubtext">2 सामान टोकरी में जोड़े गए</div>
+      </div>
+    </div>
+
+    <button 
+      onclick="toggleCartDrawer(true)" 
+      type="button" 
+      class="bg-gradient-to-r from-emerald-600 to-brand-600 hover:from-emerald-500 hover:to-brand-500 text-white font-black text-xs px-3.5 py-2.5 rounded-xl shadow-md flex items-center gap-1.5 active:scale-95 cursor-pointer font-outfit min-h-[44px] shrink-0"
+    >
+      <span>View Cart ➔</span>
+    </button>
+  </aside>
+
+
+  <!-- ==============================================================
+       12. अल्ट्रा-प्रीमियम फ़ूटर (#0B0F19 - Deep Charcoal / Black)
+       4-कॉलम लेआउट, FSSAI व AGMARK शुद्धता मोहर, पेमेंट पार्टनर्स
+       ============================================================== -->
+  <footer class="bg-[#0B0F19] text-slate-300 border-t border-slate-800/90 mt-16">
+    
+    <div class="max-w-7xl mx-auto px-4 py-14">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+        
+        <!-- कॉलम 1: स्टोर पहचान, कहानी व शुद्धता मुहर -->
+        <div class="space-y-4">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-2xl bg-white p-1 border border-amber-400/60 shadow-glow-amber overflow-hidden flex items-center justify-center">
+              <img src="logo.png" alt="Digital Kirana Mart Store Logo - इंदौर की सुपरफास्ट किराना डिलीवरी" width="40" height="40" class="w-full h-full object-contain" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1542838132-92c53300491e?w=100&auto=format&fit=crop&q=60';">
+            </div>
+            <span class="font-black text-white text-lg tracking-tight font-outfit">
+              Digital <span class="text-amber-400">Kirana</span> Mart
+            </span>
+          </div>
+
+          <p class="text-xs text-slate-400 leading-relaxed">
+            डिजिटल किराना मार्ट आपके घर के दैनिक राशन, शुद्ध बासमती चावल, मसालों, कोल्ड ड्रिंक्स और स्नैक्स को सीधे थोक भाव पर केवल 15 मिनट में आपके द्वार पहुँचाता है।
+          </p>
+
+          <!-- FSSAI & AGMARK शुद्धता मुहर (Purity Seal) -->
+          <div class="bg-slate-900/90 border border-slate-800 p-3 rounded-2xl flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-400 flex items-center justify-center shrink-0">
+              <i data-lucide="award" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <div class="text-xs font-black text-white font-outfit">100% FSSAI व AGMARK प्रमाणित</div>
+              <div class="text-[10px] text-slate-400">शुद्धता व स्वच्छता की संपूर्ण गारंटी</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- कॉलम 2: क्विक लिंक्स व श्रेणियां -->
+        <div>
+          <h4 class="text-xs font-black uppercase tracking-wider text-amber-400 mb-4 font-outfit">
+            दुकान की मुख्य श्रेणियां
+          </h4>
+          <ul class="space-y-2.5 text-xs text-slate-400">
+            <li>
+              <a href="#productsSection" onclick="selectCategory('grains', null, true);" class="hover:text-amber-400 transition flex items-center gap-2">
+                <span class="text-amber-400/80">›</span> आटा, बासमती चावल (5+ किस्में) व दालें
+              </a>
+            </li>
+            <li>
+              <a href="#productsSection" onclick="selectCategory('oils', null, true);" class="hover:text-amber-400 transition flex items-center gap-2">
+                <span class="text-amber-400/80">›</span> सरसों तेल, रिफाइंड व शुद्ध देशी घी
+              </a>
+            </li>
+            <li>
+              <a href="#productsSection" onclick="selectCategory('spices', null, true);" class="hover:text-amber-400 transition flex items-center gap-2">
+                <span class="text-amber-400/80">›</span> शुद्ध खड़े मसाले (100g से 1kg रेंज)
+              </a>
+            </li>
+            <li>
+              <a href="#productsSection" onclick="selectCategory('drinks', null, true);" class="hover:text-amber-400 transition flex items-center gap-2">
+                <span class="text-amber-400/80">›</span> Cold Drinks & Fresh Fruit Juices
+              </a>
+            </li>
+            <li>
+              <a href="#productsSection" onclick="selectCategory('snacks', null, true);" class="hover:text-amber-400 transition flex items-center gap-2">
+                <span class="text-amber-400/80">›</span> Snacks & Haldiram's Bhujia
+              </a>
+            </li>
+            <li>
+              <a href="#productsSection" onclick="selectCategory('dryfruits', null, true);" class="hover:text-amber-400 transition flex items-center gap-2">
+                <span class="text-amber-400/80">›</span> काजू, बादाम व प्रीमियम ड्राई फ्रूट्स
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- कॉलम 3: ग्राहक सेवा व नीतियां -->
+        <div>
+          <h4 class="text-xs font-black uppercase tracking-wider text-amber-400 mb-4 font-outfit">
+            ग्राहक सहायता व नीतियां
+          </h4>
+          <div class="space-y-2.5 text-xs text-slate-400">
+            <button type="button" onclick="alert('⚡ 15 मिनट डिलीवरी नियम: इंदौर शहर के चयनित पिनकोड में सुबह 6 से रात 11 बजे तक लागू है।');" class="hover:text-amber-400 transition flex items-center gap-2 text-left cursor-pointer w-full">
+              <i data-lucide="zap" class="w-3.5 h-3.5 text-amber-400 shrink-0"></i>
+              <span>15 मिनट सुपरफास्ट डिलीवरी नियम</span>
+            </button>
+            <button type="button" onclick="alert('🔄 रिटर्न व रिफंड: सामान में किसी भी शिकायत पर डिलीवरी के 24 घंटे में बिना सवाल पूछे तुरंत वापसी व 100% रिफंड!');" class="hover:text-amber-400 transition flex items-center gap-2 text-left cursor-pointer w-full">
+              <i data-lucide="refresh-cw" class="w-3.5 h-3.5 text-blue-400 shrink-0"></i>
+              <span>आसान रिटर्न व रिफंड नीति</span>
+            </button>
+            <button type="button" onclick="alert('🔒 सुरक्षा व प्राइवेसी: आपका नाम, पता व फोन नंबर 100% सुरक्षित और एन्क्रिप्टेड है।');" class="hover:text-amber-400 transition flex items-center gap-2 text-left cursor-pointer w-full">
+              <i data-lucide="shield" class="w-3.5 h-3.5 text-emerald-400 shrink-0"></i>
+              <span>प्राइवेसी व डेटा सुरक्षा</span>
+            </button>
+            <button type="button" onclick="openAccountModal();" class="hover:text-amber-400 transition flex items-center gap-2 text-left cursor-pointer w-full">
+              <i data-lucide="user" class="w-3.5 h-3.5 text-purple-400 shrink-0"></i>
+              <span>माय अकाउंट व ऑर्डर हिस्ट्री</span>
+            </button>
+          </div>
+
+          <div class="mt-4 pt-3 border-t border-slate-800">
+            <div class="text-[11px] font-bold text-slate-400">हेल्पलाइन समय:</div>
+            <div class="text-xs font-black text-emerald-400 font-outfit">सुबह 6:00 से रात 11:00 (सभी 7 दिन)</div>
+          </div>
+        </div>
+
+        <!-- कॉलम 4: दुकान का संपर्क व भुगतान साझेदार -->
+        <div class="space-y-4">
+          <h4 class="text-xs font-black uppercase tracking-wider text-amber-400 font-outfit">
+            संपर्क व स्टोर का पता
+          </h4>
+
+          <div class="space-y-2.5 text-xs text-slate-400">
+            <p class="flex items-start gap-2">
+              <i data-lucide="map-pin" class="w-4 h-4 text-amber-400 shrink-0 mt-0.5"></i>
+              <span>दुकान नं. 24, मेन राजवाड़ा मार्केट, एम.जी. रोड, इंदौर (म.प्र.) - 452001</span>
+            </p>
+            <p class="flex items-center gap-2">
+              <i data-lucide="phone" class="w-4 h-4 text-emerald-400 shrink-0"></i>
+              <a href="tel:18001235566" class="hover:text-white transition font-outfit">1800-123-5566</a> / <a href="tel:919826012345" class="hover:text-white transition font-outfit">+91 98260-12345</a>
+            </p>
+            <p class="flex items-center gap-2">
+              <i data-lucide="mail" class="w-4 h-4 text-amber-400 shrink-0"></i>
+              <a href="mailto:care@digitalkiranamart.com" class="hover:text-white transition font-outfit">care@digitalkiranamart.com</a>
+            </p>
+          </div>
+
+          <!-- Google Maps Store Location Embed -->
+          <div class="mt-3 rounded-2xl overflow-hidden border border-slate-800 shadow-sm">
+            <iframe 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3680.1287661502446!2d75.8551406!3d22.7195687!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3962fd0be2738743%3A0x7d013f9c6d36e2f1!2sRajwada%20Palace%2C%20Indore!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" 
+              width="100%" 
+              height="120" 
+              style="border:0;" 
+              allowfullscreen="" 
+              loading="lazy" 
+              referrerpolicy="no-referrer-when-downgrade" 
+              title="Digital Kirana Mart Store Location Map" 
+              aria-label="Digital Kirana Mart Store Location"
+              class="w-full h-28 object-cover"
+            ></iframe>
+          </div>
+
+          <!-- स्वीकृत भुगतान साझेदार (Payment Partners) -->
+          <div class="pt-2">
+            <div class="text-[11px] font-extrabold uppercase tracking-wider text-slate-400 mb-2 font-outfit">
+              स्वीकृत भुगतान विकल्प:
+            </div>
+            <div class="flex flex-wrap gap-1.5">
+              <span class="text-[10px] font-black bg-slate-900 border border-slate-700/80 px-2.5 py-1 rounded-lg text-amber-300 font-outfit">
+                💵 Cash on Delivery
+              </span>
+              <span class="text-[10px] font-black bg-slate-900 border border-slate-700/80 px-2.5 py-1 rounded-lg text-emerald-300 font-outfit">
+                ⚡ UPI
+              </span>
+              <span class="text-[10px] font-black bg-slate-900 border border-slate-700/80 px-2.5 py-1 rounded-lg text-slate-300 font-outfit">
+                GPay
+              </span>
+              <span class="text-[10px] font-black bg-slate-900 border border-slate-700/80 px-2.5 py-1 rounded-lg text-slate-300 font-outfit">
+                PhonePe
+              </span>
+              <span class="text-[10px] font-black bg-slate-900 border border-slate-700/80 px-2.5 py-1 rounded-lg text-slate-300 font-outfit">
+                Paytm
+              </span>
+              <span class="text-[10px] font-black bg-slate-900 border border-slate-700/80 px-2.5 py-1 rounded-lg text-slate-300 font-outfit">
+                RuPay
+              </span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- कॉपीराइट व बॉटम लाइन -->
+      <div class="border-t border-slate-800/80 mt-12 pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-3">
+        <div class="flex items-center gap-3">
+          <p class="font-outfit">© 2026 Digital Kirana Mart. सर्वाधिकार सुरक्षित (All Rights Reserved).</p>
+          <a href="admin.html" class="inline-flex items-center gap-1 text-[11px] font-bold text-amber-400 hover:text-amber-300 transition bg-slate-900 border border-slate-700 px-2.5 py-1 rounded-lg shadow-xs" title="स्टोर ओनर एडमिन पोर्टल">
+            <i data-lucide="shield-alert" class="w-3.5 h-3.5"></i>
+            <span>स्टोर एडमिन (Admin)</span>
+          </a>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+          <p class="font-bold text-slate-300">
+            भारतीय स्थानीय किराना के लिए विशेष प्रेम से निर्मित ❤️
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- ==============================================================
+       13. असली प्रिंट रसीद कंटेनर (@media print केवल इसी को प्रिंट करेगा!)
+       ============================================================== -->
+  <div id="printableReceiptArea" class="printable-receipt-area hidden">
+    <div style="text-align: center; margin-bottom: 10px;">
+      <h2 style="font-size: 18px; font-weight: bold; margin: 0;">DIGITAL KIRANA MART</h2>
+      <p style="font-size: 11px; margin: 2px 0;">24, मेन राजवाड़ा मार्केट, एम.जी. रोड, इंदौर (म.प्र.)</p>
+      <p style="font-size: 10px; margin: 2px 0;">FSSAI Lic No: 11422850001234 | फोन: 1800-123-5566</p>
+    </div>
+
+    <div class="print-dashed-divider"></div>
+
+    <div style="font-size: 11px; margin-bottom: 8px;">
+      <div><strong>ऑर्डर ID:</strong> #DKM-849201</div>
+      <div><strong>दिनांक:</strong> <span id="printReceiptDate">आज, 26 अक्टूबर 2026</span></div>
+      <div><strong>ग्राहक:</strong> <span id="printCustName">राजेश शर्मा (+91 98260-12345)</span></div>
+      <div><strong>पता:</strong> मकान नं. 14, आनंद नगर, मेन रोड, इंदौर - 452001</div>
+      <div><strong>भुगतान:</strong> 💵 Cash on Delivery (COD)</div>
+    </div>
+
+    <div class="print-dashed-divider"></div>
+
+    <table style="width: 100%; font-size: 11px; border-collapse: collapse; margin: 6px 0;">
+      <thead>
+        <tr style="border-bottom: 1px dashed #000; text-align: left;">
+          <th style="padding: 3px 0;">सामान का विवरण</th>
+          <th style="text-align: center; padding: 3px 0;">मात्रा</th>
+          <th style="text-align: right; padding: 3px 0;">रकम</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding: 4px 0;">इंडिया गेट क्लासिक बासमती (5 kg)</td>
+          <td style="text-align: center; padding: 4px 0;">1</td>
+          <td style="text-align: right; padding: 4px 0;">₹920.00</td>
+        </tr>
+        <tr>
+          <td style="padding: 4px 0;">इंडिया गेट क्लासिक बासमती (1 kg)</td>
+          <td style="text-align: center; padding: 4px 0;">1</td>
+          <td style="text-align: right; padding: 4px 0;">₹195.00</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="print-dashed-divider"></div>
+
+    <div style="font-size: 11px; line-height: 1.5;">
+      <div style="display: flex; justify-content: space-between;">
+        <span>सामान का कुल मूल्य (Subtotal):</span>
+        <span>₹1,115.00</span>
+      </div>
+      <div style="display: flex; justify-content: space-between;">
+        <span>डिलीवरी शुल्क (15 मिनट एक्सप्रेस):</span>
+        <span>₹0.00 (FREE)</span>
+      </div>
+      <div style="display: flex; justify-content: space-between;">
+        <span>कूपन छूट (SHUDDH50):</span>
+        <span>- ₹50.00</span>
+      </div>
+      <div class="print-dashed-divider"></div>
+      <div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: bold;">
+        <span>कुल देय राशि (Grand Total):</span>
+        <span>₹1,065.00</span>
+      </div>
+    </div>
+
+    <div class="print-dashed-divider"></div>
+
+    <div style="text-align: center; font-size: 10px; margin-top: 10px;">
+      <p style="margin: 2px 0;">*** 100% शुद्ध देशी उत्पाद गारंटी ***</p>
+      <p style="margin: 2px 0;">🙏 आपके विश्वास के लिए धन्यवाद! फिर पधारें 🙏</p>
+      <p style="margin: 2px 0;">हेल्पलाइन: 1800-123-5566 | help@digitalkiranamart.com</p>
+    </div>
+  </div>
+
+
+  <!-- ==============================================================
+       14. मोडल्स (Location & UPI QR Popups)
+       ============================================================== -->
+
+  <!-- 1. लोकेशन चेंज मोडल -->
+  <div id="locationModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-slate-100">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="font-black text-slate-900 text-base flex items-center gap-2 font-outfit">
+          <i data-lucide="map-pin" class="w-5 h-5 text-amber-500"></i>
+          <span>डिलीवरी लोकेशन चुनें</span>
+        </h3>
+        <button aria-label="लोकेशन मोडल बंद करें" onclick="closeLocationModal()" class="text-slate-400 hover:text-slate-700 cursor-pointer focus:outline-none focus:ring-2 focus:ring-amber-400 rounded-lg p-1">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      <p class="text-xs text-slate-500 mb-4">15 मिनट डिलीवरी के लिए अपना क्षेत्र या पिनकोड चुनें:</p>
+      
+      <div class="space-y-3">
+        <div>
+          <label for="pincodeInput" class="text-xs font-bold text-slate-700 block mb-1">पिनकोड दर्ज करें:</label>
+          <input type="text" id="pincodeInput" name="postal_code" autocomplete="postal-code" inputmode="numeric" placeholder="उदा. 452001" maxlength="6" value="452001" class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 font-outfit">
+        </div>
+
+        <div class="space-y-1.5 pt-1">
+          <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider font-outfit">लोकप्रिय शहर:</div>
+          <div class="grid grid-cols-2 gap-2">
+            <button onclick="selectCityLocation('Indore - 452001')" class="text-xs text-left p-2.5 rounded-xl border border-slate-200 hover:border-amber-500 hover:bg-amber-50 font-bold transition cursor-pointer font-outfit">
+              📍 इंदौर (452001)
+            </button>
+            <button onclick="selectCityLocation('Bhopal - 462001')" class="text-xs text-left p-2.5 rounded-xl border border-slate-200 hover:border-amber-500 hover:bg-amber-50 font-bold transition cursor-pointer font-outfit">
+              📍 भोपाल (462001)
+            </button>
+            <button onclick="selectCityLocation('Ujjain - 456001')" class="text-xs text-left p-2.5 rounded-xl border border-slate-200 hover:border-amber-500 hover:bg-amber-50 font-bold transition cursor-pointer font-outfit">
+              📍 उज्जैन (456001)
+            </button>
+            <button onclick="selectCityLocation('Dewas - 455001')" class="text-xs text-left p-2.5 rounded-xl border border-slate-200 hover:border-amber-500 hover:bg-amber-50 font-bold transition cursor-pointer font-outfit">
+              📍 देवास (455001)
+            </button>
+          </div>
+        </div>
+
+        <button onclick="saveCustomLocation()" class="w-full mt-4 bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs py-2.5 rounded-xl transition shadow cursor-pointer font-outfit">
+          लोकेशन सेव करें
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- 2. UPI पेमेंट मोडल (QR Code व सिमुलेशन) -->
+  <div id="upiModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-slate-100 text-center relative overflow-hidden">
+      
+      <button aria-label="UPI मोडल बंद करें" onclick="document.getElementById('upiModal').classList.add('hidden')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 cursor-pointer focus:outline-none focus:ring-2 focus:ring-emerald-500 rounded-lg p-1">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <div class="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-600 flex items-center justify-center mx-auto mb-3 border border-amber-500/20">
+        <i data-lucide="qr-code" class="w-6 h-6"></i>
+      </div>
+
+      <h3 class="font-black text-slate-900 text-lg font-outfit">UPI से तुरंत भुगतान करें</h3>
+      <p class="text-xs text-slate-500 mt-0.5">Google Pay, PhonePe, Paytm या BHIM</p>
+
+      <div class="bg-slate-50 rounded-2xl p-3 my-4 border border-slate-200">
+        <div class="text-[11px] text-slate-500 uppercase tracking-wider font-bold">भुगतान की जाने वाली राशि</div>
+        <div id="upiModalAmount" class="text-2xl font-black text-brand-700 font-outfit">₹1,065</div>
+      </div>
+
+      <div class="relative bg-white p-3 rounded-2xl border-2 border-dashed border-amber-300 inline-block shadow-inner mx-auto mb-4">
+        <img 
+          id="upiQrCodeImg" 
+          src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=upi://pay?pa=digitalkirana@upi&pn=DigitalKiranaMart&am=1065&cu=INR" 
+          alt="Digital Kirana Mart Instant UPI Payment QR Code - तुरंत UPI भुगतान" 
+          onerror="this.onerror=null; this.src='https://placehold.co/400x400/f8fafc/0f172a?text=Scan+UPI+QR';"
+          loading="lazy"
+          decoding="async"
+          class="w-40 h-40 object-contain mx-auto rounded-xl"
+        >
+        <div class="text-[10px] text-slate-400 mt-1 font-mono">UPI ID: digitalkirana@upi</div>
+      </div>
+
+      <div class="space-y-2">
+        <button onclick="simulateSuccessfulPayment()" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs py-3 rounded-xl transition shadow flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer font-outfit">
+          <i data-lucide="check-circle" class="w-4 h-4"></i>
+          <span>भुगतान सफल हुआ (कन्फर्म करें)</span>
+        </button>
+        <button onclick="closeUpiModal()" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs py-2 rounded-xl transition cursor-pointer font-outfit">
+          रद्द करें
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==============================================================
+       15. फ्लोटिंग टोस्ट नोटिफिकेशन अलर्ट (Toast Notification)
+       ============================================================== -->
+  <div id="toastNotification" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-[#090D16] text-white text-xs sm:text-sm font-bold px-4 py-3 rounded-2xl shadow-2xl border border-emerald-500/40 flex items-center gap-2.5 opacity-0 pointer-events-none transition-all duration-300 font-outfit max-w-[90vw] sm:max-w-md">
+    <span class="w-6 h-6 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 border border-emerald-500/30">
+      <i data-lucide="check" class="w-4 h-4"></i>
+    </span>
+    <span id="toastMessage" class="truncate">सामान टोकरी में जोड़ा गया!</span>
+  </div>
+
+
+  <!-- Canvas Confetti CDN (ऑर्डर सक्सेस पर कन्फ़ेट्टी के लिए - Defer Non-critical JS) -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js" defer></script>
+
+  <!-- मुख्य जावास्क्रिप्ट लॉजिक फ़ाइल (Phase 2: script.js - Defer Non-blocking) -->
+  <script src="script.js" defer></script>
+
+</body>
+</html>
