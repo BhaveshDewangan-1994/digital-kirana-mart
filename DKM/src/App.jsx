@@ -3,16 +3,18 @@ import React, { useState, useMemo } from 'react';
 // =============================================================================
 // DIGITAL KIRANA MART - REACT FRONTEND (src/App.jsx)
 // Integrations:
-// 1. Google Sheets Webhook (Live CRM Order Logging)
+// 1. Supabase REST API (Live Database Orders Table Logging)
 // 2. Web3Forms API (Instant Email Notifications)
-// 3. WhatsApp Order Chat Redirection (Instant Receipt)
+// 3. WhatsApp Order Chat Redirection (Instant Customer Receipt)
 // 4. Dynamic Category Filter, Live Search, Weight Variants, Cart Drawer & Modal
 // =============================================================================
 
-// Webhook & API Configurations
-const GOOGLE_SHEET_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbzQ5J3ZXd6AdjH_P5ZlfppZRx--rgdjSGiY-v-gMtH52LPluoUP34xB8_k-tb2U-jXDqA/exec";
+// Supabase, Web3Forms & WhatsApp Configurations
+const SUPABASE_REST_URL = "https://wskcqzhukpfpfrituwvu.supabase.co/rest/v1/orders";
+const SUPABASE_ANON_KEY = "sb_publishable_vnd9F3n0I5lqUjzpzcvStA_V_JqBn9Y";
 const WEB3FORMS_ACCESS_KEY = "f92f0e40-cfdb-4c32-ac54-b714cd38157b";
 const WEB3FORMS_API_URL = "https://api.web3forms.com/submit";
+const GOOGLE_SHEET_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbzQ5J3ZXd6AdjH_P5ZlfppZRx--rgdjSGiY-v-gMtH52LPluoUP34xB8_k-tb2U-jXDqA/exec";
 const WHATSAPP_PHONE_NUMBER = "919826012345"; // Store WhatsApp Helpline
 
 // Category Master List
@@ -388,7 +390,7 @@ export default function App() {
     });
   }, [selectedCategory, searchQuery]);
 
-  // ---------------- ORDER SUBMISSION FLOW: GOOGLE SHEETS + WEB3FORMS + WHATSAPP ----------------
+  // ---------------- ORDER SUBMISSION FLOW: SUPABASE REST + WEB3FORMS + WHATSAPP ----------------
   const handleOrderOnWhatsApp = async (e) => {
     if (e) e.preventDefault();
 
@@ -398,8 +400,9 @@ export default function App() {
       return;
     }
 
-    if (!customer.name.trim()) {
-      showToast("⚠️ कृपया अपना पूरा नाम दर्ज करें!");
+    const customerName = customer.name.trim();
+    if (!customerName || customerName.length < 3) {
+      showToast("⚠️ कृपया अपना पूरा नाम (कम से कम 3 अक्षर) दर्ज करें!");
       return;
     }
 
@@ -408,13 +411,17 @@ export default function App() {
       showToast("⚠️ कृपया 10 अंकों का मान्य मोबाइल नंबर दर्ज करें!");
       return;
     }
+    const customerPhone = cleanPhone.slice(-10);
 
-    if (!customer.address.trim()) {
-      showToast("⚠️ कृपया अपना डिलीवरी पता दर्ज करें!");
+    const rawAddress = customer.address.trim();
+    if (!rawAddress || rawAddress.length < 5) {
+      showToast("⚠️ कृपया अपना पूरा डिलीवरी पता दर्ज करें!");
       return;
     }
 
-    // 2. Show button loading state: "Processing Order..."
+    const customerAddress = `${rawAddress}${customer.landmark ? ', Landmark: ' + customer.landmark.trim() : ''}${customer.pincode ? ', Pincode: ' + customer.pincode.trim() : ''} (Indore)`;
+
+    // Set loading state to true ("Processing Order...")
     setIsSubmitting(true);
 
     const generatedOrderId = "DKM-" + Math.floor(100000 + Math.random() * 900000);
@@ -423,50 +430,50 @@ export default function App() {
       timeStyle: 'short'
     });
 
-    const formattedAddress = `${customer.address.trim()}${customer.landmark ? ', Landmark: ' + customer.landmark.trim() : ''}${customer.pincode ? ', Pincode: ' + customer.pincode.trim() : ''} (Indore)`;
     const paymentMethodLabel = paymentMethod === 'COD' ? "Cash on Delivery (COD)" : "Pay via UPI / Online";
+    const totalPrice = totalBill;
 
-    // Format itemized summary
-    const formattedItemsList = cart.map((item, idx) => {
+    // Itemized summary formatted for Supabase & Email
+    const formattedSummary = cart.map((item, idx) => {
       const lineTotal = item.variant.price * item.quantity;
       return `${idx + 1}. ${item.product.name} [${item.variant.weight}] × Qty: ${item.quantity} = ₹${lineTotal} (₹${item.variant.price}/unit)`;
     }).join("\n");
 
-    const fullOrderSummaryText = `${formattedItemsList}
+    const fullOrderSummaryText = `${formattedSummary}
 
 ----------------------------------------
 Subtotal: ₹${subtotal}
 Delivery Fee: ${deliveryFee === 0 ? 'FREE (15 Min Express)' : '₹' + deliveryFee}
 Coupon Discount (SHUDDH50): ${discount > 0 ? '₹' + discount : '₹0'}
 ----------------------------------------
-TOTAL BILL: ₹${totalBill}
+TOTAL BILL: ₹${totalPrice}
 Payment Mode: ${paymentMethodLabel}
 Delivery Slot: ${deliverySlot}`;
 
-    // 3. Prepare Payload for Google Sheet Webhook
-    const googleSheetPayload = {
-      customer_name: customer.name.trim(),
-      customer_phone: cleanPhone.slice(-10),
-      customer_address: formattedAddress,
-      order_summary: formattedItemsList,
-      total_bill: `₹${totalBill}`,
-      payment_method: paymentMethodLabel
+    // 2. Prepare Supabase Payload
+    const supabasePayload = {
+      customer_name: customerName,
+      customer_phone: customerPhone,
+      customer_address: customerAddress,
+      order_summary: formattedSummary,
+      total_bill: totalPrice,
+      payment_method: "COD"
     };
 
-    // 4. Prepare Payload for Web3Forms Email Alert
+    // 3. Prepare Web3Forms Email Payload
     const web3FormsPayload = {
       access_key: WEB3FORMS_ACCESS_KEY,
       subject: "🛒 Naya Grocery Order - Digital Kirana Mart",
       from_name: "Digital Kirana Mart",
-      customer_name: customer.name.trim(),
-      customer_phone: cleanPhone.slice(-10),
-      customer_address: formattedAddress,
+      customer_name: customerName,
+      customer_phone: customerPhone,
+      customer_address: customerAddress,
       order_summary: fullOrderSummaryText,
-      total_bill: `₹${totalBill}`,
+      total_bill: `₹${totalPrice}`,
       payment_method: paymentMethodLabel
     };
 
-    // 5. Build WhatsApp URL with prefilled readable text
+    // 4. Prepare WhatsApp Message
     let waMessage = `🛒 *डिजिटल किराना मार्ट (Digital Kirana Mart)*\n`;
     waMessage += `🌾 *100% शुद्ध देशी किराना | 15 मिनट सुपरफास्ट डिलीवरी*\n`;
     waMessage += `══════════════════════════════════\n`;
@@ -476,13 +483,11 @@ Delivery Slot: ${deliverySlot}`;
     waMessage += `══════════════════════════════════\n\n`;
 
     waMessage += `👤 *ग्राहक विवरण (Customer Details):*\n`;
-    waMessage += `• *नाम:* ${customer.name}\n`;
-    waMessage += `• *मोबाइल नंबर:* +91 ${cleanPhone.slice(-10)}\n`;
-    waMessage += `• *डिलीवरी पता:* ${customer.address}\n`;
-    if (customer.landmark) waMessage += `• *लैंडमार्क:* ${customer.landmark}\n`;
-    waMessage += `• *पिनकोड:* ${customer.pincode || '452001'}\n`;
+    waMessage += `• *नाम:* ${customerName}\n`;
+    waMessage += `• *मोबाइल नंबर:* +91 ${customerPhone}\n`;
+    waMessage += `• *डिलीवरी पता:* ${customerAddress}\n`;
     waMessage += `• *डिलीवरी स्लॉट:* ${deliverySlot}\n`;
-    waMessage += `• *भुगतान विधि:* ${paymentMethod === 'COD' ? '💵 Cash on Delivery (COD)' : '⚡ Pay via UPI'}\n\n`;
+    waMessage += `• *भुगतान विधि:* ${paymentMethodLabel}\n\n`;
 
     waMessage += `📦 *ऑर्डर किए गए किराना सामान:*\n`;
     waMessage += `──────────────────────────────────\n`;
@@ -498,55 +503,92 @@ Delivery Slot: ${deliverySlot}`;
       waMessage += `🏷️ *कूपन छूट (SHUDDH50):* -₹${discount}\n`;
     }
     waMessage += `══════════════════════════════════\n`;
-    waMessage += `✨ *कुल देय राशि (Grand Total):* *₹${totalBill}*\n`;
+    waMessage += `✨ *कुल देय राशि (Grand Total):* *₹${totalPrice}*\n`;
     waMessage += `══════════════════════════════════\n\n`;
     waMessage += `🙏 *डिजिटल किराना मार्ट से खरीदारी करने के लिए धन्यवाद!*`;
 
     const encodedWhatsAppUrl = `https://wa.me/${WHATSAPP_PHONE_NUMBER}?text=${encodeURIComponent(waMessage)}`;
 
-    // 6. WhatsApp तुरंत खोलें (Popup Blocker से बचाव के लिए सीधे यूजर क्लिक पर)
+    // 2 & 3. Send requests to Supabase and Web3Forms (with keepalive)
     try {
-      window.open(encodedWhatsAppUrl, '_blank');
-    } catch (popupErr) {
-      console.warn("Popup blocked or direct redirect needed:", popupErr);
+      const supabasePromise = fetch(SUPABASE_REST_URL, {
+        method: "POST",
+        keepalive: true,
+        headers: {
+          "apikey": SUPABASE_ANON_KEY,
+          "Authorization": `Bearer ${SUPABASE_ANON_KEY}`,
+          "Content-Type": "application/json",
+          "Prefer": "return=minimal"
+        },
+        body: JSON.stringify(supabasePayload)
+      });
+
+      const web3FormsPromise = fetch(WEB3FORMS_API_URL, {
+        method: "POST",
+        keepalive: true,
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify(web3FormsPayload)
+      });
+
+      const googleSheetPromise = fetch(GOOGLE_SHEET_WEBHOOK_URL, {
+        method: "POST",
+        mode: "no-cors",
+        keepalive: true,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          customer_name: customerName,
+          customer_phone: customerPhone,
+          customer_address: customerAddress,
+          order_summary: formattedSummary,
+          total_bill: `₹${totalPrice}`,
+          payment_method: paymentMethodLabel
+        })
+      });
+
+      await Promise.allSettled([supabasePromise, web3FormsPromise, googleSheetPromise]);
+    } catch (err) {
+      console.warn("Order synchronization notice:", err);
     }
 
-    // 7. बैकग्राउंड में Google Sheets और Web3Forms को डेटा भेजें (Non-blocking)
-    fetch(GOOGLE_SHEET_WEBHOOK_URL, {
-      method: "POST",
-      mode: "no-cors",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(googleSheetPayload)
-    }).catch(err => console.warn("Google Sheet sync notice:", err));
+    // 4. Open WhatsApp URL (wa.me) with pre-filled bill
+    try {
+      const waWindow = window.open(encodedWhatsAppUrl, '_blank');
+      if (!waWindow || waWindow.closed || typeof waWindow.closed === 'undefined') {
+        window.location.href = encodedWhatsAppUrl;
+      }
+    } catch (popupErr) {
+      window.location.href = encodedWhatsAppUrl;
+    }
 
-    fetch(WEB3FORMS_API_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      },
-      body: JSON.stringify(web3FormsPayload)
-    }).catch(err => console.warn("Web3Forms email notice:", err));
-
-    // 8. ऑर्डर कम्प्लीट करें, कार्ट खाली करें व सक्सेस मोडल दिखाएं
+    // Save order details for success modal
     setOrderSuccess({
       orderId: generatedOrderId,
       date: orderTimestamp,
-      name: customer.name,
-      phone: cleanPhone.slice(-10),
-      address: formattedAddress,
-      total: totalBill,
+      name: customerName,
+      phone: customerPhone,
+      address: customerAddress,
+      total: totalPrice,
       paymentMode: paymentMethodLabel,
       items: [...cart]
     });
 
+    // 5. Reset cart and clear customer input fields
     setCart([]);
+    setCustomer({
+      name: '',
+      phone: '',
+      address: '',
+      landmark: '',
+      pincode: ''
+    });
     setIsCouponApplied(false);
     setIsCartOpen(false);
     setIsSubmitting(false);
 
-    showToast("🎉 बधाई! ऑर्डर सफलतापूर्वक दर्ज हो गया और WhatsApp पर भेज दिया गया!");
-  };
+    showToast("🎉 बधाई! ऑर्डर Supabase DB में सेव हुआ और WhatsApp पर भेजा गया!");
   };
 
   return (
@@ -896,7 +938,7 @@ Delivery Slot: ${deliverySlot}`;
                     <span className="text-5xl block mb-3">🧺</span>
                     <h4 className="font-bold text-slate-800">आपकी टोकरी अभी खाली है!</h4>
                     <p className="text-xs text-slate-400 mt-1 max-w-xs mx-auto">
-                      शुद्ध बासमती चावल, मसाले, दालें व कोल्ड ड्रिंक्स कार्ट में जोड़ें।
+                       शुद्ध बासमती चावल, मसाले, दालें व कोल्ड ड्रिंक्स कार्ट में जोड़ें।
                     </p>
                     <button
                       type="button"
@@ -1011,7 +1053,7 @@ Delivery Slot: ${deliverySlot}`;
                           />
                         </div>
                         <div>
-                          <label className="text-[10px] font-bold text-slate-600 block mb-1">पिनकोड *</label>
+                          <label className="text-[10px] font-bold text-slate-600 block mb-1">पिनकोड</label>
                           <input
                             type="text"
                             maxLength={6}
@@ -1159,7 +1201,7 @@ Delivery Slot: ${deliverySlot}`;
                     )}
                   </button>
                   <p className="text-[10px] text-center text-slate-400">
-                    📊 Google Sheets, 📧 ईमेल अलर्ट व 💬 WhatsApp रसीद स्वतः सिंक होंगी।
+                    💾 Supabase DB, 📧 ईमेल अलर्ट व 💬 WhatsApp रसीद स्वतः सिंक होंगी।
                   </p>
                 </div>
               )}
@@ -1181,7 +1223,7 @@ Delivery Slot: ${deliverySlot}`;
               बधाई! आपका ऑर्डर दर्ज हो गया है!
             </h3>
             <p className="text-xs text-slate-500 mt-1">
-              ऑर्डर विवरण Google Sheets CRM और आपके ईमेल/WhatsApp पर भेज दिया गया है।
+              ऑर्डर विवरण Supabase Database और आपके ईमेल/WhatsApp पर भेज दिया गया है।
             </p>
 
             {/* Summary Box */}
@@ -1231,7 +1273,7 @@ Delivery Slot: ${deliverySlot}`;
             <div className="text-[11px] text-slate-500">100% शुद्ध देशी किराना | FSSAI Lic No: 11422850001234</div>
           </div>
           <div className="text-[11px]">
-            © 2026 Digital Kirana Mart. Google Sheets CRM, Web3Forms & WhatsApp Integrated.
+            © 2026 Digital Kirana Mart. Supabase Database, Web3Forms & WhatsApp Integrated.
           </div>
         </div>
       </footer>
