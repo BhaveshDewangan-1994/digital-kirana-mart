@@ -1,0 +1,52 @@
+{
+  "name": "DKM - Digital Kirana Mart Order Alert",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "dkm-order",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "webhook-dkm-order",
+      "name": "DKM Order Webhook",
+      "webhookId": "dkm-order"
+    },
+    {
+      "parameters": {
+        "chatId": "783143667",
+        "text": "=🚨 नया किराना ऑर्डर प्राप्त हुआ! 🛒✨\n══════════════════════════\n🔢 ऑर्डर ID: #{{ $json.body.order_id }}\n📅 दिनांक व समय: {{ $json.body.timestamp }}\n══════════════════════════\n👤 ग्राहक विवरण (Customer Info):\n• नाम: {{ $json.body.customer_name }}\n• मोबाइल: +91 {{ $json.body.customer_phone }}\n• पता: {{ $json.body.customer_address }}\n• डिलीवरी स्लॉट: {{ $json.body.delivery_slot }}\n• भुगतान: {{ $json.body.payment_mode }}\n══════════════════════════\n📦 ऑर्डर किए गए सामान (Items):\n{{ $json.body.items_summary }}\n══════════════════════════\n💰 सबटोटल: ₹{{ $json.body.subtotal }}\n🚚 डिलीवरी शुल्क: {{ $json.body.delivery_fee == 0 ? 'मुफ्त (FREE)' : '₹' + $json.body.delivery_fee }}\n🏷️ छूट: ₹{{ $json.body.discount }}\n✨ कुल बिल (Grand Total): ₹{{ $json.body.grand_total }}\n══════════════════════════\n⚡ तुरंत ऑर्डर पैक करके डिलीवरी बॉय को सौंपें!"
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        260,
+        0
+      ],
+      "id": "telegram-dkm-alert",
+      "name": "Telegram Shop Owner Alert"
+    }
+  ],
+  "connections": {
+    "DKM Order Webhook": {
+      "main": [
+        [
+          {
+            "node": "Telegram Shop Owner Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

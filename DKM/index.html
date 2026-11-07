@@ -261,15 +261,26 @@
                 type="text" 
                 id="searchInput" 
                 placeholder="सर्च करें: बासमती चावल, आशीर्वाद आटा, मैगी, कोका कोला, मसाले..." 
-                class="w-full pl-3.5 pr-8 py-2.5 text-xs font-medium text-slate-800 placeholder-slate-400 focus:outline-none"
+                class="w-full pl-3.5 pr-16 py-2.5 text-xs font-medium text-slate-800 placeholder-slate-400 focus:outline-none"
               >
+              <!-- 🎙️ वॉयस सर्च / माइक बटन -->
+              <button 
+                type="button" 
+                id="voiceSearchBtnDesktop" 
+                aria-label="बोलकर सामान जोड़ें"
+                onclick="openVoiceAssistantModal()" 
+                class="absolute right-9 text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50 p-1.5 focus:outline-none rounded-lg transition-transform hover:scale-110 active:scale-95 cursor-pointer"
+                title="बोलकर सामान जोड़ें (Voice Order)"
+              >
+                <i data-lucide="mic" class="w-4 h-4"></i>
+              </button>
               <!-- क्लियर बटन -->
               <button 
                 type="button" 
                 id="searchClearBtn" 
                 aria-label="सर्च साफ़ करें"
                 onclick="clearSearchInput()" 
-                class="hidden absolute right-2.5 text-slate-400 hover:text-slate-600 p-1 focus:outline-none focus:ring-2 focus:ring-amber-400 rounded-lg"
+                class="hidden absolute right-2 text-slate-400 hover:text-slate-600 p-1 focus:outline-none focus:ring-2 focus:ring-amber-400 rounded-lg"
                 title="सर्च साफ़ करें"
               >
                 <i data-lucide="x" class="w-4 h-4"></i>
@@ -326,12 +337,24 @@
       <!-- मोबाइल सर्च बार (Mobile Search Row) -->
       <div class="mt-2.5 md:hidden">
         <form onsubmit="event.preventDefault(); document.getElementById('productsSection').scrollIntoView({behavior: 'smooth'});" class="flex items-center rounded-xl overflow-hidden border border-amber-500/70 bg-white shadow-xs">
-          <input 
-            type="text" 
-            id="mobileSearchInput"
-            placeholder="सर्च: बासमती, आटा, मसाले, मैगी..." 
-            class="w-full pl-3 pr-2 py-2 text-xs font-medium text-slate-800 placeholder-slate-400 focus:outline-none"
-          >
+          <div class="relative flex-1 flex items-center">
+            <input 
+              type="text" 
+              id="mobileSearchInput"
+              placeholder="सर्च: बासमती, आटा, मसाले, मैगी..." 
+              class="w-full pl-3 pr-8 py-2 text-xs font-medium text-slate-800 placeholder-slate-400 focus:outline-none"
+            >
+            <!-- 🎙️ मोबाइल वॉयस माइक बटन -->
+            <button 
+              type="button" 
+              id="voiceSearchBtnMobile" 
+              onclick="openVoiceAssistantModal()" 
+              class="absolute right-1 text-emerald-600 hover:text-emerald-700 p-1.5 focus:outline-none rounded-lg cursor-pointer transition-transform hover:scale-110 active:scale-95"
+              title="बोलकर सामान जोड़ें (Voice Order)"
+            >
+              <i data-lucide="mic" class="w-4 h-4"></i>
+            </button>
+          </div>
           <button type="submit" aria-label="सर्च करें" class="bg-amber-500 text-slate-950 px-3.5 py-2 font-bold text-xs shrink-0 focus:outline-none focus:ring-2 focus:ring-amber-400">
             <i data-lucide="search" class="w-3.5 h-3.5"></i>
           </button>
@@ -2177,11 +2200,116 @@
   </div>
 
 
+  <!-- ==============================================================
+       🎙️ 16. फ्लोटिंग वॉयस किराना असिस्टेंट बटन (Floating Voice Order FAB)
+       ============================================================== -->
+  <button 
+    id="voiceFabBtn" 
+    onclick="openVoiceAssistantModal()" 
+    type="button" 
+    class="fixed bottom-20 sm:bottom-6 right-4 sm:right-6 z-40 bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-500 hover:from-emerald-500 hover:to-teal-500 text-white font-black px-4 py-3 rounded-full shadow-2xl flex items-center gap-2.5 hover:scale-105 active:scale-95 transition-all border-2 border-emerald-300/40 cursor-pointer shadow-emerald-500/30 group animate-pulse hover:animate-none font-outfit"
+    title="बोलकर सामान जोड़ें (Voice-to-Cart AI)"
+  >
+    <div class="w-7 h-7 rounded-full bg-white/20 flex items-center justify-center group-hover:rotate-12 transition-transform">
+      <i data-lucide="mic" class="w-4 h-4 text-white"></i>
+    </div>
+    <span class="text-xs sm:text-sm font-bold tracking-wide">बोलकर ऑर्डर करें</span>
+    <span class="bg-amber-400 text-slate-950 text-[10px] font-black px-1.5 py-0.5 rounded-full uppercase">AI</span>
+  </button>
+
+
+  <!-- ==============================================================
+       🎙️ 17. वॉयस किराना असिस्टेंट मोडल (Voice-to-Cart AI Modal)
+       ============================================================== -->
+  <div id="voiceAssistantModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-[#0B0F19] text-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-emerald-500/30 text-center relative overflow-hidden font-outfit">
+      
+      <!-- बंद करने का बटन -->
+      <button aria-label="वॉयस मोडल बंद करें" onclick="closeVoiceAssistantModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition cursor-pointer">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <!-- हेडर -->
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-black mb-3">
+        <span>⚡ AI वॉयस किराना असिस्टेंट</span>
+      </div>
+      <h3 class="text-xl font-black text-white">बोलकर सामान जोड़ें</h3>
+      <p class="text-xs text-slate-400 mt-1">हिंदी या इंग्लिश में बोलें, सामान सीधे कार्ट में जुड़ जाएगा!</p>
+
+      <!-- बड़ा पल्सेटिंग माइक बटन व साउंडवेव -->
+      <div class="my-6 relative flex items-center justify-center">
+        <!-- पल्सेटिंग रिंग्स -->
+        <div id="voicePulseRing1" class="absolute w-28 h-28 rounded-full bg-emerald-500/20 animate-ping pointer-events-none hidden"></div>
+        <div id="voicePulseRing2" class="absolute w-24 h-24 rounded-full bg-emerald-500/30 animate-pulse pointer-events-none hidden"></div>
+        
+        <!-- माइक बटन -->
+        <button 
+          id="voiceMicMainBtn" 
+          onclick="toggleVoiceAssistantRecording()" 
+          type="button" 
+          class="relative w-20 h-20 rounded-full bg-gradient-to-tr from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white flex items-center justify-center shadow-xl shadow-emerald-500/40 border-4 border-slate-900 cursor-pointer transition-transform hover:scale-105 active:scale-95"
+          title="माइक चालू / बंद करें"
+        >
+          <i id="voiceMicIcon" data-lucide="mic" class="w-8 h-8 text-white"></i>
+        </button>
+      </div>
+
+      <!-- लाइव ट्रांसक्रिप्शन व स्थिति -->
+      <div class="bg-slate-900/90 rounded-2xl p-4 border border-slate-800 mb-4 min-h-[70px] flex flex-col items-center justify-center">
+        <div id="voiceStatusBadge" class="text-[11px] font-bold text-amber-400 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+          <span id="voiceStatusText">माइक पर टैप करके बोलें...</span>
+        </div>
+        <p id="voiceLiveTranscript" class="text-sm font-semibold text-slate-200 italic">"उदा: 1 किलो बासमती चावल और 1 लीटर तेल"</p>
+      </div>
+
+      <!-- पहचाने गए सामानों की सूची (Matched Items Results) -->
+      <div id="voiceMatchedContainer" class="hidden mb-4 text-left space-y-2 max-h-48 overflow-y-auto pr-1">
+        <div class="text-[11px] text-emerald-400 font-bold uppercase tracking-wider">टोकरी में जोड़े गए सामान:</div>
+        <div id="voiceMatchedList" class="space-y-1.5">
+          <!-- Dynamic Matched Items Here -->
+        </div>
+      </div>
+
+      <!-- तुरंत बोलने के लिए सुझाव चिप्स (Quick Speech Chips) -->
+      <div class="mb-5">
+        <div class="text-[11px] text-slate-400 font-bold mb-2">या सीधे इन पर टैप करें:</div>
+        <div class="flex flex-wrap gap-1.5 justify-center">
+          <button onclick="simulateVoiceQuery('1 किलो बासमती चावल')" class="px-2.5 py-1 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 hover:border-emerald-500 transition cursor-pointer">
+            🌾 1 kg बासमती चावल
+          </button>
+          <button onclick="simulateVoiceQuery('1 लीटर अमूल शुद्ध घी')" class="px-2.5 py-1 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 hover:border-emerald-500 transition cursor-pointer">
+            🫒 1 L अमूल घी
+          </button>
+          <button onclick="simulateVoiceQuery('2 पैकेट मैगी नूडल्स')" class="px-2.5 py-1 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 hover:border-emerald-500 transition cursor-pointer">
+            🍜 2 पैकेट मैगी
+          </button>
+          <button onclick="simulateVoiceQuery('एवरेस्ट लाल मिर्च और हल्दी')" class="px-2.5 py-1 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 hover:border-emerald-500 transition cursor-pointer">
+            🌶️ लाल मिर्च व हल्दी
+          </button>
+        </div>
+      </div>
+
+      <!-- एक्शन बटन -->
+      <div class="flex items-center gap-2">
+        <button onclick="viewCartFromVoiceModal()" class="flex-1 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs py-3 rounded-xl transition shadow flex items-center justify-center gap-1.5 cursor-pointer">
+          <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+          <span>टोकरी देखें (View Cart)</span>
+        </button>
+        <button onclick="closeVoiceAssistantModal()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs py-3 px-4 rounded-xl transition cursor-pointer">
+          बंद करें
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+
   <!-- Canvas Confetti CDN (ऑर्डर सक्सेस पर कन्फ़ेट्टी के लिए - Defer Non-critical JS) -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js" defer></script>
 
   <!-- मुख्य जावास्क्रिप्ट लॉजिक फ़ाइल (Phase 2: script.js - Defer Non-blocking) -->
-  <script src="script.js" defer></script>
+  <script src="script.js?v=dkm_voice_ai_v3" defer></script>
 
 </body>
 </html>

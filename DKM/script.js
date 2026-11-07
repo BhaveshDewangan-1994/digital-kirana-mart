@@ -5,6 +5,13 @@
    कन्फ़ेट्टी सेलिब्रेशन, WhatsApp ऑर्डर व असली थर्मल प्रिंट रसीद (Print Bill)
    ========================================================================== */
 
+// ⚡ DKM कॉन्फ़िगरेशन (n8n Webhook & Store Info)
+window.DKM_CONFIG = {
+  n8nWebhookUrl: "https://bhaveshdewangan.app.n8n.cloud/webhook/dkm-order",
+  n8nTestWebhookUrl: "https://bhaveshdewangan.app.n8n.cloud/webhook-test/dkm-order",
+  useTestWebhook: true
+};
+
 // 🛡️ 1. ग्लोबल इमेज लोड एरर फॉलबैक (Bulletproof Image Fallbacks - Capturing Phase)
 window.addEventListener("error", function(e) {
   if (e.target && e.target.tagName && e.target.tagName.toLowerCase() === "img") {
@@ -2378,6 +2385,42 @@ function checkoutViaWhatsApp() {
     console.warn("Web3Forms dispatch notice:", err);
   }
 
+  // 1e. 🚨 n8n + Telegram लाइव स्टोर ओनर ऑर्डर अलर्ट (Live Enterprise Order Siren)
+  try {
+    const n8nOrderPayload = {
+      order_id: newOrder.orderId,
+      customer_name: name,
+      customer_phone: phone,
+      customer_address: `${address}${landmark ? ', Landmark: ' + landmark : ''}${pincode ? ', Pincode: ' + pincode : ''}`,
+      delivery_slot: deliverySlot,
+      payment_mode: paymentModeLabel,
+      subtotal: subtotal,
+      delivery_fee: deliveryFee,
+      discount: discount,
+      grand_total: grandTotal,
+      items_summary: cart.map((i, idx) => `${idx + 1}. ${i.product.title} [${i.variant.weight}] × ${i.quantity} = ₹${i.variant.price * i.quantity}`).join("\n"),
+      timestamp: dateFormatted
+    };
+
+    const testUrl = "https://bhaveshdewangan.app.n8n.cloud/webhook-test/dkm-order";
+    const prodUrl = "https://bhaveshdewangan.app.n8n.cloud/webhook/dkm-order";
+
+    // 🚀 दोनों पर भेजें ताकि टेस्ट मोड में n8n तुरंत पकड़े और लाइव होने पर भी कभी मिस न हो!
+    fetch(testUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(n8nOrderPayload)
+    }).catch(err => console.warn("n8n test webhook notice:", err));
+
+    fetch(prodUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(n8nOrderPayload)
+    }).catch(err => console.warn("n8n prod webhook notice:", err));
+  } catch (err) {
+    console.warn("n8n order alert error:", err);
+  }
+
   // 2. ऑर्डर सक्सेस मोडल को नए ऑर्डर से भरें
   const orderIdEl = document.getElementById("successModalOrderId");
   const totalEl = document.getElementById("successModalTotal");
@@ -2642,4 +2685,359 @@ function showToast(message) {
     toast.classList.add("opacity-0", "pointer-events-none");
     toast.classList.remove("opacity-100");
   }, 3200);
+}
+
+/* ==========================================================================
+   16. वॉयस किराना असिस्टेंट (VOICE-TO-CART AI ASSISTANT)
+   ग्राहक बोलकर सामान टोकरी में जोड़ सकता है (उदा: 1 किलो बासमती चावल, 2 पैकेट मैगी)
+   स्मार्ट NLP पार्सर + ऑटोमैटिक कार्ट इंसर्शन + शुद्ध हिंदी वॉयस रिस्पॉन्स
+   ========================================================================== */
+
+let voiceRecognition = null;
+let isVoiceRecording = false;
+
+// 1. वॉयस मोडल खोलना
+function openVoiceAssistantModal() {
+  const modal = document.getElementById("voiceAssistantModal");
+  if (!modal) return;
+  modal.classList.remove("hidden");
+  document.body.style.overflow = "hidden";
+  refreshLucideIcons();
+  
+  // ट्रांसक्रिप्ट रीसेट करें
+  const transcriptEl = document.getElementById("voiceLiveTranscript");
+  const statusText = document.getElementById("voiceStatusText");
+  const matchedContainer = document.getElementById("voiceMatchedContainer");
+  if (transcriptEl) transcriptEl.innerText = '"उदा: 1 किलो बासमती चावल और 1 लीटर तेल"';
+  if (statusText) statusText.innerText = "माइक पर टैप करके बोलें...";
+  if (matchedContainer) matchedContainer.classList.add("hidden");
+
+  // ऑटोमैटिक माइक स्टार्ट करें
+  startVoiceAssistantListening();
+}
+
+// 2. वॉयस मोडल बंद करना
+function closeVoiceAssistantModal() {
+  stopVoiceAssistantListening();
+  const modal = document.getElementById("voiceAssistantModal");
+  if (modal) modal.classList.add("hidden");
+  document.body.style.overflow = "auto";
+}
+
+// 3. मोडल से कार्ट खोलना
+function viewCartFromVoiceModal() {
+  closeVoiceAssistantModal();
+  toggleCartDrawer(true);
+}
+
+// 4. माइक ऑन/ऑफ टॉगल
+function toggleVoiceAssistantRecording() {
+  if (isVoiceRecording) {
+    stopVoiceAssistantListening();
+  } else {
+    startVoiceAssistantListening();
+  }
+}
+
+// 5. स्पीच रिकॉग्निशन शुरू करना
+function startVoiceAssistantListening() {
+  const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRec) {
+    showToast("⚠️ आपके ब्राउज़र में वॉयस रिकॉग्निशन सपोर्ट नहीं है। नीचे दिए गए चिप्स पर क्लिक करें!");
+    const statusText = document.getElementById("voiceStatusText");
+    if (statusText) statusText.innerText = "वॉयस सपोर्ट उपलब्ध नहीं (नीचे चिप्स चुनें)";
+    return;
+  }
+
+  try {
+    if (voiceRecognition) {
+      voiceRecognition.abort();
+    }
+
+    voiceRecognition = new SpeechRec();
+    voiceRecognition.lang = "hi-IN";
+    voiceRecognition.continuous = false;
+    voiceRecognition.interimResults = true;
+
+    // UI अपडेट (पल्स रिंग्स चालू)
+    isVoiceRecording = true;
+    updateVoiceMicUI(true);
+
+    const statusText = document.getElementById("voiceStatusText");
+    const transcriptEl = document.getElementById("voiceLiveTranscript");
+    if (statusText) statusText.innerText = "सुन रहा हूँ... बोलिए!";
+    if (transcriptEl) transcriptEl.innerText = "सुन रहा हूँ...";
+
+    voiceRecognition.onresult = function(event) {
+      let interim = "";
+      let finalTranscript = "";
+
+      for (let i = event.resultIndex; i < event.results.length; ++i) {
+        if (event.results[i].isFinal) {
+          finalTranscript += event.results[i][0].transcript;
+        } else {
+          interim += event.results[i][0].transcript;
+        }
+      }
+
+      const currentText = finalTranscript || interim;
+      if (transcriptEl && currentText) {
+        transcriptEl.innerText = `"${currentText}"`;
+      }
+
+      if (finalTranscript && finalTranscript.trim().length > 0) {
+        stopVoiceAssistantListening();
+        processVoiceKiranaQuery(finalTranscript);
+      }
+    };
+
+    voiceRecognition.onerror = function(event) {
+      console.warn("Speech recognition notice:", event.error);
+      stopVoiceAssistantListening();
+      const statusText = document.getElementById("voiceStatusText");
+      if (statusText) {
+        if (event.error === 'not-allowed') {
+          statusText.innerText = "⚠️ माइक की अनुमति (Permission) दें!";
+        } else if (event.error === 'no-speech') {
+          statusText.innerText = "कोई आवाज़ नहीं सुनाई दी। पुनः प्रयास करें!";
+        } else {
+          statusText.innerText = "पुनः माइक दबाकर बोलें...";
+        }
+      }
+    };
+
+    voiceRecognition.onend = function() {
+      stopVoiceAssistantListening();
+    };
+
+    voiceRecognition.start();
+  } catch (err) {
+    console.warn("Voice start error:", err);
+    stopVoiceAssistantListening();
+  }
+}
+
+// 6. स्पीच रिकॉग्निशन रोकना
+function stopVoiceAssistantListening() {
+  isVoiceRecording = false;
+  updateVoiceMicUI(false);
+  if (voiceRecognition) {
+    try {
+      voiceRecognition.stop();
+    } catch (e) {}
+  }
+}
+
+// माइक UI अपडेट
+function updateVoiceMicUI(isRecording) {
+  const ring1 = document.getElementById("voicePulseRing1");
+  const ring2 = document.getElementById("voicePulseRing2");
+  const micBtn = document.getElementById("voiceMicMainBtn");
+  
+  if (isRecording) {
+    if (ring1) ring1.classList.remove("hidden");
+    if (ring2) ring2.classList.remove("hidden");
+    if (micBtn) {
+      micBtn.classList.remove("from-emerald-600", "to-teal-500");
+      micBtn.classList.add("from-red-500", "to-rose-600", "animate-pulse");
+    }
+  } else {
+    if (ring1) ring1.classList.add("hidden");
+    if (ring2) ring2.classList.add("hidden");
+    if (micBtn) {
+      micBtn.classList.remove("from-red-500", "to-rose-600", "animate-pulse");
+      micBtn.classList.add("from-emerald-600", "to-teal-500");
+    }
+  }
+}
+
+// 7. स्मार्ट NLP किराना क्वेरी पार्सर व कार्ट में ऑटो-इंसर्शन
+function processVoiceKiranaQuery(rawQuery) {
+  if (!rawQuery || typeof rawQuery !== 'string') return;
+  const query = rawQuery.trim();
+
+  const transcriptEl = document.getElementById("voiceLiveTranscript");
+  const statusText = document.getElementById("voiceStatusText");
+  if (transcriptEl) transcriptEl.innerText = `"${query}"`;
+  if (statusText) statusText.innerText = "पहचाना जा रहा है...";
+
+  // 1. मल्टी-आइटम स्प्लिट (और, and, +, comma आदि)
+  const segments = query.split(/(?:\s+और\s+|\s+तथा\s+|\s+and\s+|\s*\+\s*|,\s*|\s+bhi\s+)/i)
+                        .map(s => s.trim())
+                        .filter(s => s.length > 0);
+
+  const matchedItems = [];
+
+  // प्रत्येक हिस्से के लिए प्रोडक्ट ढूंढें
+  segments.forEach(segment => {
+    const cleanSegment = segment.toLowerCase();
+
+    // अ. मात्रा (Quantity) निकालना
+    let quantity = 1;
+    if (/(?:^|\s)(?:2|दो|two)(?:\s|$|पैकेट|packet|किलो|kg|लीटर|l)/i.test(cleanSegment)) quantity = 2;
+    else if (/(?:^|\s)(?:3|तीन|three)(?:\s|$|पैकेट|packet|किलो|kg|लीटर|l)/i.test(cleanSegment)) quantity = 3;
+    else if (/(?:^|\s)(?:4|चार|four)(?:\s|$|पैकेट|packet|किलो|kg|लीटर|l)/i.test(cleanSegment)) quantity = 4;
+    else if (/(?:^|\s)(?:5|पाँच|पांच|five)(?:\s|$|पैकेट|packet|किलो|kg|लीटर|l)/i.test(cleanSegment)) quantity = 5;
+    else if (/(?:^|\s)(?:10|दस|ten)(?:\s|$|पैकेट|packet|किलो|kg|लीटर|l)/i.test(cleanSegment)) quantity = 10;
+    else {
+      const numMatch = cleanSegment.match(/\b(\d+)\b/);
+      if (numMatch && parseInt(numMatch[1], 10) > 0 && parseInt(numMatch[1], 10) <= 20) {
+        quantity = parseInt(numMatch[1], 10);
+      }
+    }
+
+    // ब. वजन/वैरिएंट का हिंट निकालना (Weight Hint)
+    let weightHint = "";
+    if (/(?:10\s*kg|10\s*किलो|10\s*kilo)/i.test(cleanSegment)) weightHint = "10";
+    else if (/(?:5\s*kg|5\s*किलो|5\s*kilo|5\s*लीटर|5\s*litre)/i.test(cleanSegment)) weightHint = "5";
+    else if (/(?:2\s*kg|2\s*किलो|2\s*kilo|2\s*लीटर|2\s*litre)/i.test(cleanSegment)) weightHint = "2";
+    else if (/(?:1\s*kg|1\s*किलो|1\s*kilo|1\s*लीटर|1\s*liter|1\s*l|1\s*litre)/i.test(cleanSegment)) weightHint = "1";
+    else if (/(?:500\s*g|500\s*ग्राम|500\s*gm|500\s*ml)/i.test(cleanSegment)) weightHint = "500";
+    else if (/(?:100\s*g|100\s*ग्राम|100\s*gm)/i.test(cleanSegment)) weightHint = "100";
+
+    // स. बेस्ट मैचिंग प्रोडक्ट खोजना (Fuzzy Keyword Scoring)
+    let bestProduct = null;
+    let highestScore = 0;
+
+    PRODUCTS.forEach(p => {
+      let score = 0;
+      const titleLower = (p.title + " " + (p.titleEn || "") + " " + p.brand + " " + p.category).toLowerCase();
+
+      // कीवर्ड स्कोरिंग डिक्शनरी
+      const keywords = [
+        { word: "बासमती", weight: 5 }, { word: "चावल", weight: 4 }, { word: "rice", weight: 4 },
+        { word: "घी", weight: 5 }, { word: "ghee", weight: 5 }, { word: "अमूल", weight: 4 },
+        { word: "आटा", weight: 5 }, { word: "atta", weight: 5 }, { word: "आशीर्वाद", weight: 5 },
+        { word: "सरसों", weight: 5 }, { word: "तेल", weight: 4 }, { word: "oil", weight: 4 }, { word: "फॉर्च्यून", weight: 3 },
+        { word: "दाल", weight: 4 }, { word: "अरहर", weight: 5 }, { word: "तुअर", weight: 5 }, { word: "मूंग", weight: 5 }, { word: "चना", weight: 5 },
+        { word: "नमक", weight: 5 }, { word: "salt", weight: 5 }, { word: "टाटा", weight: 3 },
+        { word: "मिर्च", weight: 5 }, { word: "हल्दी", weight: 5 }, { word: "धनिया", weight: 5 }, { word: "जीरा", weight: 5 }, { word: "मसाला", weight: 4 }, { word: "एवरेस्ट", weight: 3 }, { word: "एमडीएच", weight: 3 },
+        { word: "मैगी", weight: 5 }, { word: "maggi", weight: 5 }, { word: "नूडल्स", weight: 4 },
+        { word: "चाय", weight: 5 }, { word: "tea", weight: 5 },
+        { word: "कोक", weight: 5 }, { word: "कोला", weight: 5 }, { word: "coca", weight: 5 }, { word: "थम्स", weight: 5 }, { word: "स्प्राइट", weight: 5 }, { word: "जूस", weight: 4 },
+        { word: "चिप्स", weight: 5 }, { word: "chips", weight: 5 }, { word: "लेज़", weight: 5 }, { word: "कुरकुरे", weight: 5 }, { word: "भुजिया", weight: 5 }, { word: "नमकीन", weight: 4 },
+        { word: "काजू", weight: 5 }, { word: "बादाम", weight: 5 }, { word: "किशमिश", weight: 5 }
+      ];
+
+      keywords.forEach(kw => {
+        if (cleanSegment.includes(kw.word) && titleLower.includes(kw.word)) {
+          score += kw.weight;
+        }
+      });
+
+      // जेनेरिक वर्ड मैच
+      const segTokens = cleanSegment.split(/\s+/).filter(t => t.length > 2);
+      segTokens.forEach(token => {
+        if (titleLower.includes(token)) score += 2;
+      });
+
+      if (score > highestScore) {
+        highestScore = score;
+        bestProduct = p;
+      }
+    });
+
+    // यदि कोई प्रोडक्ट 2 या अधिक स्कोर पर मैच हुआ
+    if (bestProduct && highestScore >= 2) {
+      // वैरिएंट चुनना
+      let chosenVariant = bestProduct.variants[0];
+      if (weightHint && bestProduct.variants.length > 1) {
+        const foundVar = bestProduct.variants.find(v => {
+          const vw = v.weight.toLowerCase();
+          if (weightHint === "1") return (vw.includes("1 kg") || vw.includes("1 litre") || vw.includes("1 l") || vw.includes("1l")) && !vw.includes("10");
+          return vw.includes(weightHint);
+        });
+        if (foundVar) chosenVariant = foundVar;
+      }
+
+      // कार्ट में जोड़ना
+      const existingCartItem = cart.find(item => item.product.id === bestProduct.id && item.variant.weight === chosenVariant.weight);
+      if (existingCartItem) {
+        existingCartItem.quantity += quantity;
+      } else {
+        cart.push({
+          product: bestProduct,
+          variant: chosenVariant,
+          quantity: quantity
+        });
+      }
+
+      matchedItems.push({
+        product: bestProduct,
+        variant: chosenVariant,
+        quantity: quantity
+      });
+    }
+  });
+
+  // परिणाम रेंडर करें व वॉयस फीडबैक दें
+  if (matchedItems.length > 0) {
+    renderVoiceMatchedResults(matchedItems);
+    updateCartUI();
+    refreshAllProductGridButtons();
+    launchCelebrationConfetti();
+
+    // ऑडियो वॉयस उत्तर (SpeechSynthesis)
+    const itemsSpeechSummary = matchedItems.map(m => `${m.quantity > 1 ? m.quantity + ' पैकेट ' : ''}${m.variant.weight} ${m.product.title.split('(')[0].trim()}`).join(" और ");
+    speakVoiceFeedback(`जी! ${itemsSpeechSummary} आपकी टोकरी में जोड़ दिया गया है!`);
+    showToast(`✓ वॉयस ऑर्डर: ${matchedItems.length} उत्पाद टोकरी में जोड़े गए! 🛒`);
+  } else {
+    if (statusText) statusText.innerText = "क्षमा करें, कोई उत्पाद मेल नहीं खाया।";
+    speakVoiceFeedback("क्षमा करें, यह सामान नहीं मिला। कृपया दोबारा बोलें या नीचे दिए गए सुझावों पर टैप करें।");
+  }
+}
+
+// 8. मोडल में मैच हुए आइटम्स का सुंदर कार्ड डिस्प्ले
+function renderVoiceMatchedResults(matchedList) {
+  const container = document.getElementById("voiceMatchedContainer");
+  const listEl = document.getElementById("voiceMatchedList");
+  const statusText = document.getElementById("voiceStatusText");
+
+  if (!container || !listEl) return;
+
+  listEl.innerHTML = matchedList.map(item => `
+    <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-900 border border-emerald-500/40 text-left">
+      <div class="flex items-center gap-2.5">
+        <img src="${item.product.image}" class="w-10 h-10 object-cover rounded-lg border border-slate-700" alt="${item.product.title}">
+        <div>
+          <div class="text-xs font-bold text-white line-clamp-1">${item.product.title}</div>
+          <div class="text-[11px] text-emerald-400 font-semibold">${item.variant.weight} × ${item.quantity} = ₹${item.variant.price * item.quantity}</div>
+        </div>
+      </div>
+      <div class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-black border border-emerald-500/40 shrink-0">
+        जोड़ा गया ✔
+      </div>
+    </div>
+  `).join("");
+
+  container.classList.remove("hidden");
+  if (statusText) statusText.innerText = `सफलतापूर्वक ${matchedList.length} सामान टोकरी में जोड़े गए! ✔`;
+}
+
+// 9. शुद्ध हिंदी ऑडियो वॉयस फीडबैक (Text-to-Speech)
+function speakVoiceFeedback(text) {
+  if (!('speechSynthesis' in window)) return;
+  try {
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = "hi-IN";
+    utterance.rate = 1.0;
+    utterance.pitch = 1.05;
+
+    // हिंदी वॉयस प्राथमिकता
+    const voices = window.speechSynthesis.getVoices();
+    const hindiVoice = voices.find(v => v.lang.includes("hi") || v.lang.includes("Hindi"));
+    if (hindiVoice) utterance.voice = hindiVoice;
+
+    window.speechSynthesis.speak(utterance);
+  } catch (e) {
+    console.warn("TTS notice:", e);
+  }
+}
+
+// 10. चिप्स से सिमुलेशन (1-क्लिक टेस्ट)
+function simulateVoiceQuery(text) {
+  const transcriptEl = document.getElementById("voiceLiveTranscript");
+  if (transcriptEl) transcriptEl.innerText = `"${text}"`;
+  processVoiceKiranaQuery(text);
 }
